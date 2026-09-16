@@ -54,4 +54,5 @@ A comprehensive, cloud-synced, multi-device fitness tracking application designe
 ---
 
 ## 📄 License
-MIT License. Built with ❤️ for athletes.
+OPEN SOURCE. 
+Built with ❤️ for athletes.
