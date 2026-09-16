@@ -208,7 +208,7 @@ class AttendanceManager {
             ? 'bg-emerald-500 hover:bg-emerald-600 text-white shadow-md shadow-emerald-500/20' 
             : 'bg-blue-600 hover:bg-blue-700 text-white shadow-md shadow-blue-600/20'
         }">
-          <span>${isTodayChecked ? '✓ Checked In Today' : '+ Check In Today'}</span>
+          <span>${isTodayChecked ? '✓ Checked In (Click to Uncheck)' : '+ Check In Today'}</span>
         </button>
       </div>
     `;
@@ -249,6 +249,7 @@ class AttendanceManager {
       cloudStore.data.attendance[dateStr] = true;
     }
     cloudStore.save();
+    this.render();
   }
 
   toggleToday() {

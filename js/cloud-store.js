@@ -241,7 +241,7 @@ class CloudStore {
         await userDocRef.set({
           ...this.data,
           updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-        }, { merge: true });
+        });
         this.updateSyncBadge('synced');
       } catch (err) {
         console.error("Firestore sync error:", err);
@@ -395,8 +395,8 @@ class CloudStore {
       if (doc.exists) {
         const cloudData = doc.data();
         delete cloudData.updatedAt;
-        // Merge cloud data
-        this.data = { ...this.data, ...cloudData };
+        // Cloud data is the single source of truth including deletions
+        this.data = cloudData;
         this.saveLocal(this.data);
         this.notify();
       } else {
