@@ -1,0 +1,15 @@
+{
+  "name": "ironpulse",
+  "version": "1.0.0",
+  "description": "Gym, workout, attendance, finance, and fitness lifestyle tracker",
+  "type": "module",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js",
+    "build": "echo 'Static app, ready to serve'",
+    "lint": "node -c server.js js/app.js js/attendance.js js/clock-timer.js js/cloud-store.js js/finances.js js/plans.js js/quotes.js js/workouts.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "name": "IronPulse",
+  "description": "Gym, workout, attendance, finance, and fitness lifestyle tracker",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
