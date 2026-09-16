@@ -38,17 +38,6 @@ A comprehensive, cloud-synced, multi-device fitness tracking application designe
 
 ---
 
-## 🚀 Quick Start
-
-### Local Development
-Serve the directory with any local static server:
-```powershell
-python -m http.server 8080
-```
-Open [http://localhost:8080](http://localhost:8080) in your browser.
-
----
-
 ## ☁️ Cloud Sync & Deployment
 
 ### Firebase Deployment
