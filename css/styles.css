@@ -1,0 +1,243 @@
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Lexend:wght@100..900&display=swap');
+
+/* Advercase Font Definition with Retro Serif Fallback */
+@font-face {
+  font-family: 'Advercase';
+  src: local('Advercase'), local('Advercase Regular'), local('Advercase-Regular'), local('Apple Garamond');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* Day Mode (Light) Theme Variables */
+  --bg-app: #f4f6fb;
+  --bg-card: #ffffff;
+  --bg-card-alt: #f8fafc;
+  --bg-subtle: #eef2f6;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --border-color: #e2e8f0;
+  --border-light: #f1f5f9;
+  
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-light: #eff6ff;
+  --accent: #f97316;
+  --accent-light: #fff7ed;
+  --success: #10b981;
+  --success-light: #ecfdf5;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --danger-light: #fef2f2;
+  
+  --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.03);
+  --header-glass: rgba(255, 255, 255, 0.9);
+}
+
+/* Night Mode (Dark) Theme Variables */
+.dark {
+  --bg-app: #080c14;
+  --bg-card: #0f1726;
+  --bg-card-alt: #151f33;
+  --bg-subtle: #1c2840;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #64748b;
+  --border-color: #1e293b;
+  --border-light: #162032;
+  
+  --primary: #3b82f6;
+  --primary-hover: #60a5fa;
+  --primary-light: rgba(59, 130, 246, 0.12);
+  --accent: #fb923c;
+  --accent-light: rgba(251, 146, 60, 0.12);
+  --success: #34d399;
+  --success-light: rgba(52, 211, 153, 0.12);
+  --warning: #fbbf24;
+  --danger: #f87171;
+  --danger-light: rgba(248, 113, 113, 0.12);
+  
+  --card-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5), 0 4px 10px -2px rgba(0, 0, 0, 0.4);
+  --header-glass: rgba(15, 23, 38, 0.88);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Lexend', sans-serif;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+body {
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  min-height: 100vh;
+  font-family: 'Lexend', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Font Classes */
+.font-lexend {
+  font-family: 'Lexend', sans-serif !important;
+}
+
+.font-advercase {
+  font-family: 'Advercase', 'EB Garamond', Garamond, 'Times New Roman', serif !important;
+  letter-spacing: -0.02em;
+}
+
+/* Card Styling */
+.theme-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--card-shadow);
+  border-radius: 1rem;
+}
+
+.theme-card-alt {
+  background-color: var(--bg-card-alt);
+  border: 1px solid var(--border-color);
+}
+
+/* Header Glassmorphism */
+.glass-header {
+  background: var(--header-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-app);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Animations */
+@keyframes pulseGlow {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.02); }
+}
+
+.pulse-active {
+  animation: pulseGlow 1.8s infinite ease-in-out;
+}
+
+/* Tabs and Active States */
+.nav-tab-active {
+  background-color: var(--primary);
+  color: #ffffff !important;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+}
+
+.nav-tab-inactive {
+  color: var(--text-secondary);
+}
+.nav-tab-inactive:hover {
+  background-color: var(--bg-subtle);
+  color: var(--text-primary);
+}
+
+/* Calendar Grid */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.35rem;
+}
+
+.day-cell {
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.6rem;
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-card);
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.day-cell:hover {
+  border-color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.day-cell.attended {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #ffffff;
+  border-color: #059669;
+  font-weight: 700;
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+}
+
+.day-cell.today {
+  border: 2px solid var(--primary);
+}
+
+.day-cell.other-month {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+/* Badge styles */
+.badge-paid {
+  background-color: var(--success-light);
+  color: var(--success);
+  border: 1px solid var(--success);
+}
+.badge-pending {
+  background-color: var(--accent-light);
+  color: var(--accent);
+  border: 1px solid var(--accent);
+}
+.badge-overdue {
+  background-color: var(--danger-light);
+  color: var(--danger);
+  border: 1px solid var(--danger);
+}
+
+/* Quote banner styling */
+.quote-banner {
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.08) 0%, rgba(249, 115, 22, 0.08) 100%);
+  border-left: 4px solid var(--primary);
+}
+.dark .quote-banner {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.12) 0%, rgba(251, 146, 60, 0.12) 100%);
+}
+
+/* Modern Inputs */
+.input-theme {
+  background-color: var(--bg-card-alt);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  padding: 0.6rem 0.9rem;
+  outline: none;
+  font-family: 'Lexend', sans-serif;
+}
+.input-theme:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px var(--primary-light);
+}
+
+/* Modal backdrop */
+.modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(4px);
+}

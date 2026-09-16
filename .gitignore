@@ -1,0 +1,11 @@
+# Dependencies & Build artifacts
+node_modules/
+.firebase/
+firebase-debug.log*
+firestore-debug.log*
+*.log
+
+# System files
+Thumbs.db
+.DS_Store
+*.tmp
