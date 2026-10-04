@@ -1,17 +1,123 @@
 /**
  * Workouts & Exercise Sets Tracker
+ * Enhanced with Time, Day of Week, Multi-set Logging, and Day-by-Day Split View
  */
 
 class WorkoutsManager {
   constructor() {
     this.currentEditingId = null;
     this.activeFilter = 'All';
+    this.dayFilter = 'all'; // 'all' | 'today' | 'week'
     this.searchQuery = '';
   }
 
   init() {
     this.render();
     cloudStore.subscribe(() => this.render());
+  }
+
+  getDayName(dateStr) {
+    if (!dateStr) return '';
+    const dateObj = new Date(dateStr + 'T00:00:00');
+    return dateObj.toLocaleDateString('en-US', { weekday: 'long' });
+  }
+
+  getRelativeDayLabel(dateStr) {
+    if (!dateStr) return '';
+    const today = new Date();
+    const todayStr = today.toISOString().split('T')[0];
+    if (dateStr === todayStr) return 'Today';
+
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+    const yesterdayStr = yesterday.toISOString().split('T')[0];
+    if (dateStr === yesterdayStr) return 'Yesterday';
+
+    const dateObj = new Date(dateStr + 'T00:00:00');
+    const diffTime = today.setHours(0,0,0,0) - dateObj.setHours(0,0,0,0);
+    const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
+    if (diffDays > 0 && diffDays < 7) {
+      return `${diffDays} days ago`;
+    }
+    return '';
+  }
+
+  formatTimeDisplay(timeStr) {
+    if (!timeStr) return '';
+    const parts = timeStr.split(':');
+    if (parts.length < 2) return timeStr;
+    let hours = parseInt(parts[0], 10);
+    const minutes = parts[1];
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // 0 => 12
+    return `${hours}:${minutes} ${ampm}`;
+  }
+
+  updateDayBadge() {
+    const dateInput = document.getElementById('workout-form-date');
+    const badge = document.getElementById('workout-form-day-badge');
+    if (dateInput && badge) {
+      const val = dateInput.value;
+      if (val) {
+        badge.textContent = this.getDayName(val);
+      } else {
+        badge.textContent = '--';
+      }
+    }
+  }
+
+  quickSetTitle(title) {
+    const titleInput = document.getElementById('workout-form-title');
+    if (titleInput) {
+      titleInput.value = title;
+    }
+  }
+
+  setDayFilter(filter) {
+    this.dayFilter = filter;
+    document.querySelectorAll('.day-filter-btn').forEach(btn => {
+      if (btn.dataset.dayFilter === filter) {
+        btn.classList.add('bg-blue-600', 'text-white');
+        btn.classList.remove('text-gray-600', 'dark:text-gray-400');
+      } else {
+        btn.classList.remove('bg-blue-600', 'text-white');
+        btn.classList.add('text-gray-600', 'dark:text-gray-400');
+      }
+    });
+    this.render();
+  }
+
+  setFilter(filter) {
+    this.activeFilter = filter;
+    document.querySelectorAll('.workout-filter-btn').forEach(btn => {
+      if (btn.dataset.filter === filter) {
+        btn.classList.add('bg-blue-600', 'text-white');
+        btn.classList.remove('bg-gray-100', 'dark:bg-slate-800', 'text-gray-700', 'dark:text-gray-300');
+      } else {
+        btn.classList.remove('bg-blue-600', 'text-white');
+        btn.classList.add('bg-gray-100', 'dark:bg-slate-800', 'text-gray-700', 'dark:text-gray-300');
+      }
+    });
+    this.render();
+  }
+
+  setSearch(q) {
+    this.searchQuery = q;
+    this.render();
+  }
+
+  getWorkoutsThisWeekCount(workouts) {
+    const now = new Date();
+    const dayOfWeek = now.getDay();
+    const monday = new Date(now);
+    monday.setDate(now.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1));
+    monday.setHours(0, 0, 0, 0);
+
+    return workouts.filter(w => {
+      const wDate = new Date(w.date + 'T00:00:00');
+      return wDate >= monday;
+    }).length;
   }
 
   render() {
@@ -59,20 +165,42 @@ class WorkoutsManager {
       `;
     }
 
-    // Filter & Search
-    let filtered = [...workouts].sort((a, b) => new Date(b.date) - new Date(a.date));
+    // Filter by Date (Day Split Filter)
+    const todayStr = new Date().toISOString().split('T')[0];
+    let filtered = [...workouts].sort((a, b) => {
+      // Sort primarily by date desc, then by time desc
+      const dateCmp = new Date(b.date) - new Date(a.date);
+      if (dateCmp !== 0) return dateCmp;
+      return (b.time || '').localeCompare(a.time || '');
+    });
+
+    if (this.dayFilter === 'today') {
+      filtered = filtered.filter(w => w.date === todayStr);
+    } else if (this.dayFilter === 'week') {
+      const now = new Date();
+      const dayOfWeek = now.getDay();
+      const monday = new Date(now);
+      monday.setDate(now.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1));
+      monday.setHours(0, 0, 0, 0);
+      filtered = filtered.filter(w => new Date(w.date + 'T00:00:00') >= monday);
+    }
+
+    // Filter by Muscle Group
     if (this.activeFilter !== 'All') {
       filtered = filtered.filter(w => (w.muscleGroup || '').toLowerCase() === this.activeFilter.toLowerCase());
     }
+
+    // Filter by Search Query
     if (this.searchQuery.trim()) {
       const q = this.searchQuery.toLowerCase();
       filtered = filtered.filter(w => 
         (w.title && w.title.toLowerCase().includes(q)) ||
+        (w.muscleGroup && w.muscleGroup.toLowerCase().includes(q)) ||
         (w.exercises && w.exercises.some(e => e.name && e.name.toLowerCase().includes(q)))
       );
     }
 
-    // Render Workouts List
+    // Render Workouts Grouped by Days (Day Split View)
     if (listContainer) {
       if (filtered.length === 0) {
         listContainer.innerHTML = `
@@ -80,12 +208,81 @@ class WorkoutsManager {
             <svg class="w-12 h-12 mx-auto mb-3 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
             </svg>
-            <p class="font-medium text-base">No workouts found.</p>
-            <p class="text-xs text-gray-500 mt-1">Log your workout, sets, and reps using the button above.</p>
+            <p class="font-medium text-base">No workouts found for this selection.</p>
+            <p class="text-xs text-gray-500 mt-1">Log your workout session with time, day, and multiple sets using the button above.</p>
           </div>
         `;
       } else {
-        listContainer.innerHTML = filtered.map(w => this.renderWorkoutCard(w)).join('');
+        // Group workouts by date
+        const groupsByDate = {};
+        filtered.forEach(w => {
+          const d = w.date || 'Unknown Date';
+          if (!groupsByDate[d]) groupsByDate[d] = [];
+          groupsByDate[d].push(w);
+        });
+
+        const sortedDates = Object.keys(groupsByDate).sort((a, b) => new Date(b) - new Date(a));
+
+        listContainer.innerHTML = sortedDates.map(dateStr => {
+          const dayWorkouts = groupsByDate[dateStr];
+          const dayName = this.getDayName(dateStr);
+          const relativeLabel = this.getRelativeDayLabel(dateStr);
+          
+          let daySets = 0;
+          let dayVolume = 0;
+          dayWorkouts.forEach(w => {
+            (w.exercises || []).forEach(ex => {
+              const s = Number(ex.sets) || 0;
+              const r = Number(ex.reps) || 0;
+              const wt = Number(ex.weight) || 0;
+              daySets += s;
+              dayVolume += (s * r * wt);
+            });
+          });
+
+          const unit = cloudStore.data.profile.weightUnit || 'kg';
+
+          return `
+            <div class="day-split-group space-y-3 pt-2 pb-4">
+              <!-- Day Split Section Header -->
+              <div class="flex flex-wrap items-center justify-between gap-2 px-3 py-2.5 rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50/50 dark:from-slate-800/90 dark:to-indigo-950/30 border border-blue-100/80 dark:border-slate-700/80">
+                <div class="flex items-center gap-2.5">
+                  <span class="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold text-xs shadow-sm">
+                    📅
+                  </span>
+                  <div>
+                    <div class="flex items-center gap-2">
+                      <h3 class="font-bold text-sm text-gray-900 dark:text-white font-lexend">${dayName}</h3>
+                      <span class="text-xs font-mono text-gray-500 dark:text-gray-400">(${dateStr})</span>
+                      ${relativeLabel ? `
+                        <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${relativeLabel === 'Today' ? 'bg-emerald-500 text-white' : 'bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300'}">
+                          ${relativeLabel}
+                        </span>
+                      ` : ''}
+                    </div>
+                    <p class="text-[11px] text-gray-500 dark:text-gray-400">
+                      ${dayWorkouts.length} ${dayWorkouts.length === 1 ? 'Session' : 'Sessions'} completed
+                    </p>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-2 text-xs">
+                  <div class="px-2.5 py-1 rounded-lg bg-white/80 dark:bg-slate-800 text-gray-700 dark:text-gray-300 font-medium border border-gray-200/50 dark:border-slate-700">
+                    <span class="font-bold text-blue-600 dark:text-blue-400">${daySets}</span> Sets
+                  </div>
+                  <div class="px-2.5 py-1 rounded-lg bg-white/80 dark:bg-slate-800 text-gray-700 dark:text-gray-300 font-medium border border-gray-200/50 dark:border-slate-700">
+                    <span class="font-bold text-purple-600 dark:text-purple-400">${dayVolume.toLocaleString()}</span> ${unit} Vol
+                  </div>
+                </div>
+              </div>
+
+              <!-- Workouts inside this Day -->
+              <div class="space-y-3 pl-1 sm:pl-3 border-l-2 border-blue-200 dark:border-slate-700 ml-3">
+                ${dayWorkouts.map(w => this.renderWorkoutCard(w)).join('')}
+              </div>
+            </div>
+          `;
+        }).join('');
       }
     }
 
@@ -102,7 +299,9 @@ class WorkoutsManager {
                 <span class="text-xs font-bold px-2 py-0.5 rounded bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400">
                   ${w.muscleGroup || 'Full Body'}
                 </span>
-                <span class="text-xs text-gray-400">${w.date}</span>
+                <span class="text-xs text-gray-400">
+                  ${this.getDayName(w.date)}, ${w.date} ${w.time ? '• ⏰ ' + this.formatTimeDisplay(w.time) : ''}
+                </span>
               </div>
               <h4 class="font-bold text-sm text-gray-900 dark:text-white mt-1 font-advercase">${w.title}</h4>
               <p class="text-xs text-gray-500 mt-0.5">
@@ -118,21 +317,11 @@ class WorkoutsManager {
     }
   }
 
-  getWorkoutsThisWeekCount(workouts) {
-    const now = new Date();
-    const dayOfWeek = now.getDay();
-    const monday = new Date(now);
-    monday.setDate(now.getDate() - (dayOfWeek === 0 ? 6 : dayOfWeek - 1));
-    monday.setHours(0, 0, 0, 0);
-
-    return workouts.filter(w => {
-      const wDate = new Date(w.date);
-      return wDate >= monday;
-    }).length;
-  }
-
   renderWorkoutCard(w) {
     const unit = cloudStore.data.profile.weightUnit || 'kg';
+    const dayName = this.getDayName(w.date);
+    const timeFormatted = this.formatTimeDisplay(w.time || '10:00');
+
     const exercisesHtml = (w.exercises || []).map((ex, idx) => `
       <div class="py-2 px-3 rounded-lg bg-gray-50/70 dark:bg-slate-800/50 border border-gray-100 dark:border-slate-800 flex items-center justify-between text-xs">
         <div class="flex items-center gap-2">
@@ -156,14 +345,21 @@ class WorkoutsManager {
     `).join('');
 
     return `
-      <div class="theme-card p-5 mb-4 hover:shadow-md transition">
+      <div class="theme-card p-5 mb-2 hover:shadow-md transition">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-gray-100 dark:border-slate-800">
           <div>
-            <div class="flex items-center gap-2">
+            <div class="flex items-center flex-wrap gap-2">
               <span class="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-400">
                 ${w.muscleGroup || 'Full Body'}
               </span>
-              <span class="text-xs text-gray-500 font-medium">📅 ${w.date}</span>
+              <span class="text-xs text-gray-500 font-semibold flex items-center gap-1">
+                <span>🗓️</span> ${dayName}, ${w.date}
+              </span>
+              ${w.time ? `
+                <span class="text-xs text-indigo-600 dark:text-indigo-400 font-semibold px-2 py-0.5 rounded bg-indigo-50 dark:bg-indigo-950/40 flex items-center gap-1">
+                  <span>⏰</span> ${timeFormatted}
+                </span>
+              ` : ''}
             </div>
             <h3 class="text-lg font-bold text-gray-900 dark:text-white mt-1 font-advercase tracking-tight">
               ${w.title}
@@ -192,33 +388,26 @@ class WorkoutsManager {
     `;
   }
 
-  setFilter(filter) {
-    this.activeFilter = filter;
-    document.querySelectorAll('.workout-filter-btn').forEach(btn => {
-      if (btn.dataset.filter === filter) {
-        btn.classList.add('bg-blue-600', 'text-white');
-        btn.classList.remove('bg-gray-100', 'dark:bg-slate-800', 'text-gray-700', 'dark:text-gray-300');
-      } else {
-        btn.classList.remove('bg-blue-600', 'text-white');
-        btn.classList.add('bg-gray-100', 'dark:bg-slate-800', 'text-gray-700', 'dark:text-gray-300');
-      }
-    });
-    this.render();
-  }
-
-  setSearch(q) {
-    this.searchQuery = q;
-    this.render();
+  getCurrentTimeHHMM() {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    return `${hours}:${minutes}`;
   }
 
   openCreateModal() {
     this.currentEditingId = null;
+    const now = new Date();
+    const todayStr = now.toISOString().split('T')[0];
+    
     document.getElementById('workout-modal-title').textContent = "Log New Workout";
-    document.getElementById('workout-form-date').value = new Date().toISOString().split('T')[0];
+    document.getElementById('workout-form-date').value = todayStr;
+    document.getElementById('workout-form-time').value = this.getCurrentTimeHHMM();
     document.getElementById('workout-form-title').value = "";
     document.getElementById('workout-form-muscle').value = "Chest";
     document.getElementById('workout-form-notes').value = "";
-    
+    this.updateDayBadge();
+
     // Clear and add 1 default exercise row
     const exercisesContainer = document.getElementById('workout-exercises-input-list');
     exercisesContainer.innerHTML = "";
@@ -234,9 +423,11 @@ class WorkoutsManager {
     this.currentEditingId = id;
     document.getElementById('workout-modal-title').textContent = "Edit Workout";
     document.getElementById('workout-form-date').value = workout.date;
+    document.getElementById('workout-form-time').value = workout.time || this.getCurrentTimeHHMM();
     document.getElementById('workout-form-title').value = workout.title;
     document.getElementById('workout-form-muscle').value = workout.muscleGroup || "Chest";
     document.getElementById('workout-form-notes').value = workout.notes || "";
+    this.updateDayBadge();
 
     const exercisesContainer = document.getElementById('workout-exercises-input-list');
     exercisesContainer.innerHTML = "";
@@ -284,6 +475,7 @@ class WorkoutsManager {
 
   saveModalForm() {
     const date = document.getElementById('workout-form-date').value;
+    const time = document.getElementById('workout-form-time').value || this.getCurrentTimeHHMM();
     const title = document.getElementById('workout-form-title').value.trim() || 'Workout Session';
     const muscleGroup = document.getElementById('workout-form-muscle').value;
     const notes = document.getElementById('workout-form-notes').value.trim();
@@ -314,6 +506,7 @@ class WorkoutsManager {
         cloudStore.data.workouts[index] = {
           ...cloudStore.data.workouts[index],
           date,
+          time,
           title,
           muscleGroup,
           notes,
@@ -325,6 +518,7 @@ class WorkoutsManager {
       const newWorkout = {
         id: 'w-' + Date.now(),
         date,
+        time,
         title,
         muscleGroup,
         notes,

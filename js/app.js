@@ -148,6 +148,55 @@ class AppController {
     cloudStore.save();
     alert("Profile settings saved successfully!");
   }
+
+  // --- PWA INSTALLATION & SERVICE WORKER ---
+  initPwa() {
+    // Register Service Worker
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(reg => {
+            console.log('PWA ServiceWorker registered with scope:', reg.scope);
+          })
+          .catch(err => {
+            console.warn('PWA ServiceWorker registration failed:', err);
+          });
+      });
+    }
+
+    // Capture install prompt
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      this.deferredPrompt = e;
+      const btn = document.getElementById('pwa-install-btn');
+      if (btn) btn.classList.remove('hidden');
+    });
+
+    window.addEventListener('appinstalled', () => {
+      console.log('Gym Tracker PWA installed successfully');
+      const btn = document.getElementById('pwa-install-btn');
+      if (btn) btn.classList.add('hidden');
+      this.deferredPrompt = null;
+    });
+  }
+
+  showInstallPrompt() {
+    if (this.deferredPrompt) {
+      this.deferredPrompt.prompt();
+      this.deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === 'accepted') {
+          console.log('User accepted the PWA install prompt');
+        } else {
+          console.log('User dismissed the PWA install prompt');
+        }
+        this.deferredPrompt = null;
+        const btn = document.getElementById('pwa-install-btn');
+        if (btn) btn.classList.add('hidden');
+      });
+    } else {
+      alert("To install Gym Tracker on your mobile phone or PC:\n\n• On Chrome/Android: Tap menu (⋮) -> 'Install App' or 'Add to Home Screen'\n• On iPhone (Safari): Tap Share (square with arrow) -> 'Add to Home Screen'");
+    }
+  }
 }
 
 window.app = new AppController();
@@ -155,4 +204,5 @@ window.app = new AppController();
 // Global init on DOM ready
 document.addEventListener('DOMContentLoaded', () => {
   window.app.init();
+  window.app.initPwa();
 });

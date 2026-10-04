@@ -28,6 +28,7 @@ const INITIAL_SAMPLE_DATA = {
     {
       id: 'w-1',
       date: new Date().toISOString().split('T')[0],
+      time: '08:30',
       title: 'Chest & Triceps Power',
       muscleGroup: 'Chest',
       exercises: [
@@ -41,6 +42,7 @@ const INITIAL_SAMPLE_DATA = {
     {
       id: 'w-2',
       date: new Date(Date.now() - 86400000 * 2).toISOString().split('T')[0],
+      time: '17:45',
       title: 'Back & Biceps Hypertrophy',
       muscleGroup: 'Back',
       exercises: [
@@ -54,6 +56,7 @@ const INITIAL_SAMPLE_DATA = {
     {
       id: 'w-3',
       date: new Date(Date.now() - 86400000 * 4).toISOString().split('T')[0],
+      time: '07:15',
       title: 'Leg Day & Calves',
       muscleGroup: 'Legs',
       exercises: [
