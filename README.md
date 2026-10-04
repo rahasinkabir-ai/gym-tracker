@@ -2,6 +2,17 @@
 
 A comprehensive, cloud-synced, multi-device fitness tracking application designed for dedicated athletes. Built with clean responsive design, Day/Night mode, custom typography (**Lexend** & **Advercase**), live clock, rest interval timer, and Firebase Google Cloud synchronization.
 
+## 📲 Download & Install Native Apps
+
+You can run IronPulse directly on your devices:
+
+| Platform | Download Link | Notes |
+| :--- | :--- | :--- |
+| **🤖 Android (APK)** | [**Download IronPulse.apk (827 KB)**](https://github.com/rahasinkabir-ai/gym-tracker/raw/main/packages/android/IronPulse.apk) | Direct install on any Android phone |
+| **📦 Android (Google Play AAB)** | [**Download IronPulse.aab (920 KB)**](https://github.com/rahasinkabir-ai/gym-tracker/raw/main/packages/android/IronPulse.aab) | Ready for Google Play Console |
+| **🪟 Windows (MSIX Bundle)** | [**Download IronPulse.msixbundle**](https://github.com/rahasinkabir-ai/gym-tracker/raw/main/packages/windows/IronPulse.msixbundle) | Double-click to install on Windows 10/11 |
+| **🌐 Web App (PWA)** | [**Open Web App**](https://rahasinkabir-ai.github.io/gym-tracker/) | Live on GitHub Pages, offline-ready |
+
 ---
 
 ## ⚡ Key Features
