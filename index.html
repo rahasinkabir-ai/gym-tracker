@@ -96,7 +96,12 @@
       </div>
 
       <!-- Right: Actions (Install App, Theme Toggle, Google Auth, Mobile Hamburger) -->
-      <div class="flex items-center gap-2">
+        <!-- Direct APK Download Link -->
+        <a href="https://github.com/rahasinkabir-ai/gym-tracker/raw/main/packages/android/IronPulse.apk" download="IronPulse.apk" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800 text-xs font-bold transition cursor-pointer" title="Download Android APK (Direct Install)">
+          <span>🤖</span>
+          <span class="hidden sm:inline">Get APK</span>
+        </a>
+
         <!-- Install PWA App Button -->
         <button id="pwa-install-btn" onclick="app.showInstallPrompt()" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-blue-50 dark:bg-blue-950/60 hover:bg-blue-100 dark:hover:bg-blue-900/60 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800 text-xs font-bold transition cursor-pointer" title="Install App to your phone or desktop">
           <span>📲</span>
