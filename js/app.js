@@ -86,7 +86,7 @@ class AppController {
         }
       }
 
-      // Update desktop and mobile nav link states
+      // Update desktop nav link states
       const navLinks = document.querySelectorAll(`[data-nav="${id}"]`);
       navLinks.forEach(link => {
         if (id === routeId) {
@@ -97,10 +97,19 @@ class AppController {
           link.classList.add('nav-tab-inactive');
         }
       });
-    });
 
-    // Close mobile drawer if open
-    this.closeMobileMenu();
+      // Update iOS Floating Dock active tab states
+      const dockLinks = document.querySelectorAll(`[data-dock="${id}"]`);
+      dockLinks.forEach(link => {
+        if (id === routeId) {
+          link.classList.add('active');
+          link.classList.remove('text-gray-500', 'dark:text-gray-400');
+        } else {
+          link.classList.remove('active');
+          link.classList.add('text-gray-500', 'dark:text-gray-400');
+        }
+      });
+    });
 
     // Trigger specific section refreshes
     if (routeId === 'attendance' && window.attendanceManager) {
@@ -109,19 +118,8 @@ class AppController {
     if (routeId === 'finances' && window.financesManager) {
       window.financesManager.render();
     }
-  }
-
-  toggleMobileMenu() {
-    const drawer = document.getElementById('mobile-drawer');
-    if (drawer) {
-      drawer.classList.toggle('hidden');
-    }
-  }
-
-  closeMobileMenu() {
-    const drawer = document.getElementById('mobile-drawer');
-    if (drawer) {
-      drawer.classList.add('hidden');
+    if (routeId === 'plans' && window.plansManager) {
+      window.plansManager.render();
     }
   }
 

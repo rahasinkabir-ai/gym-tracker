@@ -239,5 +239,81 @@ body {
 /* Modal backdrop */
 .modal-backdrop {
   background-color: rgba(0, 0, 0, 0.65);
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* ==================== iOS DOCK FLOATING NAVIGATION BAR ==================== */
+.ios-dock {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.18), 0 0 1px 1px rgba(255, 255, 255, 0.6) inset;
+  border-radius: 2rem;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.dark .ios-dock {
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  border: 1px solid rgba(51, 65, 85, 0.7);
+  box-shadow: 0 24px 50px -12px rgba(0, 0, 0, 0.65), 0 0 1px 1px rgba(255, 255, 255, 0.08) inset;
+}
+
+/* iOS Spring & Pop interaction on Tab clicks */
+.ios-tab-item {
+  position: relative;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ios-tab-item:active {
+  transform: scale(0.88);
+}
+
+.ios-tab-item.active {
+  color: var(--primary) !important;
+}
+
+.ios-tab-item.active .ios-tab-icon {
+  transform: translateY(-2px) scale(1.15);
+  filter: drop-shadow(0 4px 8px rgba(37, 99, 235, 0.4));
+}
+
+.ios-tab-icon {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s ease;
+}
+
+.ios-active-pill {
+  position: absolute;
+  bottom: -4px;
+  width: 5px;
+  height: 5px;
+  border-radius: 9999px;
+  background: var(--primary);
+  box-shadow: 0 0 8px var(--primary);
+  opacity: 0;
+  transform: scale(0);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.ios-tab-item.active .ios-active-pill {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Subtle padding at bottom of main content so floating dock never overlaps content */
+.pb-safe-dock {
+  padding-bottom: 6.5rem !important;
+}
+
+@keyframes springIn {
+  0% { transform: translateY(40px) scale(0.9); opacity: 0; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+.animate-spring-in {
+  animation: springIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
