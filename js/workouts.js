@@ -157,21 +157,21 @@ class WorkoutsManager {
     if (statsContainer) {
       statsContainer.innerHTML = `
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-          <div class="theme-card p-4">
-            <p class="text-xs font-semibold text-gray-500 dark:text-gray-400">Total Workouts</p>
-            <p class="text-2xl font-bold font-lexend mt-1 text-blue-600 dark:text-blue-400">${totalWorkouts}</p>
+          <div class="theme-card p-4 border border-amber-900/20 dark:border-amber-500/20">
+            <p class="text-xs font-semibold text-stone-500 dark:text-stone-400 font-cinzel">Total Workouts</p>
+            <p class="text-2xl font-bold font-cinzel mt-1 text-amber-600 dark:text-amber-300">${totalWorkouts}</p>
           </div>
-          <div class="theme-card p-4">
-            <p class="text-xs font-semibold text-gray-500 dark:text-gray-400">Total Sets Logged</p>
-            <p class="text-2xl font-bold font-lexend mt-1 text-emerald-600 dark:text-emerald-400">${totalSets}</p>
+          <div class="theme-card p-4 border border-amber-900/20 dark:border-amber-500/20">
+            <p class="text-xs font-semibold text-stone-500 dark:text-stone-400 font-cinzel">Total Sets Logged</p>
+            <p class="text-2xl font-bold font-cinzel mt-1 text-yellow-600 dark:text-yellow-400">${totalSets}</p>
           </div>
-          <div class="theme-card p-4">
-            <p class="text-xs font-semibold text-gray-500 dark:text-gray-400">Total Volume Lifted</p>
-            <p class="text-2xl font-bold font-lexend mt-1 text-purple-600 dark:text-purple-400">${Math.round(totalVolume).toLocaleString()} <span class="text-xs text-gray-500">${cloudStore.data.profile.weightUnit || 'kg'}</span></p>
+          <div class="theme-card p-4 border border-amber-900/20 dark:border-amber-500/20">
+            <p class="text-xs font-semibold text-stone-500 dark:text-stone-400 font-cinzel">Total Volume Lifted</p>
+            <p class="text-2xl font-bold font-cinzel mt-1 text-amber-500 dark:text-amber-200">${Math.round(totalVolume).toLocaleString()} <span class="text-xs text-stone-400 font-serif">${cloudStore.data.profile.weightUnit || 'kg'}</span></p>
           </div>
-          <div class="theme-card p-4">
-            <p class="text-xs font-semibold text-gray-500 dark:text-gray-400">This Week</p>
-            <p class="text-2xl font-bold font-lexend mt-1 text-amber-500">${this.getWorkoutsThisWeekCount(workouts)} <span class="text-xs text-gray-500">sessions</span></p>
+          <div class="theme-card p-4 border border-amber-900/20 dark:border-amber-500/20">
+            <p class="text-xs font-semibold text-stone-500 dark:text-stone-400 font-cinzel">This Week</p>
+            <p class="text-2xl font-bold font-cinzel mt-1 text-amber-600 dark:text-amber-400">${this.getWorkoutsThisWeekCount(workouts)} <span class="text-xs text-stone-400 font-serif">sessions</span></p>
           </div>
         </div>
       `;
@@ -261,40 +261,40 @@ class WorkoutsManager {
 
           return `
             <div class="day-split-group space-y-3 pt-2 pb-4">
-              <!-- Day Split Section Header -->
-              <div class="flex flex-wrap items-center justify-between gap-2 px-3.5 py-2.5 rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50/50 dark:from-slate-800/90 dark:to-indigo-950/30 border border-blue-100/80 dark:border-slate-700/80 shadow-xs">
+              <!-- Day Split Section Header: Royal Gilded Plaque -->
+              <div class="flex flex-wrap items-center justify-between gap-2 px-3.5 py-2.5 rounded-xl bg-gradient-to-r from-amber-100/70 via-stone-100 to-amber-50 dark:from-[#1b1712] dark:via-[#14120e] dark:to-[#1e1912] border border-amber-900/30 dark:border-amber-500/25 shadow-xs">
                 <div class="flex items-center gap-2.5">
-                  <span class="w-8 h-8 rounded-lg bg-blue-600 text-white flex items-center justify-center font-bold text-xs shadow-sm">
-                    📅
+                  <span class="w-8 h-8 rounded-lg bg-gradient-to-tr from-amber-600 to-yellow-600 text-stone-950 flex items-center justify-center font-bold text-xs shadow-sm font-cinzel">
+                    👑
                   </span>
                   <div>
                     <div class="flex items-center gap-2">
-                      <h3 class="font-bold text-sm text-gray-900 dark:text-white font-lexend">${dayName}</h3>
-                      <span class="text-xs font-mono text-gray-500 dark:text-gray-400">(${dateStr})</span>
+                      <h3 class="font-bold text-sm text-amber-900 dark:text-amber-200 font-cinzel tracking-wider">${dayName}</h3>
+                      <span class="text-xs font-mono text-stone-500 dark:text-stone-400">(${dateStr})</span>
                       ${relativeLabel ? `
-                        <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${relativeLabel === 'Today' ? 'bg-emerald-500 text-white' : 'bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300'}">
+                        <span class="text-[10px] font-bold px-2 py-0.5 rounded-full font-cinzel ${relativeLabel === 'Today' ? 'bg-amber-600 text-stone-950' : 'bg-amber-500/20 text-amber-700 dark:text-amber-300'}">
                           ${relativeLabel}
                         </span>
                       ` : ''}
                     </div>
-                    <p class="text-[11px] text-gray-500 dark:text-gray-400">
+                    <p class="text-[11px] text-stone-500 dark:text-stone-400 font-serif">
                       ${dayWorkouts.length} ${dayWorkouts.length === 1 ? 'Session' : 'Sessions'} completed
                     </p>
                   </div>
                 </div>
 
                 <div class="flex items-center gap-2 text-xs">
-                  <div class="px-2.5 py-1 rounded-lg bg-white/80 dark:bg-slate-800 text-gray-700 dark:text-gray-300 font-medium border border-gray-200/50 dark:border-slate-700">
-                    <span class="font-bold text-blue-600 dark:text-blue-400">${daySets}</span> Sets
+                  <div class="px-2.5 py-1 rounded-lg bg-amber-50/80 dark:bg-[#1a1712] text-amber-900 dark:text-amber-200 font-medium border border-amber-900/20 dark:border-amber-500/20 font-cinzel">
+                    <span class="font-bold text-amber-600 dark:text-amber-400">${daySets}</span> Sets
                   </div>
-                  <div class="px-2.5 py-1 rounded-lg bg-white/80 dark:bg-slate-800 text-gray-700 dark:text-gray-300 font-medium border border-gray-200/50 dark:border-slate-700">
-                    <span class="font-bold text-purple-600 dark:text-purple-400">${Math.round(dayVolume).toLocaleString()}</span> ${unit} Vol
+                  <div class="px-2.5 py-1 rounded-lg bg-amber-50/80 dark:bg-[#1a1712] text-amber-900 dark:text-amber-200 font-medium border border-amber-900/20 dark:border-amber-500/20 font-cinzel">
+                    <span class="font-bold text-yellow-600 dark:text-yellow-400">${Math.round(dayVolume).toLocaleString()}</span> ${unit} Vol
                   </div>
                 </div>
               </div>
 
               <!-- Workouts inside this Day -->
-              <div class="space-y-3 pl-1 sm:pl-3 border-l-2 border-blue-200 dark:border-slate-700 ml-3">
+              <div class="space-y-3 pl-1 sm:pl-3 border-l-2 border-amber-500/30 dark:border-amber-500/20 ml-3">
                 ${dayWorkouts.map(w => this.renderWorkoutCard(w)).join('')}
               </div>
             </div>
