@@ -1,69 +1,69 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Lexend:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,300..700;1,6..96,300..700&family=Italiana&family=Plus+Jakarta+Sans:ital,wght@0,200..700;1,200..700&family=Tenor+Sans&family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&display=swap');
 
-/* ==================== ANCIENT OLD MONEY / GAME OF THRONES THEME ==================== */
+/* ==================== HAUTE LUXURY BRAND & CHAMPAGNE GOLD THEME ==================== */
 
 :root {
-  /* Day Mode (Ancient Royal Parchment & Gilded Gold) */
-  --bg-app: #f5eedc;
-  --bg-card: #fdfaf2;
-  --bg-card-alt: #f8f1df;
-  --bg-subtle: #ede3cc;
+  /* Day Mode (Haute Alabaster Silk & Polished Champagne Gold) */
+  --bg-app: #faf8f5;               /* Luminous French Alabaster Silk */
+  --bg-card: #ffffff;              /* Crisp Haute Ivory Pearl */
+  --bg-card-alt: #f4f0e8;          /* Soft Cashmere Mist */
+  --bg-subtle: #eee7dc;            /* Brushed Champagne Alabaster */
   
-  --text-primary: #1b160e;
-  --text-secondary: #4a3d2c;
-  --text-muted: #826e52;
-  --border-color: #d8c7a2;
-  --border-light: #e8dcc4;
+  --text-primary: #121110;         /* Deep Caviar Onyx */
+  --text-secondary: #48433a;       /* Polished Sable */
+  --text-muted: #888075;           /* Soft Warm Taupe */
+  --border-color: #e5ded2;         /* Hairline Champagne Cashmere border */
+  --border-light: #f0eae0;
   
-  /* Imperial Gilded Old-Money Golds */
-  --primary: #b8860b;              /* Dark Goldenrod / Pure Antique Gold */
-  --primary-hover: #996e05;
-  --primary-light: rgba(184, 134, 11, 0.12);
-  --gold-metallic: linear-gradient(135deg, #dfba73 0%, #c59b27 45%, #946808 100%);
-  --gold-glow: 0 0 15px rgba(212, 175, 55, 0.35);
+  /* Haute Champagne Gold Accents */
+  --primary: #a88337;              /* Polished Champagne Gold */
+  --primary-hover: #8f6d27;
+  --primary-light: rgba(168, 131, 55, 0.1);
+  --gold-metallic: linear-gradient(135deg, #f7e8c5 0%, #dab978 45%, #b5893d 100%);
+  --gold-glow: 0 0 20px rgba(218, 185, 120, 0.32);
 
-  --accent: #8b2500;               /* Royal Burgundy / Crimson */
-  --accent-light: rgba(139, 37, 0, 0.1);
-  --success: #2e6930;              /* Heraldic Forest Green */
-  --success-light: rgba(46, 105, 48, 0.12);
-  --warning: #c59b27;
-  --danger: #991b1b;
-  --danger-light: rgba(153, 27, 27, 0.12);
+  --accent: #8b1e2f;               /* Royal Bordeaux */
+  --accent-light: rgba(139, 30, 47, 0.08);
+  --success: #1f734c;              /* Haute Emeraude */
+  --success-light: rgba(31, 115, 76, 0.1);
+  --warning: #c98e2c;
+  --danger: #9e2323;
+  --danger-light: rgba(158, 35, 35, 0.1);
   
-  --card-shadow: 0 6px 24px -4px rgba(60, 45, 20, 0.1), 0 2px 6px -1px rgba(60, 45, 20, 0.05);
-  --header-glass: rgba(245, 238, 220, 0.92);
+  --card-shadow: 0 10px 30px -5px rgba(35, 25, 15, 0.05), 0 1px 3px rgba(35, 25, 15, 0.03);
+  --header-glass: rgba(250, 248, 245, 0.9);
 }
 
-/* Night Mode (Highborn Obsidian, Valyrian Steel & Burnished Gold) */
+/* Night Mode (High Luxury Midnight Caviar, Obsidian & Luminous Liquid Gold) */
 .dark {
-  --bg-app: #090807;               /* Deep Obsidian Void */
-  --bg-card: #14120e;              /* Dark Antique Ebony */
-  --bg-card-alt: #1a1712;
-  --bg-subtle: #242019;
+  --bg-app: #08080a;               /* Haute Midnight Caviar Void */
+  --bg-card: #111116;              /* Haute Obsidian Card */
+  --bg-card-alt: #17171e;          /* Velvet Charcoal Alt */
+  --bg-subtle: #202029;            /* Elevated Charcoal */
   
-  --text-primary: #f7eed7;         /* Antique Ivory */
-  --text-secondary: #d6c5a2;       /* Warm Parchment */
-  --text-muted: #8e7f65;
-  --border-color: #383022;         /* Burnished Bronze border */
-  --border-light: #282218;
+  --text-primary: #f8f7f4;         /* Luminous Platinum Silk */
+  --text-secondary: #cac5b8;       /* Warm Champagne Mist */
+  --text-muted: #858074;           /* Delicate Cashmere Muted */
+  --border-color: #27241e;         /* Superfine Hairline Champagne Border */
+  --border-light: #1c1a16;
   
-  /* Imperial Glowing Gold Accents */
-  --primary: #d4af37;              /* Rich Ancient Gold */
-  --primary-hover: #f3cf65;
-  --primary-light: rgba(212, 175, 55, 0.15);
-  --gold-metallic: linear-gradient(135deg, #fff2ad 0%, #d4af37 40%, #aa8010 100%);
-  --gold-glow: 0 0 20px rgba(212, 175, 55, 0.45);
+  /* Luminous Champagne Gold */
+  --primary: #dab978;              /* Liquid Champagne Gold */
+  --primary-hover: #edd59e;        /* Luminescent Pale Gold */
+  --primary-light: rgba(218, 185, 120, 0.14);
+  --gold-metallic: linear-gradient(135deg, #fdf4db 0%, #dab978 40%, #b88f42 100%);
+  --gold-glow: 0 0 25px rgba(218, 185, 120, 0.38);
 
-  --accent: #b91c1c;               /* Dragon Fire Crimson */
-  --accent-light: rgba(185, 28, 28, 0.2);
-  --success: #347d39;              /* Highborn Emerald */
-  --success-light: rgba(52, 125, 57, 0.2);
-  --warning: #f59e0b;
-  --danger: #ef4444;
-  --danger-light: rgba(239, 68, 68, 0.2);
+  --accent: #a82035;               /* Haute Couture Crimson */
+  --accent-light: rgba(168, 32, 53, 0.18);
+  --success: #27a06a;              /* Luminous Emerald */
+  --success-light: rgba(39, 160, 106, 0.18);
+  --warning: #eab338;
+  --danger: #f04848;
+  --danger-light: rgba(240, 72, 72, 0.18);
   
-  --card-shadow: 0 12px 35px -5px rgba(0, 0, 0, 0.8), 0 0 1px 1px rgba(212, 175, 55, 0.15);
-  --header-glass: rgba(9, 8, 7, 0.9);
+  --card-shadow: 0 16px 45px -10px rgba(0, 0, 0, 0.85), 0 0 1px 1px rgba(218, 185, 120, 0.12);
+  --header-glass: rgba(8, 8, 10, 0.92);
 }
 
 * {
@@ -77,42 +77,68 @@ body {
   background-color: var(--bg-app);
   color: var(--text-primary);
   min-height: 100vh;
-  font-family: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
-  font-size: 16px;
+  font-family: 'Plus Jakarta Sans', 'Tenor Sans', sans-serif;
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.6;
+  letter-spacing: 0.012em;
   overflow-x: hidden;
-  background-image: radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.05) 0%, transparent 60%);
+  background-image: radial-gradient(circle at 50% 0%, rgba(218, 185, 120, 0.06) 0%, transparent 60%);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* ==================== ANCIENT TYPOGRAPHY CLASSES ==================== */
-.font-cinzel, .font-advercase {
-  font-family: 'Cinzel Decorative', 'Cinzel', Georgia, serif !important;
-  letter-spacing: 0.06em;
+/* ==================== ELEGANT SUPERFINE BRAND TYPOGRAPHY ==================== */
+.font-cinzel, .font-brand, .font-advercase {
+  font-family: 'Italiana', 'Bodoni Moda', serif !important;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+
+h1, h2 {
+  font-family: 'Italiana', 'Bodoni Moda', serif !important;
+  letter-spacing: 0.12em;
+  font-weight: 400;
+}
+
+h3, h4, h5, h6 {
+  font-family: 'Tenor Sans', 'Bodoni Moda', sans-serif !important;
+  letter-spacing: 0.08em;
+  font-weight: 400;
+}
+
+.font-lexend, .font-sans {
+  font-family: 'Plus Jakarta Sans', 'Tenor Sans', sans-serif !important;
+  font-weight: 300;
+}
+
+.font-luxury {
+  font-family: 'Tenor Sans', sans-serif !important;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Cinzel', 'Cinzel Decorative', Georgia, serif !important;
-  letter-spacing: 0.04em;
+.font-serif, .font-display {
+  font-family: 'Bodoni Moda', 'Italiana', serif !important;
+  letter-spacing: 0.03em;
 }
 
-.font-lexend {
-  font-family: 'Cormorant Garamond', 'EB Garamond', Georgia, serif !important;
-}
-
-/* Ancient Golden Text Glow */
+/* Luminous Champagne Text Glow */
 .gold-gradient-text {
   background: var(--gold-metallic);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
+  letter-spacing: 0.14em;
 }
 
-/* Card Styling - Handcrafted Gilded Frames */
+/* Card Styling - Luxury Atelier Frames */
 .theme-card {
   background-color: var(--bg-card);
   border: 1px solid var(--border-color);
   box-shadow: var(--card-shadow);
-  border-radius: 1.1rem;
+  border-radius: 1.25rem;
   position: relative;
 }
 
@@ -120,36 +146,37 @@ h1, h2, h3, h4, h5, h6 {
   content: '';
   position: absolute;
   inset: 0;
-  border-radius: 1.1rem;
-  border: 1px solid rgba(212, 175, 55, 0.08);
+  border-radius: 1.25rem;
+  border: 1px solid rgba(218, 185, 120, 0.08);
   pointer-events: none;
 }
 
 .theme-card-alt {
   background-color: var(--bg-card-alt);
   border: 1px solid var(--border-color);
+  border-radius: 1.1rem;
 }
 
-/* Ancient Header Glassmorphism */
+/* Luxury Header Glassmorphism */
 .glass-header {
   background: var(--header-glass);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border-color);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.25);
 }
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
   background: var(--bg-app);
 }
 ::-webkit-scrollbar-thumb {
   background: var(--border-color);
-  border-radius: 4px;
+  border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--primary);
@@ -157,27 +184,29 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Animations */
 @keyframes goldPulse {
-  0%, 100% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 4px rgba(212, 175, 55, 0.3)); }
-  50% { opacity: 0.85; transform: scale(1.02); filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.6)); }
+  0%, 100% { opacity: 1; transform: scale(1); filter: drop-shadow(0 0 4px rgba(218, 185, 120, 0.3)); }
+  50% { opacity: 0.88; transform: scale(1.02); filter: drop-shadow(0 0 12px rgba(218, 185, 120, 0.55)); }
 }
 
 .pulse-active {
-  animation: goldPulse 2s infinite ease-in-out;
+  animation: goldPulse 2.4s infinite ease-in-out;
 }
 
 /* Navigation Tabs and Active States */
 .nav-tab-active {
   background: var(--gold-metallic) !important;
-  color: #0b0904 !important;
-  font-family: 'Cinzel', serif !important;
-  font-weight: 700;
-  box-shadow: 0 4px 16px rgba(212, 175, 55, 0.4);
-  letter-spacing: 0.04em;
+  color: #08080a !important;
+  font-family: 'Tenor Sans', sans-serif !important;
+  font-weight: 600;
+  box-shadow: 0 4px 20px rgba(218, 185, 120, 0.35);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .nav-tab-inactive {
   color: var(--text-secondary);
-  font-family: 'Cinzel', serif;
+  font-family: 'Tenor Sans', sans-serif;
+  letter-spacing: 0.08em;
 }
 .nav-tab-inactive:hover {
   background-color: var(--bg-subtle);
@@ -188,7 +217,7 @@ h1, h2, h3, h4, h5, h6 {
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
-  gap: 0.4rem;
+  gap: 0.45rem;
 }
 
 .day-cell {
@@ -197,12 +226,13 @@ h1, h2, h3, h4, h5, h6 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border-radius: 0.75rem;
+  border-radius: 0.85rem;
   border: 1px solid var(--border-color);
   background-color: var(--bg-card);
   cursor: pointer;
   position: relative;
   transition: all 0.2s ease;
+  font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
 .day-cell:hover {
@@ -213,24 +243,24 @@ h1, h2, h3, h4, h5, h6 {
 
 .day-cell.attended {
   background: var(--gold-metallic);
-  color: #0b0904;
-  border-color: #d4af37;
-  font-weight: 800;
-  box-shadow: 0 4px 14px rgba(212, 175, 55, 0.45);
+  color: #08080a;
+  border-color: #dab978;
+  font-weight: 700;
+  box-shadow: 0 4px 16px rgba(218, 185, 120, 0.4);
 }
 
 .day-cell.attended span {
-  color: #0b0904 !important;
-  font-weight: 800;
+  color: #08080a !important;
+  font-weight: 700;
 }
 
 .day-cell.today {
   border: 2px solid var(--primary);
-  box-shadow: inset 0 0 8px rgba(212, 175, 55, 0.3);
+  box-shadow: inset 0 0 8px rgba(218, 185, 120, 0.3);
 }
 
 .day-cell.other-month {
-  opacity: 0.25;
+  opacity: 0.22;
   pointer-events: none;
 }
 
@@ -239,37 +269,46 @@ h1, h2, h3, h4, h5, h6 {
   background-color: var(--success-light);
   color: var(--success);
   border: 1px solid var(--success);
+  font-family: 'Tenor Sans', sans-serif;
+  letter-spacing: 0.05em;
 }
 .badge-pending {
   background-color: var(--primary-light);
   color: var(--primary);
   border: 1px solid var(--primary);
+  font-family: 'Tenor Sans', sans-serif;
+  letter-spacing: 0.05em;
 }
 .badge-overdue {
   background-color: var(--danger-light);
   color: var(--danger);
   border: 1px solid var(--danger);
+  font-family: 'Tenor Sans', sans-serif;
+  letter-spacing: 0.05em;
 }
 
-/* Quote banner styling - Ancient Inscription Plaque */
+/* Quote banner styling - Haute Atelier Plaque */
 .quote-banner {
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.12) 0%, rgba(139, 37, 0, 0.08) 100%);
-  border-left: 4px solid var(--primary);
-  border-top: 1px solid rgba(212, 175, 55, 0.2);
-  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-  box-shadow: inset 0 0 20px rgba(212, 175, 55, 0.04);
+  background: linear-gradient(135deg, rgba(218, 185, 120, 0.1) 0%, rgba(139, 30, 47, 0.06) 100%);
+  border-left: 3px solid var(--primary);
+  border-top: 1px solid rgba(218, 185, 120, 0.18);
+  border-bottom: 1px solid rgba(218, 185, 120, 0.18);
+  border-radius: 0.85rem;
+  box-shadow: inset 0 0 20px rgba(218, 185, 120, 0.03);
 }
 
-/* Modern Inputs - Parchment / Dark Slate */
+/* Modern Inputs - Luxury Silk */
 .input-theme {
   background-color: var(--bg-card-alt);
   color: var(--text-primary);
   border: 1px solid var(--border-color);
-  border-radius: 0.6rem;
-  padding: 0.65rem 0.95rem;
+  border-radius: 0.75rem;
+  padding: 0.7rem 1rem;
   outline: none;
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 0.95rem;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 300;
+  font-size: 0.92rem;
+  letter-spacing: 0.02em;
 }
 .input-theme:focus {
   border-color: var(--primary);
@@ -278,39 +317,40 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Modal backdrop */
 .modal-backdrop {
-  background-color: rgba(5, 4, 3, 0.85);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background-color: rgba(6, 6, 8, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
-/* ==================== iOS DOCK - GILDED OLD-MONEY EDITION ==================== */
+/* ==================== iOS DOCK - HAUTE COUTURE EDITION ==================== */
 .ios-dock {
-  background: rgba(245, 238, 220, 0.85);
-  backdrop-filter: blur(24px) saturate(160%);
-  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  background: rgba(250, 248, 245, 0.88);
+  backdrop-filter: blur(28px) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
   border: 1px solid var(--border-color);
-  box-shadow: 0 20px 40px -10px rgba(40, 30, 10, 0.25), 0 0 1px 1px rgba(212, 175, 55, 0.3) inset;
-  border-radius: 2.2rem;
+  box-shadow: 0 20px 45px -10px rgba(25, 20, 10, 0.18), 0 0 1px 1px rgba(218, 185, 120, 0.25) inset;
+  border-radius: 2.4rem;
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .dark .ios-dock {
-  background: rgba(18, 15, 11, 0.88);
-  backdrop-filter: blur(24px) saturate(180%);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  box-shadow: 0 24px 50px -12px rgba(0, 0, 0, 0.9), 0 0 1px 1px rgba(212, 175, 55, 0.25) inset;
+  background: rgba(14, 14, 18, 0.9);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border: 1px solid rgba(218, 185, 120, 0.25);
+  box-shadow: 0 24px 55px -12px rgba(0, 0, 0, 0.92), 0 0 1px 1px rgba(218, 185, 120, 0.2) inset;
 }
 
 .ios-tab-item {
   position: relative;
   transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.2s ease;
   -webkit-tap-highlight-color: transparent;
-  font-family: 'Cinzel', serif;
+  font-family: 'Tenor Sans', sans-serif;
+  letter-spacing: 0.06em;
 }
 
 .ios-tab-item:active {
-  transform: scale(0.88);
+  transform: scale(0.9);
 }
 
 .ios-tab-item.active {
@@ -319,7 +359,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .ios-tab-item.active .ios-tab-icon {
   transform: translateY(-2px) scale(1.15);
-  filter: drop-shadow(0 4px 10px rgba(212, 175, 55, 0.6));
+  filter: drop-shadow(0 4px 10px rgba(218, 185, 120, 0.6));
 }
 
 .ios-tab-icon {
@@ -358,16 +398,18 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* ==================== GLOBAL COMPATIBILITY OVERRIDES FOR BLUE CLASSES ==================== */
-/* Dynamically redirect Tailwind blue-600 / blue-500 utility buttons to ancient imperial gold */
+/* Dynamically redirect Tailwind blue-600 / blue-500 utility buttons to liquid champagne gold */
 .bg-blue-600, .bg-blue-700 {
-  background-color: var(--primary) !important;
-  color: #0b0904 !important;
-  font-family: 'Cinzel', serif !important;
-  font-weight: 700 !important;
+  background: var(--gold-metallic) !important;
+  color: #08080a !important;
+  font-family: 'Tenor Sans', sans-serif !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
 }
 
 .bg-blue-600:hover, .bg-blue-700:hover {
-  background-color: var(--primary-hover) !important;
+  filter: brightness(1.08);
 }
 
 .text-blue-600, .dark .text-blue-400 {

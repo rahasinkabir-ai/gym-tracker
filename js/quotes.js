@@ -115,21 +115,21 @@ function renderQuote(containerId = 'motivational-quote-container') {
   container.innerHTML = `
     <div class="quote-banner p-4 md:p-6 rounded-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-sm">
       <div class="flex items-start gap-3">
-        <span class="text-3xl text-blue-500 font-serif leading-none select-none">“</span>
+        <span class="text-3xl text-[#a88337] dark:text-[#dab978] font-serif leading-none select-none">“</span>
         <div>
-          <p class="text-base md:text-lg font-medium tracking-tight text-gray-900 dark:text-gray-100 font-advercase italic">
+          <p class="text-base md:text-lg font-normal tracking-wide text-stone-900 dark:text-[#f8f7f4] font-serif italic">
             ${quote.text}
           </p>
-          <p class="text-xs md:text-sm font-semibold text-blue-600 dark:text-blue-400 mt-1 font-lexend">
+          <p class="text-xs font-medium tracking-widest text-[#a88337] dark:text-[#dab978] mt-1 font-luxury uppercase">
             — ${quote.author}
           </p>
         </div>
       </div>
-      <button onclick="renderQuote()" title="Refresh quote" class="self-end md:self-auto flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg bg-white/80 dark:bg-slate-800 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 border border-gray-200 dark:border-gray-700 transition shadow-xs cursor-pointer">
+      <button onclick="renderQuote()" title="Refresh quote" class="self-end md:self-auto flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-xl bg-white/90 dark:bg-[#16161c] text-stone-700 dark:text-[#dab978] hover:border-[#dab978] border border-stone-200 dark:border-stone-800 transition shadow-xs cursor-pointer font-luxury">
         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
         </svg>
-        <span>New Quote</span>
+        <span>Refresh Inscription</span>
       </button>
     </div>
   `;

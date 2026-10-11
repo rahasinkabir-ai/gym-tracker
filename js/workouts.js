@@ -157,21 +157,21 @@ class WorkoutsManager {
     if (statsContainer) {
       statsContainer.innerHTML = `
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-          <div class="theme-card p-4 border border-amber-900/20 dark:border-amber-500/20">
-            <p class="text-xs font-semibold text-stone-500 dark:text-stone-400 font-cinzel">Total Workouts</p>
-            <p class="text-2xl font-bold font-cinzel mt-1 text-amber-600 dark:text-amber-300">${totalWorkouts}</p>
+          <div class="theme-card p-4 border border-stone-200/80 dark:border-[#dab978]/15">
+            <p class="text-[10px] font-medium text-stone-500 dark:text-stone-400 font-luxury uppercase tracking-widest">Total Workouts</p>
+            <p class="text-2xl font-light font-display mt-1 text-[#a88337] dark:text-[#dab978]">${totalWorkouts}</p>
           </div>
-          <div class="theme-card p-4 border border-amber-900/20 dark:border-amber-500/20">
-            <p class="text-xs font-semibold text-stone-500 dark:text-stone-400 font-cinzel">Total Sets Logged</p>
-            <p class="text-2xl font-bold font-cinzel mt-1 text-yellow-600 dark:text-yellow-400">${totalSets}</p>
+          <div class="theme-card p-4 border border-stone-200/80 dark:border-[#dab978]/15">
+            <p class="text-[10px] font-medium text-stone-500 dark:text-stone-400 font-luxury uppercase tracking-widest">Total Sets</p>
+            <p class="text-2xl font-light font-display mt-1 text-[#a88337] dark:text-[#dab978]">${totalSets}</p>
           </div>
-          <div class="theme-card p-4 border border-amber-900/20 dark:border-amber-500/20">
-            <p class="text-xs font-semibold text-stone-500 dark:text-stone-400 font-cinzel">Total Volume Lifted</p>
-            <p class="text-2xl font-bold font-cinzel mt-1 text-amber-500 dark:text-amber-200">${Math.round(totalVolume).toLocaleString()} <span class="text-xs text-stone-400 font-serif">${cloudStore.data.profile.weightUnit || 'kg'}</span></p>
+          <div class="theme-card p-4 border border-stone-200/80 dark:border-[#dab978]/15">
+            <p class="text-[10px] font-medium text-stone-500 dark:text-stone-400 font-luxury uppercase tracking-widest">Volume Lifted</p>
+            <p class="text-2xl font-light font-display mt-1 text-[#a88337] dark:text-[#dab978]">${Math.round(totalVolume).toLocaleString()} <span class="text-xs text-stone-400 font-sans font-light">${cloudStore.data.profile.weightUnit || 'kg'}</span></p>
           </div>
-          <div class="theme-card p-4 border border-amber-900/20 dark:border-amber-500/20">
-            <p class="text-xs font-semibold text-stone-500 dark:text-stone-400 font-cinzel">This Week</p>
-            <p class="text-2xl font-bold font-cinzel mt-1 text-amber-600 dark:text-amber-400">${this.getWorkoutsThisWeekCount(workouts)} <span class="text-xs text-stone-400 font-serif">sessions</span></p>
+          <div class="theme-card p-4 border border-stone-200/80 dark:border-[#dab978]/15">
+            <p class="text-[10px] font-medium text-stone-500 dark:text-stone-400 font-luxury uppercase tracking-widest">This Week</p>
+            <p class="text-2xl font-light font-display mt-1 text-[#a88337] dark:text-[#dab978]">${this.getWorkoutsThisWeekCount(workouts)} <span class="text-xs text-stone-400 font-sans font-light">sessions</span></p>
           </div>
         </div>
       `;
@@ -262,33 +262,33 @@ class WorkoutsManager {
           return `
             <div class="day-split-group space-y-3 pt-2 pb-4">
               <!-- Day Split Section Header: Royal Gilded Plaque -->
-              <div class="flex flex-wrap items-center justify-between gap-2 px-3.5 py-2.5 rounded-xl bg-gradient-to-r from-amber-100/70 via-stone-100 to-amber-50 dark:from-[#1b1712] dark:via-[#14120e] dark:to-[#1e1912] border border-amber-900/30 dark:border-amber-500/25 shadow-xs">
+              <div class="flex flex-wrap items-center justify-between gap-2 px-3.5 py-2.5 rounded-xl bg-gradient-to-r from-amber-50/70 via-stone-50 to-amber-50/40 dark:from-[#181820] dark:via-[#131318] dark:to-[#1a1a24] border border-stone-200 dark:border-[#dab978]/20 shadow-xs">
                 <div class="flex items-center gap-2.5">
-                  <span class="w-8 h-8 rounded-lg bg-gradient-to-tr from-amber-600 to-yellow-600 text-stone-950 flex items-center justify-center font-bold text-xs shadow-sm font-cinzel">
-                    👑
+                  <span class="w-8 h-8 rounded-lg bg-gradient-to-tr from-[#dab978] to-[#b5893d] text-[#08080a] flex items-center justify-center font-bold text-xs shadow-sm font-luxury">
+                    ★
                   </span>
                   <div>
                     <div class="flex items-center gap-2">
-                      <h3 class="font-bold text-sm text-amber-900 dark:text-amber-200 font-cinzel tracking-wider">${dayName}</h3>
+                      <h3 class="font-normal text-sm text-stone-900 dark:text-[#f8f7f4] font-brand tracking-widest">${dayName}</h3>
                       <span class="text-xs font-mono text-stone-500 dark:text-stone-400">(${dateStr})</span>
                       ${relativeLabel ? `
-                        <span class="text-[10px] font-bold px-2 py-0.5 rounded-full font-cinzel ${relativeLabel === 'Today' ? 'bg-amber-600 text-stone-950' : 'bg-amber-500/20 text-amber-700 dark:text-amber-300'}">
+                        <span class="text-[9px] font-medium tracking-widest px-2 py-0.5 rounded-full font-luxury uppercase ${relativeLabel === 'Today' ? 'bg-[#dab978] text-[#08080a]' : 'bg-[#dab978]/15 text-[#a88337] dark:text-[#dab978] border border-[#dab978]/30'}">
                           ${relativeLabel}
                         </span>
                       ` : ''}
                     </div>
-                    <p class="text-[11px] text-stone-500 dark:text-stone-400 font-serif">
+                    <p class="text-[11px] text-stone-500 dark:text-stone-400 font-sans font-light">
                       ${dayWorkouts.length} ${dayWorkouts.length === 1 ? 'Session' : 'Sessions'} completed
                     </p>
                   </div>
                 </div>
 
                 <div class="flex items-center gap-2 text-xs">
-                  <div class="px-2.5 py-1 rounded-lg bg-amber-50/80 dark:bg-[#1a1712] text-amber-900 dark:text-amber-200 font-medium border border-amber-900/20 dark:border-amber-500/20 font-cinzel">
-                    <span class="font-bold text-amber-600 dark:text-amber-400">${daySets}</span> Sets
+                  <div class="px-2.5 py-1 rounded-lg bg-white/80 dark:bg-[#15151c] text-stone-800 dark:text-[#dab978] font-medium border border-stone-200 dark:border-[#dab978]/20 font-luxury">
+                    <span class="font-bold text-[#a88337] dark:text-[#dab978]">${daySets}</span> Sets
                   </div>
-                  <div class="px-2.5 py-1 rounded-lg bg-amber-50/80 dark:bg-[#1a1712] text-amber-900 dark:text-amber-200 font-medium border border-amber-900/20 dark:border-amber-500/20 font-cinzel">
-                    <span class="font-bold text-yellow-600 dark:text-yellow-400">${Math.round(dayVolume).toLocaleString()}</span> ${unit} Vol
+                  <div class="px-2.5 py-1 rounded-lg bg-white/80 dark:bg-[#15151c] text-stone-800 dark:text-[#dab978] font-medium border border-stone-200 dark:border-[#dab978]/20 font-luxury">
+                    <span class="font-bold text-[#a88337] dark:text-[#dab978]">${Math.round(dayVolume).toLocaleString()}</span> ${unit} Vol
                   </div>
                 </div>
               </div>

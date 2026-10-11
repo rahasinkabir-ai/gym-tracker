@@ -1,41 +1,41 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <defs>
-    <!-- Background: Deep Ancient Obsidian Vault -->
+    <!-- Background: Deep Haute Midnight Caviar Void -->
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#19150f" />
-      <stop offset="50%" stop-color="#0c0a07" />
-      <stop offset="100%" stop-color="#050403" />
+      <stop offset="0%" stop-color="#121217" />
+      <stop offset="50%" stop-color="#070709" />
+      <stop offset="100%" stop-color="#020203" />
     </linearGradient>
 
-    <!-- Imperial Gilded Gold Metallic Gradient -->
+    <!-- Haute Champagne Gold Metallic Gradient -->
     <linearGradient id="goldMetallic" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#fff8db" />
-      <stop offset="25%" stop-color="#f5d77f" />
-      <stop offset="60%" stop-color="#d4af37" />
-      <stop offset="85%" stop-color="#aa8010" />
-      <stop offset="100%" stop-color="#735205" />
+      <stop offset="0%" stop-color="#fdf7ea" />
+      <stop offset="25%" stop-color="#f2dcaa" />
+      <stop offset="60%" stop-color="#dab978" />
+      <stop offset="85%" stop-color="#b88f42" />
+      <stop offset="100%" stop-color="#7d5c20" />
     </linearGradient>
 
-    <!-- Ancient Valyrian Steel / Burnished Iron -->
+    <!-- Haute Liquid Titanium & Platinum -->
     <linearGradient id="valyrianSteel" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#d5cbbe" />
-      <stop offset="40%" stop-color="#8a7e6e" />
-      <stop offset="75%" stop-color="#4e4437" />
-      <stop offset="100%" stop-color="#2a231b" />
+      <stop offset="0%" stop-color="#f0ece4" />
+      <stop offset="40%" stop-color="#b5ad9e" />
+      <stop offset="75%" stop-color="#635b50" />
+      <stop offset="100%" stop-color="#25211c" />
     </linearGradient>
 
-    <!-- Gilded Border Trim -->
+    <!-- Gilded Champagne Border Trim -->
     <linearGradient id="goldBorder" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#f5d77f" />
-      <stop offset="50%" stop-color="#a67c1e" />
-      <stop offset="100%" stop-color="#d4af37" />
+      <stop offset="0%" stop-color="#f2dcaa" />
+      <stop offset="50%" stop-color="#a88337" />
+      <stop offset="100%" stop-color="#dab978" />
     </linearGradient>
 
-    <!-- Radial Antique Gold Glow -->
+    <!-- Radial Champagne Aura Glow -->
     <radialGradient id="centerGoldGlow" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#d4af37" stop-opacity="0.32" />
-      <stop offset="50%" stop-color="#8b2500" stop-opacity="0.12" />
-      <stop offset="100%" stop-color="#0c0a07" stop-opacity="0" />
+      <stop offset="0%" stop-color="#dab978" stop-opacity="0.35" />
+      <stop offset="50%" stop-color="#8b1e2f" stop-opacity="0.08" />
+      <stop offset="100%" stop-color="#070709" stop-opacity="0" />
     </radialGradient>
 
     <!-- Glow Filter for Ancient Inscriptions -->
