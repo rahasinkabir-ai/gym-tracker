@@ -1,16 +1,112 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <defs>
+    <!-- Background Dark Carbon Gradient -->
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#1e3a8a" />
-      <stop offset="50%" stop-color="#2563eb" />
-      <stop offset="100%" stop-color="#4f46e5" />
+      <stop offset="0%" stop-color="#0a0f1d" />
+      <stop offset="50%" stop-color="#050811" />
+      <stop offset="100%" stop-color="#020408" />
     </linearGradient>
-    <linearGradient id="bolt" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#fbbf24" />
-      <stop offset="100%" stop-color="#f97316" />
+
+    <!-- Core Dynamic Energy Blast (Electric Cyan to Neon Blue) -->
+    <linearGradient id="pulseGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f2fe" />
+      <stop offset="50%" stop-color="#4facfe" />
+      <stop offset="100%" stop-color="#0052d4" />
     </linearGradient>
+
+    <!-- Fiery High-Energy Lightning (Neon Amber to Crimson Fire) -->
+    <linearGradient id="fireVolt" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fffb7d" />
+      <stop offset="35%" stop-color="#ff9900" />
+      <stop offset="80%" stop-color="#ff3b30" />
+      <stop offset="100%" stop-color="#ff007a" />
+    </linearGradient>
+
+    <!-- Metallic Iron Steel Plates Gradient -->
+    <linearGradient id="ironSteel" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f8fafc" />
+      <stop offset="30%" stop-color="#cbd5e1" />
+      <stop offset="70%" stop-color="#64748b" />
+      <stop offset="100%" stop-color="#334155" />
+    </linearGradient>
+
+    <!-- Neon Rim / Border Gradient -->
+    <linearGradient id="rimGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.9" />
+      <stop offset="50%" stop-color="#818cf8" stop-opacity="0.3" />
+      <stop offset="100%" stop-color="#f43f5e" stop-opacity="0.8" />
+    </linearGradient>
+
+    <!-- Radiant Glow Filter -->
+    <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="12" result="blur1" />
+      <feGaussianBlur stdDeviation="24" result="blur2" />
+      <feMerge>
+        <feMergeNode in="blur2" />
+        <feMergeNode in="blur1" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <radialGradient id="centerBurst" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00f2fe" stop-opacity="0.35" />
+      <stop offset="60%" stop-color="#ff3b30" stop-opacity="0.1" />
+      <stop offset="100%" stop-color="#050811" stop-opacity="0" />
+    </radialGradient>
   </defs>
-  <rect width="512" height="512" rx="112" fill="url(#bg)" />
-  <!-- Dumbbell & Lightning Bolt Icon -->
-  <path d="M 280 60 L 160 270 L 250 270 L 220 452 L 352 230 L 262 230 Z" fill="url(#bolt)" />
+
+  <!-- Squircle Base with Metallic Neon Rim -->
+  <rect width="512" height="512" rx="120" fill="url(#bg)" />
+  <rect width="504" height="504" x="4" y="4" rx="116" fill="none" stroke="url(#rimGrad)" stroke-width="4" stroke-opacity="0.75" />
+
+  <!-- Dynamic Energy Core Radial Halo -->
+  <circle cx="256" cy="256" r="210" fill="url(#centerBurst)" />
+
+  <!-- DYNAMIC FITNESS ICONOGRAPHY (Heavy Hex Dumbbell + Electro Cardiogram Pulse + Piercing Thunder) -->
+
+  <!-- 1. The Hexagonal Iron Dumbbell Head (Left) -->
+  <g transform="translate(256, 256) rotate(-28) translate(-256, -256)">
+    <!-- Outer Heavy Plates Left -->
+    <path d="M 96 176 L 144 148 L 144 364 L 96 336 Z" fill="url(#ironSteel)" opacity="0.9" />
+    <path d="M 124 160 L 164 136 L 164 376 L 124 352 Z" fill="url(#ironSteel)" />
+    
+    <!-- Outer Heavy Plates Right -->
+    <path d="M 388 136 L 348 160 L 348 352 L 388 376 Z" fill="url(#ironSteel)" />
+    <path d="M 416 148 L 368 176 L 368 336 L 416 364 Z" fill="url(#ironSteel)" opacity="0.9" />
+
+    <!-- Dumbbell Knurled Heavy Steel Bar -->
+    <rect x="160" y="240" width="192" height="32" rx="8" fill="url(#ironSteel)" stroke="#1e293b" stroke-width="3" />
+    
+    <!-- Shaft grip rings -->
+    <line x1="210" y1="240" x2="210" y2="272" stroke="#475569" stroke-width="4" stroke-linecap="round" />
+    <line x1="230" y1="240" x2="230" y2="272" stroke="#475569" stroke-width="4" stroke-linecap="round" />
+    <line x1="282" y1="240" x2="282" y2="272" stroke="#475569" stroke-width="4" stroke-linecap="round" />
+    <line x1="302" y1="240" x2="302" y2="272" stroke="#475569" stroke-width="4" stroke-linecap="round" />
+  </g>
+
+  <!-- 2. Electric "Pulse" Cardiogram Wave Cut (Cyan Glowing Heartbeat) -->
+  <path d="M 68 280 L 150 280 L 195 335 L 245 170 L 285 365 L 325 250 L 365 280 L 444 280" 
+        fill="none" 
+        stroke="url(#pulseGlow)" 
+        stroke-width="12" 
+        stroke-linecap="round" 
+        stroke-linejoin="round"
+        filter="url(#neonGlow)" />
+
+  <!-- 3. Razor Sharp Energetic Thunder Bolt (Overpowering Energy Surge) -->
+  <path d="M 292 48 
+           L 182 252 
+           L 262 252 
+           L 218 464 
+           L 358 214 
+           L 272 214 
+           Z" 
+        fill="url(#fireVolt)" 
+        stroke="#ffffff" 
+        stroke-width="3.5"
+        stroke-linejoin="round"
+        filter="url(#neonGlow)" />
+
+  <!-- Inner Sparkle Core -->
+  <polygon points="266,220 236,252 260,252 242,320 292,234 266,234" fill="#ffffff" opacity="0.8" />
 </svg>
