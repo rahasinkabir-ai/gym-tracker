@@ -148,7 +148,60 @@ class AppController {
   }
 
   // --- PWA INSTALLATION & SERVICE WORKER ---
+  checkIfInstalled() {
+    const isStandalone = 
+      window.matchMedia('(display-mode: standalone)').matches ||
+      window.matchMedia('(display-mode: fullscreen)').matches ||
+      window.matchMedia('(display-mode: minimal-ui)').matches ||
+      (navigator.standalone === true) ||
+      document.referrer.includes('android-app://') ||
+      window.location.search.includes('source=pwa') ||
+      window.location.search.includes('mode=standalone') ||
+      localStorage.getItem('ironpulse_installed') === 'true';
+
+    if (isStandalone) {
+      document.documentElement.classList.add('app-is-installed');
+      if (document.body) document.body.classList.add('app-is-installed');
+      this.hideInstallButtons();
+      return true;
+    }
+    return false;
+  }
+
+  hideInstallButtons() {
+    const pwaBtn = document.getElementById('pwa-install-btn');
+    const apkBtn = document.getElementById('get-apk-btn');
+    if (pwaBtn) {
+      pwaBtn.style.display = 'none';
+      pwaBtn.classList.add('hidden');
+    }
+    if (apkBtn) {
+      apkBtn.style.display = 'none';
+      apkBtn.classList.add('hidden');
+    }
+    document.querySelectorAll('.install-prompt-btn').forEach(el => {
+      el.style.display = 'none';
+      el.classList.add('hidden');
+    });
+  }
+
   initPwa() {
+    // Check if app is already running as installed standalone / APK
+    this.checkIfInstalled();
+
+    // Listen for display-mode changes dynamically
+    try {
+      const mql = window.matchMedia('(display-mode: standalone)');
+      if (mql && mql.addEventListener) {
+        mql.addEventListener('change', (e) => {
+          if (e.matches) {
+            this.hideInstallButtons();
+            document.documentElement.classList.add('app-is-installed');
+          }
+        });
+      }
+    } catch (_) {}
+
     // Register Service Worker
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
@@ -165,15 +218,18 @@ class AppController {
     // Capture install prompt
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
+      if (this.checkIfInstalled()) return;
       this.deferredPrompt = e;
       const btn = document.getElementById('pwa-install-btn');
       if (btn) btn.classList.remove('hidden');
     });
 
     window.addEventListener('appinstalled', () => {
-      console.log('Gym Tracker PWA installed successfully');
-      const btn = document.getElementById('pwa-install-btn');
-      if (btn) btn.classList.add('hidden');
+      console.log('IronPulse PWA installed successfully');
+      localStorage.setItem('ironpulse_installed', 'true');
+      document.documentElement.classList.add('app-is-installed');
+      if (document.body) document.body.classList.add('app-is-installed');
+      this.hideInstallButtons();
       this.deferredPrompt = null;
     });
   }
@@ -184,15 +240,15 @@ class AppController {
       this.deferredPrompt.userChoice.then((choiceResult) => {
         if (choiceResult.outcome === 'accepted') {
           console.log('User accepted the PWA install prompt');
+          localStorage.setItem('ironpulse_installed', 'true');
+          this.hideInstallButtons();
         } else {
           console.log('User dismissed the PWA install prompt');
         }
         this.deferredPrompt = null;
-        const btn = document.getElementById('pwa-install-btn');
-        if (btn) btn.classList.add('hidden');
       });
     } else {
-      alert("To install Gym Tracker on your mobile phone or PC:\n\n• On Chrome/Android: Tap menu (⋮) -> 'Install App' or 'Add to Home Screen'\n• On iPhone (Safari): Tap Share (square with arrow) -> 'Add to Home Screen'");
+      alert("To install IronPulse on your phone or PC:\n\n• On Chrome/Android: Tap menu (⋮) -> 'Install App' or 'Add to Home Screen'\n• On iPhone (Safari): Tap Share (square with arrow) -> 'Add to Home Screen'");
     }
   }
 }

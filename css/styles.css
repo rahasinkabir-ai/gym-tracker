@@ -382,3 +382,23 @@ h1, h2, h3, h4, h5, h6 {
   background-color: var(--primary-light) !important;
   color: var(--primary) !important;
 }
+
+/* ==================== AUTOMATICALLY HIDE INSTALL & APK BUTTONS IN INSTALLED APP ==================== */
+@media (display-mode: standalone), (display-mode: fullscreen), (display-mode: minimal-ui), (display-mode: window-controls-overlay) {
+  #pwa-install-btn,
+  #get-apk-btn,
+  .install-prompt-btn,
+  .app-installed-hidden {
+    display: none !important;
+  }
+}
+
+/* Also hide when marked as installed via JS detection */
+html.app-is-installed #pwa-install-btn,
+html.app-is-installed #get-apk-btn,
+html.app-is-installed .install-prompt-btn,
+body.app-is-installed #pwa-install-btn,
+body.app-is-installed #get-apk-btn,
+body.app-is-installed .install-prompt-btn {
+  display: none !important;
+}
