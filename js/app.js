@@ -6,11 +6,19 @@
 class AppController {
   constructor() {
     this.currentRoute = 'dashboard';
+    this.isQuickActionOpen = false;
+    this.commandPaletteOpen = false;
+    this.filteredCommands = [];
+    this.selectedCmdIndex = 0;
+    this.setToastTimer = null;
+    this.commands = [];
   }
 
   init() {
     this.initTheme();
     this.initRouting();
+    this.initCommandPalette();
+    this.initKeyboardShortcuts();
     
     // Initialize child managers
     if (window.renderQuote) window.renderQuote();
@@ -75,12 +83,16 @@ class AppController {
     if (!validRoutes.includes(routeId)) routeId = 'dashboard';
     this.currentRoute = routeId;
 
-    // Show/Hide section elements
+    // Show/Hide section elements with silky entry animation
     validRoutes.forEach(id => {
       const pageEl = document.getElementById(`page-${id}`);
       if (pageEl) {
         if (id === routeId) {
           pageEl.classList.remove('hidden');
+          // Re-trigger animation
+          pageEl.classList.remove('page-section');
+          void pageEl.offsetWidth; // trigger reflow
+          pageEl.classList.add('page-section');
           pageEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
         } else {
           pageEl.classList.add('hidden');
@@ -112,9 +124,32 @@ class AppController {
       });
     });
 
-    // Trigger specific section refreshes
+    // Close speed dial if open
+    this.toggleQuickActions(false);
+
+    // Update floating timer HUD visibility
+    if (window.clockTimer && window.clockTimer.updateFloatingHud) {
+      window.clockTimer.updateFloatingHud();
+    }
+
+    // Trigger specific section refreshes & animated number count-ups
+    if (routeId === 'dashboard') {
+      setTimeout(() => {
+        const streakEl = document.getElementById('dashboard-streak-number');
+        if (streakEl && window.attendanceManager && window.animateNumber) {
+          const s = window.attendanceManager.calculateStreak();
+          window.animateNumber(streakEl, s, 600);
+        }
+      }, 50);
+    }
     if (routeId === 'attendance' && window.attendanceManager) {
       window.attendanceManager.render();
+      setTimeout(() => {
+        const streakEl = document.getElementById('attendance-stat-streak');
+        if (streakEl && window.animateNumber) {
+          window.animateNumber(streakEl, window.attendanceManager.calculateStreak(), 600);
+        }
+      }, 50);
     }
     if (routeId === 'finances' && window.financesManager) {
       window.financesManager.render();
@@ -122,6 +157,228 @@ class AppController {
     if (routeId === 'plans' && window.plansManager) {
       window.plansManager.render();
     }
+  }
+
+  // --- QUICK ACTIONS FAB & SPEED DIAL ---
+  toggleQuickActions(forceState = null) {
+    const menu = document.getElementById('quick-action-menu');
+    const fabIcon = document.getElementById('fab-icon');
+    if (!menu) return;
+
+    this.isQuickActionOpen = forceState !== null ? forceState : !this.isQuickActionOpen;
+
+    if (this.isQuickActionOpen) {
+      menu.classList.remove('hidden');
+      menu.classList.add('flex');
+      if (fabIcon) fabIcon.style.transform = 'rotate(45deg)';
+      if (window.triggerHaptic) window.triggerHaptic('light');
+    } else {
+      menu.classList.add('hidden');
+      menu.classList.remove('flex');
+      if (fabIcon) fabIcon.style.transform = 'rotate(0deg)';
+    }
+  }
+
+  // --- COMMAND PALETTE (Ctrl+K) ---
+  initCommandPalette() {
+    this.commands = [
+      { id: 'nav-dashboard', title: 'Dashboard & Overview', icon: '📊', category: 'Navigation', hint: 'Jump to home command center', action: () => this.navigateTo('dashboard') },
+      { id: 'nav-workouts', title: 'Workouts, Sets & Reps', icon: '🏋️', category: 'Navigation', hint: 'View or log exercises & routines', action: () => this.navigateTo('workouts') },
+      { id: 'nav-attendance', title: 'Attendance & Calendar', icon: '📅', category: 'Navigation', hint: 'View streak count & monthly calendar', action: () => this.navigateTo('attendance') },
+      { id: 'nav-finances', title: 'Gym Fees & Meal Expenses', icon: '💳', category: 'Navigation', hint: 'Manage gym membership & dietary budget', action: () => this.navigateTo('finances') },
+      { id: 'nav-plans', title: 'Workout Plans & Splits', icon: '🎯', category: 'Navigation', hint: 'Browse Push/Pull/Legs & custom routines', action: () => this.navigateTo('plans') },
+      { id: 'nav-timer', title: 'Clock, Rest Timer & Stopwatch', icon: '⏱️', category: 'Navigation', hint: 'Precision workout intervals & lap timer', action: () => this.navigateTo('timer') },
+      { id: 'nav-settings', title: 'Settings & Cloud Backup', icon: '⚙️', category: 'Navigation', hint: 'Configure units, currency & sync', action: () => this.navigateTo('settings') },
+      { id: 'act-log-workout', title: 'Log New Workout Session', icon: '⚡', category: 'Quick Action', hint: 'Record exercises, sets, reps & weight', action: () => window.workoutsManager.openCreateModal() },
+      { id: 'act-check-in', title: 'Toggle Today\'s Gym Attendance', icon: '💪', category: 'Quick Action', hint: 'Check-in or uncheck today\'s attendance', action: () => window.attendanceManager.toggleToday() },
+      { id: 'act-rest-60', title: 'Start 60s Rest Timer', icon: '⏱️', category: 'Rest Timer', hint: '1 minute fast recovery interval', action: () => window.clockTimer.startRestTimer(60) },
+      { id: 'act-rest-90', title: 'Start 90s Rest Timer', icon: '⏱️', category: 'Rest Timer', hint: 'Standard hypertrophy rest interval', action: () => window.clockTimer.startRestTimer(90) },
+      { id: 'act-rest-120', title: 'Start 120s Rest Timer', icon: '⏱️', category: 'Rest Timer', hint: 'Heavy compound strength set rest', action: () => window.clockTimer.startRestTimer(120) },
+      { id: 'act-stopwatch', title: 'Toggle Stopwatch (Start/Pause)', icon: '⏱️', category: 'Timer', hint: 'Run or pause active stopwatch', action: () => { window.clockTimer.isStopwatchRunning ? window.clockTimer.pauseStopwatch() : window.clockTimer.startStopwatch(); } },
+      { id: 'act-add-fee', title: 'Record New Gym Fee / Expense', icon: '💳', category: 'Finances', hint: 'Log gym fee, meal, or supplements', action: () => window.financesManager.openCreateModal() },
+      { id: 'act-theme', title: 'Toggle Day / Night Mode', icon: '🌓', category: 'Appearance', hint: 'Switch between light and dark theme', action: () => this.toggleTheme() },
+      { id: 'act-edit-profile', title: 'Edit Athlete Profile & Moniker', icon: '👤', category: 'Profile', hint: 'Change name, units & currency', action: () => this.openWelcomeScreen(true) },
+    ];
+    this.filteredCommands = [...this.commands];
+  }
+
+  openCommandPalette() {
+    const modal = document.getElementById('command-palette-modal');
+    const input = document.getElementById('command-palette-input');
+    if (!modal) return;
+
+    this.commandPaletteOpen = true;
+    modal.classList.remove('hidden');
+    if (input) {
+      input.value = '';
+      setTimeout(() => input.focus(), 80);
+    }
+    this.filterCommandPalette('');
+    if (window.triggerHaptic) window.triggerHaptic('light');
+  }
+
+  closeCommandPalette() {
+    const modal = document.getElementById('command-palette-modal');
+    if (!modal) return;
+    this.commandPaletteOpen = false;
+    modal.classList.add('hidden');
+  }
+
+  toggleCommandPalette() {
+    if (this.commandPaletteOpen) {
+      this.closeCommandPalette();
+    } else {
+      this.openCommandPalette();
+    }
+  }
+
+  filterCommandPalette(query) {
+    const q = (query || '').toLowerCase().trim();
+    if (!q) {
+      this.filteredCommands = [...this.commands];
+    } else {
+      this.filteredCommands = this.commands.filter(cmd => 
+        cmd.title.toLowerCase().includes(q) ||
+        cmd.category.toLowerCase().includes(q) ||
+        (cmd.hint && cmd.hint.toLowerCase().includes(q))
+      );
+    }
+    this.selectedCmdIndex = 0;
+    this.renderCommandList();
+  }
+
+  renderCommandList() {
+    const container = document.getElementById('command-palette-list');
+    if (!container) return;
+
+    if (this.filteredCommands.length === 0) {
+      container.innerHTML = `
+        <div class="py-8 text-center text-xs text-stone-400">
+          No matching commands found.
+        </div>
+      `;
+      return;
+    }
+
+    container.innerHTML = this.filteredCommands.map((cmd, idx) => `
+      <div onclick="app.executeCommand('${cmd.id}')" 
+           data-cmd-idx="${idx}"
+           class="cmd-item ${idx === this.selectedCmdIndex ? 'active-cmd' : ''} flex items-center justify-between p-2.5 rounded-xl cursor-pointer border border-transparent">
+        <div class="flex items-center gap-3">
+          <span class="w-8 h-8 rounded-lg bg-stone-100 dark:bg-[#181822] flex items-center justify-center text-base border border-stone-200 dark:border-stone-800">
+            ${cmd.icon}
+          </span>
+          <div>
+            <p class="cmd-title font-medium text-xs text-stone-900 dark:text-stone-200 font-sans">${cmd.title}</p>
+            <p class="text-[10px] text-stone-400 font-sans font-light">${cmd.hint || cmd.category}</p>
+          </div>
+        </div>
+        <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-stone-100 dark:bg-stone-800 text-stone-500 font-luxury font-medium">
+          ${cmd.category}
+        </span>
+      </div>
+    `).join('');
+
+    const activeEl = container.querySelector(`[data-cmd-idx="${this.selectedCmdIndex}"]`);
+    if (activeEl) {
+      activeEl.scrollIntoView({ block: 'nearest' });
+    }
+  }
+
+  handleCommandKeydown(e) {
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (this.filteredCommands.length > 0) {
+        this.selectedCmdIndex = (this.selectedCmdIndex + 1) % this.filteredCommands.length;
+        this.renderCommandList();
+      }
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (this.filteredCommands.length > 0) {
+        this.selectedCmdIndex = (this.selectedCmdIndex - 1 + this.filteredCommands.length) % this.filteredCommands.length;
+        this.renderCommandList();
+      }
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      if (this.filteredCommands[this.selectedCmdIndex]) {
+        this.executeCommand(this.filteredCommands[this.selectedCmdIndex].id);
+      }
+    } else if (e.key === 'Escape') {
+      e.preventDefault();
+      this.closeCommandPalette();
+    }
+  }
+
+  executeCommand(cmdId) {
+    const cmd = this.commands.find(c => c.id === cmdId);
+    this.closeCommandPalette();
+    if (cmd && cmd.action) {
+      setTimeout(() => cmd.action(), 50);
+    }
+  }
+
+  // --- GLOBAL KEYBOARD SHORTCUTS ---
+  initKeyboardShortcuts() {
+    window.addEventListener('keydown', (e) => {
+      // Ctrl+K or Cmd+K
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        this.toggleCommandPalette();
+        return;
+      }
+
+      // Escape closes open palettes or drawers
+      if (e.key === 'Escape') {
+        this.closeCommandPalette();
+        this.toggleQuickActions(false);
+        this.hideSetToast();
+        return;
+      }
+
+      // Single-key navigation (only when not inside input/textarea/select)
+      const activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
+      if (activeTag === 'input' || activeTag === 'textarea' || activeTag === 'select') {
+        return;
+      }
+
+      const routeMap = {
+        '1': 'dashboard',
+        '2': 'workouts',
+        '3': 'attendance',
+        '4': 'plans',
+        '5': 'finances',
+        '6': 'timer',
+        '7': 'settings'
+      };
+
+      if (routeMap[e.key]) {
+        e.preventDefault();
+        this.navigateTo(routeMap[e.key]);
+      }
+    });
+  }
+
+  // --- WORKOUT SET COMPLETION TOAST ---
+  showSetToast(setNum, exerciseName) {
+    const toast = document.getElementById('set-complete-toast');
+    const toastText = document.getElementById('set-complete-toast-text');
+    if (!toast) return;
+
+    if (toastText) toastText.textContent = `Set ${setNum} of ${exerciseName || 'Exercise'} finished!`;
+    toast.classList.remove('opacity-0', '-translate-y-4', 'pointer-events-none');
+    toast.classList.add('opacity-100', 'translate-y-0');
+
+    if (this.setToastTimer) clearTimeout(this.setToastTimer);
+    this.setToastTimer = setTimeout(() => {
+      this.hideSetToast();
+    }, 5500);
+  }
+
+  hideSetToast() {
+    const toast = document.getElementById('set-complete-toast');
+    if (!toast) return;
+    toast.classList.remove('opacity-100', 'translate-y-0');
+    toast.classList.add('opacity-0', '-translate-y-4', 'pointer-events-none');
   }
 
   // --- SETTINGS VIEW CONTROLS ---

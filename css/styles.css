@@ -465,3 +465,128 @@ body.app-is-installed .install-prompt-btn {
   font-weight: 700 !important;
   box-shadow: 0 2px 10px rgba(218, 185, 120, 0.35) !important;
 }
+
+/* ==================== BESPOKE LUXURY ANIMATIONS & TRANSITIONS ==================== */
+
+/* Ambient dark atmosphere */
+.dark body {
+  background-color: var(--bg-app);
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(218, 185, 120, 0.035) 0%, transparent 45%),
+    radial-gradient(circle at 90% 80%, rgba(181, 137, 61, 0.025) 0%, transparent 50%);
+  background-attachment: fixed;
+}
+
+/* Silky page enter transition */
+.page-section {
+  animation: luxuryPageEnter 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes luxuryPageEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(12px) scale(0.994);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Metallic button sheen effect */
+.shimmer-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-btn::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.28) 50%,
+    transparent 70%
+  );
+  transform: rotate(25deg) translateY(-100%);
+  transition: transform 0.65s ease;
+  pointer-events: none;
+}
+
+.shimmer-btn:hover::after {
+  transform: rotate(25deg) translateY(100%);
+}
+
+/* Animated flame for streak */
+.flame-animated {
+  display: inline-block;
+  animation: flamePulse 2.2s infinite ease-in-out;
+  transform-origin: center bottom;
+}
+
+@keyframes flamePulse {
+  0%, 100% { transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 3px rgba(249, 115, 22, 0.6)); }
+  25% { transform: scale(1.15) rotate(-3deg); filter: drop-shadow(0 0 10px rgba(249, 115, 22, 0.9)); }
+  50% { transform: scale(1.05) rotate(2deg); filter: drop-shadow(0 0 5px rgba(249, 115, 22, 0.6)); }
+  75% { transform: scale(1.18) rotate(-2deg); filter: drop-shadow(0 0 12px rgba(249, 115, 22, 0.95)); }
+}
+
+/* Speed Dial Animations */
+.speed-dial-item {
+  animation: speedDialIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform-origin: bottom right;
+}
+
+@keyframes speedDialIn {
+  0% { opacity: 0; transform: translateY(10px) scale(0.92); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Floating Timer HUD */
+.floating-timer-glow {
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6), 0 0 20px rgba(218, 185, 120, 0.25);
+}
+
+/* Interactive Workout Set Pills */
+.workout-set-pill {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+  cursor: pointer;
+}
+
+.workout-set-pill:hover {
+  transform: translateY(-1px) scale(1.04);
+}
+
+.workout-set-pill:active {
+  transform: scale(0.95);
+}
+
+.workout-set-pill.completed {
+  background: linear-gradient(135deg, rgba(218, 185, 120, 0.22) 0%, rgba(181, 137, 61, 0.16) 100%) !important;
+  border-color: #dab978 !important;
+  box-shadow: 0 0 12px rgba(218, 185, 120, 0.35);
+}
+
+.workout-set-pill.completed .set-index {
+  color: #dab978 !important;
+}
+
+/* Command Palette Item States */
+.cmd-item {
+  transition: all 0.15s ease;
+}
+
+.cmd-item:hover, .cmd-item.active-cmd {
+  background: rgba(218, 185, 120, 0.14) !important;
+  border-color: rgba(218, 185, 120, 0.4) !important;
+}
+
+.cmd-item:hover .cmd-title, .cmd-item.active-cmd .cmd-title {
+  color: var(--primary) !important;
+}
+

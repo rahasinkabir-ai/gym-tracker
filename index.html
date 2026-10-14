@@ -117,6 +117,14 @@
       </div>
 
       <!-- Right: Actions (Install App, Theme Toggle, Google Auth, Mobile Hamburger) -->
+      <div class="flex items-center gap-2">
+        <!-- Command Palette Trigger Button -->
+        <button onclick="app.openCommandPalette()" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-stone-100 dark:bg-[#16161d] hover:bg-stone-200 dark:hover:bg-[#202029] text-stone-800 dark:text-[#dab978] border border-stone-200 dark:border-[#dab978]/30 text-xs font-medium transition cursor-pointer font-luxury" title="Search & Commands (Ctrl+K)">
+          <span>🔍</span>
+          <span class="hidden lg:inline">Command</span>
+          <kbd class="hidden md:inline px-1 py-0.2 rounded bg-stone-200/80 dark:bg-stone-800 text-[10px] font-mono text-stone-500 dark:text-[#dab978]">⌘K</kbd>
+        </button>
+
         <!-- Direct APK Download Link -->
         <a id="get-apk-btn" href="https://github.com/rahasinkabir-ai/gym-tracker/raw/main/packages/android/IronPulse.apk" download="IronPulse.apk" class="install-prompt-btn flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-stone-100 dark:bg-[#16161d] hover:bg-stone-200 dark:hover:bg-[#202029] text-stone-800 dark:text-[#dab978] border border-stone-200 dark:border-[#dab978]/30 text-xs font-medium transition cursor-pointer font-luxury" title="Download Android APK (Direct Install)">
           <span>🤖</span>
@@ -1083,6 +1091,104 @@
     </div>
   </div>
 
+  <!-- Full-screen Celebration Confetti Canvas -->
+  <canvas id="celebration-canvas" class="fixed inset-0 pointer-events-none z-50"></canvas>
+
+  <!-- ==================== FLOATING LIVE TIMER & STOPWATCH MINI-HUD ==================== -->
+  <div id="floating-timer-hud" class="fixed bottom-22 inset-x-0 z-40 flex justify-center px-3 pointer-events-none transition-all duration-300 opacity-0 translate-y-4 hidden">
+    <div class="pointer-events-auto flex items-center gap-3 px-4 py-2 rounded-full bg-stone-900/95 dark:bg-[#121218]/95 border border-[#dab978]/50 shadow-2xl backdrop-blur-xl floating-timer-glow text-white text-xs">
+      <div class="flex items-center gap-2.5 cursor-pointer group" onclick="app.navigateTo('timer')" title="Tap to expand Timer">
+        <span class="w-2.5 h-2.5 rounded-full bg-[#dab978] animate-ping"></span>
+        <div>
+          <span id="floating-timer-label" class="block font-luxury uppercase tracking-wider text-[9px] text-[#dab978]">Rest Timer</span>
+          <span id="floating-timer-digits" class="font-mono font-bold text-sm text-[#f8f7f4] leading-none">01:30</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-1.5 pl-2.5 border-l border-stone-700">
+        <button onclick="clockTimer.adjustRestTimer(30)" class="px-2 py-1 rounded-md bg-stone-800 hover:bg-stone-700 text-[10px] font-mono text-[#dab978] transition cursor-pointer" title="+30 Seconds">+30s</button>
+        <button id="floating-timer-toggle-btn" onclick="clockTimer.toggleTimerFromHud()" class="p-1 rounded-md bg-stone-800 hover:bg-stone-700 text-xs transition cursor-pointer" title="Pause / Resume">⏸️</button>
+        <button onclick="clockTimer.resetRestTimer()" class="p-1 rounded-md bg-stone-800 hover:bg-red-900/60 text-xs text-red-400 transition cursor-pointer" title="Reset">⏹️</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== FLOATING QUICK-ACTION SPEED DIAL (FAB) ==================== -->
+  <div id="quick-action-container" class="fixed bottom-22 sm:bottom-6 right-4 sm:right-6 z-40 flex flex-col items-end">
+    <!-- Speed Dial Menu -->
+    <div id="quick-action-menu" class="hidden flex flex-col items-end gap-2 mb-3 transition-all duration-200">
+      <button onclick="app.openCommandPalette(); app.toggleQuickActions(false);" class="speed-dial-item flex items-center gap-2 px-3.5 py-2 rounded-xl bg-stone-900/90 dark:bg-[#16161d]/95 text-stone-200 border border-[#dab978]/30 shadow-xl backdrop-blur-md hover:border-[#dab978] transition cursor-pointer text-xs font-luxury">
+        <span>Command Hub</span>
+        <span class="px-1.5 py-0.5 rounded bg-stone-800 text-[10px] font-mono text-[#dab978]">⌘K</span>
+        <span class="text-sm">🔍</span>
+      </button>
+      <button onclick="workoutsManager.openCreateModal(); app.toggleQuickActions(false);" class="speed-dial-item flex items-center gap-2 px-3.5 py-2 rounded-xl bg-stone-900/90 dark:bg-[#16161d]/95 text-stone-200 border border-[#dab978]/30 shadow-xl backdrop-blur-md hover:border-[#dab978] transition cursor-pointer text-xs font-luxury">
+        <span>Log Workout</span>
+        <span class="text-sm">🏋️</span>
+      </button>
+      <button onclick="attendanceManager.toggleToday(event); app.toggleQuickActions(false);" class="speed-dial-item flex items-center gap-2 px-3.5 py-2 rounded-xl bg-stone-900/90 dark:bg-[#16161d]/95 text-stone-200 border border-[#dab978]/30 shadow-xl backdrop-blur-md hover:border-[#dab978] transition cursor-pointer text-xs font-luxury">
+        <span>Check In Today</span>
+        <span class="text-sm">💪</span>
+      </button>
+      <button onclick="clockTimer.startRestTimer(90); app.toggleQuickActions(false);" class="speed-dial-item flex items-center gap-2 px-3.5 py-2 rounded-xl bg-stone-900/90 dark:bg-[#16161d]/95 text-stone-200 border border-[#dab978]/30 shadow-xl backdrop-blur-md hover:border-[#dab978] transition cursor-pointer text-xs font-luxury">
+        <span>Quick 90s Rest</span>
+        <span class="text-sm">⏱️</span>
+      </button>
+      <button onclick="financesManager.openCreateModal(); app.toggleQuickActions(false);" class="speed-dial-item flex items-center gap-2 px-3.5 py-2 rounded-xl bg-stone-900/90 dark:bg-[#16161d]/95 text-stone-200 border border-[#dab978]/30 shadow-xl backdrop-blur-md hover:border-[#dab978] transition cursor-pointer text-xs font-luxury">
+        <span>Add Fee / Expense</span>
+        <span class="text-sm">💳</span>
+      </button>
+    </div>
+
+    <!-- Master FAB Button -->
+    <button id="quick-action-fab" onclick="app.toggleQuickActions()" class="w-13 h-13 rounded-2xl bg-gradient-to-tr from-[#dab978] via-[#f7e8c5] to-[#b5893d] text-[#08080a] shadow-xl shadow-black/40 flex items-center justify-center font-bold text-xl transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer border border-[#dab978]/60 group relative shimmer-btn" title="Quick Actions">
+      <span id="fab-icon" class="transition-transform duration-300">⚡</span>
+      <span class="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-[#dab978] animate-ping"></span>
+    </button>
+  </div>
+
+  <!-- ==================== COMMAND PALETTE MODAL (Ctrl+K) ==================== -->
+  <div id="command-palette-modal" class="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-24 p-4 bg-black/75 backdrop-blur-md hidden transition-opacity duration-200" onclick="if(event.target === this) app.closeCommandPalette()">
+    <div class="theme-card max-w-xl w-full rounded-2xl border border-stone-200 dark:border-[#dab978]/40 shadow-2xl overflow-hidden animate-spring-in flex flex-col max-h-[80vh]">
+      <!-- Search Input -->
+      <div class="flex items-center gap-3 px-4 py-3.5 border-b border-stone-200 dark:border-stone-800 bg-stone-50/50 dark:bg-[#14141b]">
+        <span class="text-stone-400 text-lg">🔍</span>
+        <input 
+          type="text" 
+          id="command-palette-input" 
+          placeholder="Search commands, navigate, or quick actions... (Esc to exit)"
+          class="flex-1 bg-transparent text-sm text-stone-900 dark:text-[#f8f7f4] placeholder-stone-400 outline-none font-sans"
+          autocomplete="off"
+          oninput="app.filterCommandPalette(this.value)"
+          onkeydown="app.handleCommandKeydown(event)"
+        />
+        <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-stone-200 dark:bg-stone-800 text-stone-500 font-semibold">ESC</span>
+      </div>
+      
+      <!-- Command Items List -->
+      <div id="command-palette-list" class="overflow-y-auto p-2 space-y-1 max-h-96">
+        <!-- Rendered by app.js -->
+      </div>
+
+      <!-- Footer Info -->
+      <div class="px-4 py-2 bg-stone-100 dark:bg-[#121217] border-t border-stone-200 dark:border-stone-800 flex items-center justify-between text-[11px] text-stone-400 font-luxury">
+        <span>Use <kbd class="font-mono">↑</kbd> <kbd class="font-mono">↓</kbd> to navigate, <kbd class="font-mono">Enter</kbd> to execute</span>
+        <span>IronPulse Command Hub</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== WORKOUT SET COMPLETE TOAST ==================== -->
+  <div id="set-complete-toast" class="fixed top-20 inset-x-0 z-50 flex justify-center px-4 pointer-events-none transition-all duration-300 opacity-0 -translate-y-4">
+    <div class="pointer-events-auto flex items-center gap-3 px-4 py-2.5 rounded-2xl bg-stone-900/95 dark:bg-[#14141b]/95 border border-[#dab978]/40 shadow-2xl backdrop-blur-md text-white text-xs">
+      <span class="text-base">💪</span>
+      <span id="set-complete-toast-text" class="font-medium text-stone-200">Set finished!</span>
+      <button id="set-complete-rest-btn" onclick="clockTimer.startRestTimer(90); app.hideSetToast();" class="px-2.5 py-1 rounded-lg bg-gradient-to-r from-[#dfba75] to-[#b5893d] text-[#08080a] font-luxury font-bold text-[10px] uppercase tracking-wider cursor-pointer shimmer-btn">
+        ⏱️ Start 90s Rest
+      </button>
+      <button onclick="app.hideSetToast()" class="text-stone-400 hover:text-white text-xs ml-1 cursor-pointer">✕</button>
+    </div>
+  </div>
+
   <!-- ==================== PREMIUM iOS FLOATING DOCK BOTTOM NAVIGATION ==================== -->
   <div class="fixed bottom-4 inset-x-0 z-40 flex justify-center px-3 pointer-events-none">
     <nav class="ios-dock pointer-events-auto px-3 py-2 flex items-center justify-between gap-1 sm:gap-2 max-w-lg w-full animate-spring-in shadow-2xl">
@@ -1138,6 +1244,7 @@
   </div>
 
   <!-- APPLICATION SCRIPTS -->
+  <script src="js/animations.js"></script>
   <script src="js/quotes.js"></script>
   <script src="js/clock-timer.js"></script>
   <script src="js/cloud-store.js"></script>

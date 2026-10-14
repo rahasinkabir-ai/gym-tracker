@@ -349,14 +349,24 @@ class WorkoutsManager {
     const exercisesHtml = (w.exercises || []).map((ex, idx) => {
       // Check if granular setsData exists
       if (Array.isArray(ex.setsData) && ex.setsData.length > 0) {
-        const setsPills = ex.setsData.map((s, sIdx) => `
-          <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white dark:bg-slate-700/80 border border-gray-200/60 dark:border-slate-600 text-[11px] font-mono shadow-2xs">
-            <span class="text-blue-600 dark:text-blue-400 font-bold">S${sIdx + 1}:</span>
-            <span class="text-gray-800 dark:text-gray-200 font-semibold">${s.reps} reps</span>
-            <span class="text-gray-400">×</span>
-            <span class="text-purple-600 dark:text-purple-300 font-bold">${s.weight} ${unit}</span>
-          </div>
-        `).join('');
+        const setsPills = ex.setsData.map((s, sIdx) => {
+          const isDone = Boolean(s.completed);
+          return `
+            <div onclick="workoutsManager.toggleSetComplete('${w.id}', ${idx}, ${sIdx}, event)" 
+                 class="workout-set-pill inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[11px] font-mono shadow-2xs border ${
+                   isDone 
+                     ? 'completed bg-[#dab978]/20 border-[#dab978] text-[#08080a] dark:text-[#f8f7f4]' 
+                     : 'bg-white dark:bg-slate-700/80 border-gray-200/60 dark:border-slate-600 text-gray-800 dark:text-gray-200'
+                 }" title="Click to mark Set ${sIdx + 1} completed">
+              <span class="set-index font-bold ${isDone ? 'text-[#dab978]' : 'text-blue-600 dark:text-blue-400'}">
+                ${isDone ? '✓ S' + (sIdx + 1) : 'S' + (sIdx + 1)}:
+              </span>
+              <span class="font-semibold ${isDone ? 'line-through opacity-75' : ''}">${s.reps} reps</span>
+              <span class="text-gray-400">×</span>
+              <span class="text-purple-600 dark:text-purple-300 font-bold">${s.weight} ${unit}</span>
+            </div>
+          `;
+        }).join('');
 
         return `
           <div class="p-3 rounded-xl bg-gray-50/80 dark:bg-slate-800/50 border border-gray-100 dark:border-slate-800 text-xs space-y-2">
@@ -692,10 +702,40 @@ class WorkoutsManager {
       // Automatically mark attendance for that date if not already marked!
       if (!cloudStore.data.attendance) cloudStore.data.attendance = {};
       cloudStore.data.attendance[date] = true;
+      if (window.triggerCelebration) window.triggerCelebration();
     }
 
     cloudStore.save();
     this.closeModal();
+  }
+
+  toggleSetComplete(workoutId, exIdx, setIdx, event) {
+    if (event) event.stopPropagation();
+    const workouts = cloudStore.data.workouts || [];
+    const w = workouts.find(item => item.id === workoutId);
+    if (!w || !w.exercises || !w.exercises[exIdx] || !w.exercises[exIdx].setsData) return;
+
+    const setItem = w.exercises[exIdx].setsData[setIdx];
+    setItem.completed = !setItem.completed;
+
+    if (setItem.completed) {
+      if (window.triggerHaptic) window.triggerHaptic('light');
+
+      // Check if all sets for this exercise are now completed
+      const allDone = w.exercises[exIdx].setsData.every(s => s.completed);
+      if (allDone && window.triggerCelebration) {
+        const x = event && event.clientX ? event.clientX : window.innerWidth / 2;
+        const y = event && event.clientY ? event.clientY : window.innerHeight / 2;
+        window.triggerCelebration(x, y);
+      }
+
+      if (window.app && window.app.showSetToast) {
+        window.app.showSetToast(setIdx + 1, w.exercises[exIdx].name);
+      }
+    }
+
+    cloudStore.save();
+    this.render();
   }
 
   deleteWorkout(id) {

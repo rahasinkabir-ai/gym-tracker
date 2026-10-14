@@ -197,15 +197,81 @@ class ClockTimerManager {
       const pct = Math.max(0, Math.min(100, (this.restRemaining / this.restDuration) * 100));
       progressBar.style.width = `${pct}%`;
     }
+
+    this.updateFloatingHud();
   }
 
   flashRestTimerComplete() {
     const el = document.getElementById('rest-timer-display');
-    if (!el) return;
-    el.classList.add('text-red-500', 'animate-bounce');
-    setTimeout(() => {
-      el.classList.remove('text-red-500', 'animate-bounce');
-    }, 4000);
+    if (el) {
+      el.classList.add('text-red-500', 'animate-bounce');
+      setTimeout(() => {
+        el.classList.remove('text-red-500', 'animate-bounce');
+      }, 4000);
+    }
+
+    if (window.triggerCelebration) window.triggerCelebration();
+    if (window.triggerHaptic) window.triggerHaptic('alarm');
+
+    const hudLabel = document.getElementById('floating-timer-label');
+    if (hudLabel) {
+      hudLabel.textContent = 'REST FINISHED!';
+      hudLabel.classList.add('text-red-400', 'animate-ping');
+      setTimeout(() => {
+        hudLabel.classList.remove('text-red-400', 'animate-ping');
+        hudLabel.textContent = 'Rest Timer';
+      }, 4000);
+    }
+  }
+
+  updateFloatingHud() {
+    const hud = document.getElementById('floating-timer-hud');
+    if (!hud) return;
+
+    const currentRoute = window.app ? window.app.currentRoute : 'dashboard';
+    const isTimerActive = this.isRestRunning || this.isStopwatchRunning || (this.restRemaining < this.restDuration && this.restRemaining > 0);
+
+    if (isTimerActive && currentRoute !== 'timer') {
+      hud.classList.remove('hidden', 'opacity-0', 'translate-y-4');
+      hud.classList.add('flex', 'opacity-100', 'translate-y-0');
+
+      const digitsEl = document.getElementById('floating-timer-digits');
+      const labelEl = document.getElementById('floating-timer-label');
+      const toggleBtn = document.getElementById('floating-timer-toggle-btn');
+
+      if (this.isRestRunning || (this.restRemaining < this.restDuration && !this.isStopwatchRunning)) {
+        const m = Math.floor(this.restRemaining / 60);
+        const s = this.restRemaining % 60;
+        if (digitsEl) digitsEl.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        if (labelEl) labelEl.textContent = 'Rest Timer';
+        if (toggleBtn) toggleBtn.textContent = this.isRestRunning ? '⏸️' : '▶️';
+      } else if (this.isStopwatchRunning) {
+        if (digitsEl) digitsEl.textContent = this.formatStopwatchTime(this.stopwatchElapsed).split('.')[0];
+        if (labelEl) labelEl.textContent = 'Stopwatch';
+        if (toggleBtn) toggleBtn.textContent = '⏸️';
+      }
+    } else {
+      hud.classList.add('opacity-0', 'translate-y-4');
+      setTimeout(() => {
+        if (!hud.classList.contains('opacity-100')) {
+          hud.classList.add('hidden');
+          hud.classList.remove('flex');
+        }
+      }, 250);
+    }
+  }
+
+  toggleTimerFromHud() {
+    if (this.isRestRunning) {
+      this.pauseRestTimer();
+    } else if (this.restRemaining < this.restDuration && this.restRemaining > 0) {
+      this.startRestTimer();
+    } else if (this.isStopwatchRunning) {
+      this.pauseStopwatch();
+    } else {
+      this.startRestTimer(90);
+    }
+    this.updateFloatingHud();
   }
 
   // --- STOPWATCH ---
@@ -262,6 +328,7 @@ class ClockTimerManager {
     if (display) {
       display.textContent = this.formatStopwatchTime(this.stopwatchElapsed);
     }
+    this.updateFloatingHud();
   }
 
   renderStopwatchLaps() {

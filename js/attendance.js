@@ -94,27 +94,27 @@ class AttendanceManager {
           <div class="theme-card p-4">
             <p class="text-xs font-semibold text-gray-500 dark:text-gray-400">Current Streak</p>
             <div class="flex items-baseline gap-1 mt-1">
-              <span class="text-2xl font-bold font-lexend text-orange-500">${streak}</span>
-              <span class="text-xs text-gray-500">days 🔥</span>
+              <span id="attendance-stat-streak" class="text-2xl font-bold font-lexend text-orange-500">${streak}</span>
+              <span class="text-xs text-gray-500">days <span class="flame-animated">🔥</span></span>
             </div>
           </div>
           <div class="theme-card p-4">
             <p class="text-xs font-semibold text-gray-500 dark:text-gray-400">This Month</p>
             <div class="flex items-baseline gap-1 mt-1">
-              <span class="text-2xl font-bold font-lexend text-[#a88337] dark:text-[#dab978]">${thisMonthCount}</span>
+              <span id="attendance-stat-month" class="text-2xl font-bold font-lexend text-[#a88337] dark:text-[#dab978]">${thisMonthCount}</span>
               <span class="text-xs text-gray-500">/ ${daysInMonth} days</span>
             </div>
           </div>
           <div class="theme-card p-4">
             <p class="text-xs font-semibold text-gray-500 dark:text-gray-400">Consistency Rate</p>
             <div class="flex items-baseline gap-1 mt-1">
-              <span class="text-2xl font-bold font-lexend text-blue-600 dark:text-blue-400">${consistencyPct}%</span>
+              <span id="attendance-stat-rate" class="text-2xl font-bold font-lexend text-blue-600 dark:text-blue-400">${consistencyPct}%</span>
             </div>
           </div>
           <div class="theme-card p-4">
             <p class="text-xs font-semibold text-gray-500 dark:text-gray-400">${this.selectedYear} Total Gym Days</p>
             <div class="flex items-baseline gap-1 mt-1">
-              <span class="text-2xl font-bold font-lexend text-purple-600 dark:text-purple-400">${thisYearCount}</span>
+              <span id="attendance-stat-year" class="text-2xl font-bold font-lexend text-purple-600 dark:text-purple-400">${thisYearCount}</span>
               <span class="text-xs text-gray-500">sessions</span>
             </div>
           </div>
@@ -170,7 +170,7 @@ class AttendanceManager {
       const isToday = dateStr === todayStr;
 
       daysHtml += `
-        <div onclick="attendanceManager.toggleDate('${dateStr}')" 
+        <div onclick="attendanceManager.toggleDate('${dateStr}', event)" 
              class="day-cell ${isAttended ? 'attended' : ''} ${isToday ? 'today' : ''} p-2 cursor-pointer select-none group"
              title="${dateStr}: Click to toggle attendance">
           <span class="text-xs font-semibold ${isAttended ? 'text-[#08080a] font-bold' : 'text-gray-700 dark:text-gray-300'}">${day}</span>
@@ -199,11 +199,11 @@ class AttendanceManager {
         <div>
           <p class="text-xs font-semibold text-gray-500 dark:text-gray-400">Gym Attendance Streak</p>
           <div class="flex items-center gap-2 mt-1">
-            <span class="text-2xl font-bold font-lexend text-orange-500">${streak}</span>
-            <span class="text-xs font-medium text-gray-600 dark:text-gray-300">Days Consecutive 🔥</span>
+            <span id="dashboard-streak-number" class="text-2xl font-bold font-lexend text-orange-500">${streak}</span>
+            <span class="text-xs font-medium text-gray-600 dark:text-gray-300">Days Consecutive <span class="flame-animated">🔥</span></span>
           </div>
         </div>
-        <button onclick="attendanceManager.toggleToday()" class="px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer font-luxury ${
+        <button onclick="attendanceManager.toggleToday(event)" class="px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer font-luxury shimmer-btn ${
           isTodayChecked 
             ? 'bg-gradient-to-r from-[#dfba75] to-[#b5893d] hover:from-[#f7e8c5] hover:to-[#c49d52] text-[#08080a] shadow-md shadow-black/15' 
             : 'bg-[#dab978]/15 hover:bg-[#dab978]/25 text-[#a88337] dark:text-[#dab978] border border-[#dab978]/30 shadow-xs'
@@ -241,20 +241,27 @@ class AttendanceManager {
     this.render();
   }
 
-  toggleDate(dateStr) {
+  toggleDate(dateStr, event = null) {
     if (!cloudStore.data.attendance) cloudStore.data.attendance = {};
+    const willBeChecked = !cloudStore.data.attendance[dateStr];
     if (cloudStore.data.attendance[dateStr]) {
       delete cloudStore.data.attendance[dateStr];
     } else {
       cloudStore.data.attendance[dateStr] = true;
+      if (window.triggerCelebration) {
+        const x = event && event.clientX ? event.clientX : window.innerWidth / 2;
+        const y = event && event.clientY ? event.clientY : window.innerHeight / 2;
+        window.triggerCelebration(x, y);
+      }
+      if (window.triggerHaptic) window.triggerHaptic('success');
     }
     cloudStore.save();
     this.render();
   }
 
-  toggleToday() {
+  toggleToday(event = null) {
     const todayStr = new Date().toISOString().split('T')[0];
-    this.toggleDate(todayStr);
+    this.toggleDate(todayStr, event);
   }
 }
 
