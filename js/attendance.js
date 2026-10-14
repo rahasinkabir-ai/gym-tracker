@@ -101,7 +101,7 @@ class AttendanceManager {
           <div class="theme-card p-4">
             <p class="text-xs font-semibold text-gray-500 dark:text-gray-400">This Month</p>
             <div class="flex items-baseline gap-1 mt-1">
-              <span class="text-2xl font-bold font-lexend text-emerald-600 dark:text-emerald-400">${thisMonthCount}</span>
+              <span class="text-2xl font-bold font-lexend text-[#a88337] dark:text-[#dab978]">${thisMonthCount}</span>
               <span class="text-xs text-gray-500">/ ${daysInMonth} days</span>
             </div>
           </div>
@@ -173,11 +173,11 @@ class AttendanceManager {
         <div onclick="attendanceManager.toggleDate('${dateStr}')" 
              class="day-cell ${isAttended ? 'attended' : ''} ${isToday ? 'today' : ''} p-2 cursor-pointer select-none group"
              title="${dateStr}: Click to toggle attendance">
-          <span class="text-xs font-semibold ${isAttended ? 'text-white' : 'text-gray-700 dark:text-gray-300'}">${day}</span>
+          <span class="text-xs font-semibold ${isAttended ? 'text-[#08080a] font-bold' : 'text-gray-700 dark:text-gray-300'}">${day}</span>
           ${isAttended ? `
             <span class="text-[11px] mt-0.5 animate-scale">💪</span>
           ` : `
-            <span class="text-[9px] text-gray-300 dark:text-gray-600 group-hover:text-blue-500 opacity-0 group-hover:opacity-100 mt-0.5">+</span>
+            <span class="text-[9px] text-gray-300 dark:text-gray-600 group-hover:text-[#dab978] opacity-0 group-hover:opacity-100 mt-0.5">+</span>
           `}
         </div>
       `;
@@ -203,10 +203,10 @@ class AttendanceManager {
             <span class="text-xs font-medium text-gray-600 dark:text-gray-300">Days Consecutive 🔥</span>
           </div>
         </div>
-        <button onclick="attendanceManager.toggleToday()" class="px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
+        <button onclick="attendanceManager.toggleToday()" class="px-3.5 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer font-luxury ${
           isTodayChecked 
-            ? 'bg-emerald-500 hover:bg-emerald-600 text-white shadow-md shadow-emerald-500/20' 
-            : 'bg-blue-600 hover:bg-blue-700 text-white shadow-md shadow-blue-600/20'
+            ? 'bg-gradient-to-r from-[#dfba75] to-[#b5893d] hover:from-[#f7e8c5] hover:to-[#c49d52] text-[#08080a] shadow-md shadow-black/15' 
+            : 'bg-[#dab978]/15 hover:bg-[#dab978]/25 text-[#a88337] dark:text-[#dab978] border border-[#dab978]/30 shadow-xs'
         }">
           <span>${isTodayChecked ? '✓ Checked In (Click to Uncheck)' : '+ Check In Today'}</span>
         </button>
