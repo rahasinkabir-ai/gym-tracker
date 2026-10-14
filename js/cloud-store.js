@@ -18,7 +18,7 @@ const DEFAULT_FIREBASE_CONFIG = {
 
 const INITIAL_SAMPLE_DATA = {
   profile: {
-    name: 'Fitness Champion',
+    name: '',
     email: '',
     photoURL: '',
     weightUnit: 'kg',

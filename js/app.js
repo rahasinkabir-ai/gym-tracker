@@ -22,7 +22,8 @@ class AppController {
     if (window.plansManager) window.plansManager.init();
 
     this.renderSettingsView();
-    console.log("Gym Tracker initialized successfully.");
+    this.initWelcomeScreen();
+    console.log("IronPulse initialized successfully.");
   }
 
   // --- DAY / NIGHT THEME CONTROLLER ---
@@ -144,7 +145,163 @@ class AppController {
     if (name) cloudStore.data.profile.name = name;
 
     cloudStore.save();
+    this.updateDashboardGreeting();
     alert("Profile settings saved successfully!");
+  }
+
+  // --- MINIMAL LUXURY WELCOME & ONBOARDING ---
+  initWelcomeScreen() {
+    this.tempUnit = cloudStore.data.profile.weightUnit || 'kg';
+    this.tempCurrency = cloudStore.data.profile.currency || '$';
+
+    this.updateDashboardGreeting();
+
+    if (window.cloudStore && window.cloudStore.subscribe) {
+      window.cloudStore.subscribe(() => this.updateDashboardGreeting());
+    }
+
+    // Check if user has completed welcome setup or if name is empty/default
+    const hasWelcomed = localStorage.getItem('ironpulse_welcomed');
+    const currentName = cloudStore.data.profile.name;
+    const isDefault = !currentName || currentName === 'Fitness Champion' || currentName.trim() === '';
+
+    if (!hasWelcomed || isDefault) {
+      setTimeout(() => {
+        this.openWelcomeScreen(false);
+      }, 400);
+    }
+  }
+
+  updateDashboardGreeting() {
+    const rawName = cloudStore.data.profile.name;
+    const name = (rawName && rawName.trim() && rawName !== 'Fitness Champion') ? rawName.trim() : 'Athlete';
+
+    const nameSpan = document.getElementById('user-display-name-span');
+    if (nameSpan) {
+      nameSpan.textContent = name;
+    }
+
+    const headingEl = document.getElementById('dashboard-welcome-heading');
+    if (headingEl) {
+      const hour = new Date().getHours();
+      let greeting = 'Welcome';
+      if (hour >= 5 && hour < 12) greeting = 'Good morning';
+      else if (hour >= 12 && hour < 17) greeting = 'Good afternoon';
+      else if (hour >= 17 && hour < 22) greeting = 'Good evening';
+
+      headingEl.innerHTML = `${greeting}, <span id="user-display-name-span" class="gold-gradient-text">${name}</span>`;
+    }
+
+    const dateSpan = document.getElementById('welcome-today-date');
+    if (dateSpan) {
+      const now = new Date();
+      dateSpan.textContent = now.toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric' });
+    }
+  }
+
+  openWelcomeScreen(isEditing = false) {
+    const modal = document.getElementById('welcome-modal');
+    if (!modal) return;
+
+    const titleEl = document.getElementById('welcome-modal-title');
+    const subtitleEl = document.getElementById('welcome-modal-subtitle');
+    const submitBtn = document.getElementById('welcome-submit-btn');
+    const nameInput = document.getElementById('welcome-name-input');
+
+    this.tempUnit = cloudStore.data.profile.weightUnit || 'kg';
+    this.tempCurrency = cloudStore.data.profile.currency || '$';
+
+    if (isEditing) {
+      if (titleEl) titleEl.textContent = 'PROFILE SETUP';
+      if (subtitleEl) subtitleEl.textContent = 'Refine Your Training Identity';
+      if (submitBtn) submitBtn.innerHTML = `<span>Save & Update</span> <span>✓</span>`;
+      if (nameInput) {
+        const curName = cloudStore.data.profile.name;
+        nameInput.value = (curName && curName !== 'Fitness Champion') ? curName : '';
+      }
+    } else {
+      if (titleEl) titleEl.textContent = 'IRONPULSE';
+      if (subtitleEl) subtitleEl.textContent = 'Atelier of Discipline & Strength';
+      if (submitBtn) submitBtn.innerHTML = `<span>Enter Sanctuary</span> <span>→</span>`;
+      if (nameInput) nameInput.value = '';
+    }
+
+    this.renderWelcomePills();
+    modal.classList.remove('hidden');
+
+    setTimeout(() => {
+      if (nameInput) nameInput.focus();
+    }, 150);
+  }
+
+  closeWelcomeScreen() {
+    const modal = document.getElementById('welcome-modal');
+    if (modal) modal.classList.add('hidden');
+    localStorage.setItem('ironpulse_welcomed', 'true');
+  }
+
+  setWelcomeUnit(unit) {
+    this.tempUnit = unit;
+    this.renderWelcomePills();
+  }
+
+  setWelcomeCurrency(curr) {
+    this.tempCurrency = curr;
+    this.renderWelcomePills();
+  }
+
+  renderWelcomePills() {
+    // Unit pills
+    ['kg', 'lbs'].forEach(u => {
+      const btn = document.getElementById(`welcome-unit-${u}`);
+      if (btn) {
+        if (this.tempUnit === u) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      }
+    });
+
+    // Currency pills
+    const currMap = { '$': 'usd', '€': 'eur', '£': 'gbp', '৳': 'bdt' };
+    Object.keys(currMap).forEach(c => {
+      const id = `welcome-curr-${currMap[c]}`;
+      const btn = document.getElementById(id);
+      if (btn) {
+        if (this.tempCurrency === c) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      }
+    });
+  }
+
+  saveWelcomeSetup() {
+    const nameInput = document.getElementById('welcome-name-input');
+    const enteredName = nameInput ? nameInput.value.trim() : '';
+    const finalName = enteredName || 'Athlete';
+
+    cloudStore.data.profile.name = finalName;
+    cloudStore.data.profile.weightUnit = this.tempUnit || 'kg';
+    cloudStore.data.profile.currency = this.tempCurrency || '$';
+
+    cloudStore.save();
+    localStorage.setItem('ironpulse_welcomed', 'true');
+
+    this.updateDashboardGreeting();
+    this.renderSettingsView();
+
+    // Re-render other views if available to reflect unit/currency
+    if (window.workoutsManager && window.workoutsManager.renderMetrics) {
+      window.workoutsManager.renderMetrics();
+    }
+    if (window.financesManager && window.financesManager.render) {
+      window.financesManager.render();
+    }
+
+    this.closeWelcomeScreen();
   }
 
   // --- PWA INSTALLATION & SERVICE WORKER ---

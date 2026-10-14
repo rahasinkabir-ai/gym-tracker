@@ -193,21 +193,32 @@
 
     <!-- ==================== PAGE: DASHBOARD ==================== -->
     <section id="page-dashboard" class="space-y-6">
-      <!-- Welcome Header -->
-      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <!-- Welcome Greeting Header -->
+      <div id="welcome-greeting-banner" class="flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 md:p-6 rounded-2xl theme-card border border-stone-200 dark:border-[#dab978]/20 bg-gradient-to-r from-amber-50/50 via-stone-50/30 to-amber-50/30 dark:from-[#131318] dark:via-[#111116] dark:to-[#17171f]">
         <div>
-          <h2 class="text-2xl md:text-3xl font-bold font-advercase tracking-tight text-gray-900 dark:text-white">
-            Athlete Command Center
+          <div class="flex items-center gap-2.5 mb-1">
+            <span class="text-[10px] uppercase tracking-[0.25em] text-[#a88337] dark:text-[#dab978] font-luxury font-medium">Daily Command</span>
+            <span class="text-stone-300 dark:text-stone-700 text-xs">•</span>
+            <button onclick="app.openWelcomeScreen(true)" class="text-[10px] text-stone-500 hover:text-[#dab978] dark:text-stone-400 dark:hover:text-[#dab978] transition font-luxury uppercase tracking-wider flex items-center gap-1 cursor-pointer">
+              <span>✎</span>
+              <span>Edit Name</span>
+            </button>
+          </div>
+          <h2 id="dashboard-welcome-heading" class="text-2xl md:text-3xl font-normal font-brand tracking-widest text-stone-900 dark:text-[#f8f7f4] leading-tight">
+            Welcome, <span id="user-display-name-span" class="gold-gradient-text">Athlete</span>
           </h2>
-          <p class="text-xs md:text-sm text-gray-500 dark:text-gray-400 mt-1">
-            Track workouts, attendance, nutrition expenses, and milestones from any device.
+          <p id="dashboard-welcome-subtitle" class="text-xs md:text-sm text-stone-500 dark:text-stone-400 mt-1 font-sans font-light">
+            Today is <span id="welcome-today-date" class="font-medium text-stone-700 dark:text-stone-300">...</span> • Your training sanctuary is ready.
           </p>
         </div>
-        <div class="flex items-center gap-2">
-          <button onclick="workoutsManager.openCreateModal()" class="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md shadow-blue-600/20 transition flex items-center gap-2 cursor-pointer">
+        <div class="flex items-center gap-2.5 flex-wrap">
+          <button onclick="workoutsManager.openCreateModal()" class="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md shadow-black/10 transition flex items-center gap-2 cursor-pointer font-luxury">
             <span>+</span> Log Workout
           </button>
-          <a href="#timer" class="px-3.5 py-2.5 rounded-xl bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 text-gray-700 dark:text-gray-300 text-xs font-bold transition flex items-center gap-1.5 cursor-pointer">
+          <a href="#plans" class="px-3.5 py-2.5 rounded-xl bg-stone-100 dark:bg-[#181822] hover:bg-stone-200 dark:hover:bg-[#20202d] text-stone-800 dark:text-[#dab978] border border-stone-200 dark:border-[#dab978]/20 text-xs font-medium transition flex items-center gap-1.5 cursor-pointer font-luxury">
+            <span>🎯</span> Splits
+          </a>
+          <a href="#timer" class="px-3.5 py-2.5 rounded-xl bg-stone-100 dark:bg-[#181822] hover:bg-stone-200 dark:hover:bg-[#20202d] text-stone-800 dark:text-[#dab978] border border-stone-200 dark:border-[#dab978]/20 text-xs font-medium transition flex items-center gap-1.5 cursor-pointer font-luxury">
             <span>⏱️</span> Rest Timer
           </a>
         </div>
@@ -974,6 +985,101 @@
           Connect & Sign In
         </button>
       </div>
+    </div>
+  </div>
+
+  <!-- ==================== MINIMAL LUXURY WELCOME & ONBOARDING MODAL ==================== -->
+  <div id="welcome-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden transition-opacity duration-300">
+    <div class="theme-card max-w-md w-full p-6 sm:p-8 rounded-3xl border border-stone-200 dark:border-[#dab978]/30 shadow-2xl animate-spring-in text-center relative overflow-hidden">
+      <!-- Ambient light top glow -->
+      <div class="absolute -top-20 left-1/2 -translate-x-1/2 w-48 h-48 bg-[#dab978]/15 rounded-full blur-3xl pointer-events-none"></div>
+
+      <!-- Brand Crest / Icon -->
+      <div class="w-16 h-16 mx-auto mb-3.5 rounded-2xl p-0.5 bg-gradient-to-tr from-[#dab978] via-[#f7e8c5] to-[#b5893d] border border-[#dab978]/40 shadow-lg shadow-black/30">
+        <img src="assets/icon.svg" alt="IronPulse Crest" class="w-full h-full object-contain rounded-[14px]" />
+      </div>
+
+      <!-- Welcome Title & Subtitle -->
+      <h2 id="welcome-modal-title" class="text-2xl sm:text-3xl font-normal font-brand tracking-[0.2em] gold-gradient-text leading-tight">
+        IRONPULSE
+      </h2>
+      <p id="welcome-modal-subtitle" class="text-[10px] uppercase tracking-[0.28em] text-[#a88337] dark:text-[#dab978] mt-1 font-luxury">
+        Atelier of Discipline & Strength
+      </p>
+      <p class="text-xs text-stone-500 dark:text-stone-400 mt-2.5 font-sans font-light">
+        A bespoke minimal setup to customize your training sanctuary.
+      </p>
+
+      <!-- Minimal Form -->
+      <form id="welcome-setup-form" onsubmit="event.preventDefault(); app.saveWelcomeSetup();" class="mt-6 space-y-4.5 text-left">
+        <!-- Name Input -->
+        <div>
+          <label class="block text-[10px] font-medium tracking-widest uppercase text-stone-500 dark:text-stone-400 font-luxury mb-1.5">
+            Your Name / Athlete Moniker
+          </label>
+          <div class="relative">
+            <input 
+              type="text" 
+              id="welcome-name-input" 
+              placeholder="e.g. Rahasin" 
+              maxlength="30"
+              class="w-full px-4 py-3 rounded-xl bg-stone-50 dark:bg-[#16161d] border border-stone-200 dark:border-stone-800 focus:border-[#dab978] dark:focus:border-[#dab978] text-stone-900 dark:text-[#f8f7f4] font-sans text-sm outline-none transition shadow-inner font-light"
+              required
+            />
+            <span class="absolute right-3.5 top-1/2 -translate-y-1/2 text-sm text-stone-400">👤</span>
+          </div>
+        </div>
+
+        <!-- Quick Preferences Grid (Minimalist Unit & Currency) -->
+        <div class="grid grid-cols-2 gap-3 pt-0.5">
+          <!-- Weight Unit -->
+          <div>
+            <label class="block text-[10px] font-medium tracking-widest uppercase text-stone-500 dark:text-stone-400 font-luxury mb-1.5">
+              Weight Unit
+            </label>
+            <div class="grid grid-cols-2 gap-1.5 p-1 rounded-xl bg-stone-100 dark:bg-[#16161d] border border-stone-200 dark:border-stone-800">
+              <button type="button" onclick="app.setWelcomeUnit('kg')" id="welcome-unit-kg" class="welcome-unit-pill py-1.5 text-xs font-semibold rounded-lg transition text-center cursor-pointer font-luxury">
+                KG
+              </button>
+              <button type="button" onclick="app.setWelcomeUnit('lbs')" id="welcome-unit-lbs" class="welcome-unit-pill py-1.5 text-xs font-semibold rounded-lg transition text-center cursor-pointer font-luxury">
+                LBS
+              </button>
+            </div>
+          </div>
+
+          <!-- Currency -->
+          <div>
+            <label class="block text-[10px] font-medium tracking-widest uppercase text-stone-500 dark:text-stone-400 font-luxury mb-1.5">
+              Currency
+            </label>
+            <div class="grid grid-cols-4 gap-1 p-1 rounded-xl bg-stone-100 dark:bg-[#16161d] border border-stone-200 dark:border-stone-800">
+              <button type="button" onclick="app.setWelcomeCurrency('$')" id="welcome-curr-usd" class="welcome-curr-pill py-1.5 text-xs font-semibold rounded-lg transition text-center cursor-pointer font-sans">$</button>
+              <button type="button" onclick="app.setWelcomeCurrency('€')" id="welcome-curr-eur" class="welcome-curr-pill py-1.5 text-xs font-semibold rounded-lg transition text-center cursor-pointer font-sans">€</button>
+              <button type="button" onclick="app.setWelcomeCurrency('£')" id="welcome-curr-gbp" class="welcome-curr-pill py-1.5 text-xs font-semibold rounded-lg transition text-center cursor-pointer font-sans">£</button>
+              <button type="button" onclick="app.setWelcomeCurrency('৳')" id="welcome-curr-bdt" class="welcome-curr-pill py-1.5 text-xs font-semibold rounded-lg transition text-center cursor-pointer font-sans">৳</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Button -->
+        <div class="pt-2">
+          <button 
+            type="submit" 
+            id="welcome-submit-btn"
+            class="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-[#dfba75] to-[#b5893d] hover:from-[#f7e8c5] hover:to-[#c49d52] text-[#08080a] font-bold text-xs uppercase tracking-[0.16em] shadow-lg shadow-black/20 transition cursor-pointer font-luxury flex items-center justify-center gap-2"
+          >
+            <span>Enter Sanctuary</span>
+            <span>→</span>
+          </button>
+        </div>
+
+        <!-- Skip / Later -->
+        <div class="text-center pt-0.5">
+          <button type="button" onclick="app.closeWelcomeScreen()" class="text-[11px] text-stone-400 hover:text-stone-600 dark:hover:text-stone-300 font-sans transition cursor-pointer">
+            Continue as Guest & Setup Later
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 

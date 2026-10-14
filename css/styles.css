@@ -444,3 +444,24 @@ body.app-is-installed #get-apk-btn,
 body.app-is-installed .install-prompt-btn {
   display: none !important;
 }
+
+/* ==================== MINIMAL WELCOME SETUP SCREEN STYLES ==================== */
+.welcome-unit-pill,
+.welcome-curr-pill {
+  color: var(--text-secondary);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.welcome-unit-pill:hover,
+.welcome-curr-pill:hover {
+  color: var(--primary);
+  background-color: var(--primary-light);
+}
+
+.welcome-unit-pill.active,
+.welcome-curr-pill.active {
+  background: var(--gold-metallic) !important;
+  color: #08080a !important;
+  font-weight: 700 !important;
+  box-shadow: 0 2px 10px rgba(218, 185, 120, 0.35) !important;
+}
