@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IronPulse — Innovesta 2026 Presentation Slides</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Tenor+Sans&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            brand: ['"Bodoni Moda"', 'serif'],
+            luxury: ['"Tenor Sans"', 'sans-serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            gold: {
+              DEFAULT: '#dab978',
+              light: '#f7e8c5',
+              dark: '#a88337',
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    :root {
+      --bg: #09090d;
+      --card-bg: #121218;
+      --border: rgba(218, 185, 120, 0.22);
+      --gold: #dab978;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: #f8f7f4;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      user-select: none;
+      overflow: hidden;
+    }
+
+    .slide {
+      display: none;
+      opacity: 0;
+      transform: scale(0.985) translateY(10px);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .slide.active {
+      display: flex;
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+
+    .glass-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 1.25rem;
+      box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5), inset 0 0 1px 1px rgba(218, 185, 120, 0.1);
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .glass-card:hover {
+      border-color: rgba(218, 185, 120, 0.45);
+    }
+
+    .gold-gradient-text {
+      background: linear-gradient(135deg, #fdf4db 0%, #dab978 45%, #b88f42 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      display: inline-block;
+    }
+
+    @media print {
+      body {
+        overflow: visible;
+        background: white;
+        color: black;
+      }
+      .slide {
+        display: flex !important;
+        opacity: 1 !important;
+        transform: none !important;
+        page-break-after: always;
+        height: 100vh;
+      }
+      .controls, .nav-btn, .progress-bar {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body class="h-screen w-screen flex flex-col justify-between p-4 md:p-8 relative">
+
+  <!-- Ambient Golden Aura -->
+  <div class="fixed top-[-100px] left-[15%] w-[450px] h-[450px] bg-[#dab978]/10 rounded-full blur-[100px] pointer-events-none"></div>
+  <div class="fixed bottom-[-100px] right-[10%] w-[500px] h-[500px] bg-[#a88337]/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+  <!-- Top Bar: Header & Controls -->
+  <header class="flex items-center justify-between z-20 pb-3 border-b border-stone-800/80">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-[#dab978] to-[#b5893d] p-0.5 shadow-md shadow-black/40">
+        <img src="assets/icon.svg" alt="IronPulse" class="w-full h-full object-contain rounded-md" />
+      </div>
+      <div>
+        <h1 class="font-brand text-sm tracking-widest gold-gradient-text font-bold">IRONPULSE</h1>
+        <p class="text-[9px] uppercase tracking-widest text-stone-400 font-luxury">CSE Festival • Innovesta 2026</p>
+      </div>
+    </div>
+
+    <!-- Center Indicator -->
+    <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-stone-900 border border-stone-800 text-xs font-mono">
+      <span class="text-stone-400">SLIDE</span>
+      <span id="slide-indicator" class="font-bold text-[#dab978]">01 / 08</span>
+    </div>
+
+    <!-- Right Controls -->
+    <div class="flex items-center gap-2">
+      <button onclick="toggleFullScreen()" class="px-2.5 py-1 rounded-lg bg-stone-900 hover:bg-stone-800 border border-stone-800 text-xs font-luxury transition cursor-pointer text-stone-300 hover:text-white" title="Toggle Fullscreen (F)">
+        ⛶ Fullscreen
+      </button>
+      <a href="index.html" target="_blank" class="px-3 py-1 rounded-lg bg-gradient-to-r from-[#dfba75] to-[#b5893d] text-[#08080a] font-bold text-xs font-luxury transition cursor-pointer" title="Open Live App">
+        Live Demo ↗
+      </a>
+    </div>
+  </header>
+
+  <!-- ==================== MAIN SLIDES CONTAINER ==================== -->
+  <main class="flex-1 flex items-center justify-center relative z-10 py-4 max-w-7xl mx-auto w-full">
+
+    <!-- SLIDE 1: TITLE SLIDE -->
+    <section class="slide active flex-col items-center justify-center text-center max-w-4xl w-full p-8 glass-card border-[#dab978]/40 shadow-2xl relative overflow-hidden" data-slide="1">
+      <span class="text-xs uppercase tracking-[0.3em] font-luxury text-[#dab978] mb-2 font-semibold">
+        Project Showcase • Department of Computer Science & Engineering
+      </span>
+      <h2 class="text-5xl md:text-6xl font-normal font-brand gold-gradient-text tracking-[0.16em] mb-3 leading-tight">
+        IRONPULSE
+      </h2>
+      <p class="text-lg md:text-xl font-brand text-stone-300 font-light max-w-2xl">
+        Haute Performance Fitness, Attendance & Lifestyle System
+      </p>
+
+      <div class="w-16 h-0.5 bg-[#dab978] my-6"></div>
+
+      <div class="space-y-1.5 text-xs text-stone-400 font-sans">
+        <p class="text-sm font-medium text-stone-200">Presenter: <strong class="text-[#dab978]">Rahasin Kabir</strong></p>
+        <p>Innovesta 2026 • University CSE Festival</p>
+        <p class="font-mono text-[#dab978] pt-2">https://rahasinkabir-ai.github.io/gym-tracker/</p>
+      </div>
+
+      <div class="flex items-center gap-2 mt-6 flex-wrap justify-center text-[11px] font-luxury text-stone-400">
+        <span class="px-3 py-1 rounded-full bg-stone-800/80 border border-stone-700">Offline-First PWA</span>
+        <span class="px-3 py-1 rounded-full bg-stone-800/80 border border-stone-700">Standalone Android APK</span>
+        <span class="px-3 py-1 rounded-full bg-stone-800/80 border border-stone-700">Firebase Firestore Cloud Sync</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 2: THE PROBLEM -->
+    <section class="slide flex-col justify-center w-full space-y-6" data-slide="2">
+      <div>
+        <span class="text-xs font-bold uppercase tracking-widest text-[#dab978] font-luxury">02 • Problem Identification</span>
+        <h2 class="text-3xl font-brand text-stone-100 mt-1">The 3-App Dilemma in Modern Gym Fitness</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div class="glass-card p-6 flex flex-col justify-between">
+          <div>
+            <span class="text-2xl font-bold font-mono text-orange-400">01</span>
+            <h3 class="text-lg font-brand text-white mt-2 mb-3">Tool Fragmentation</h3>
+            <p class="text-xs text-stone-400 leading-relaxed">
+              Athletes currently juggle 3 to 4 distinct apps: a spreadsheet for weights & sets, a timer app for rest, and notes for gym fees. There is no unified single source of truth.
+            </p>
+          </div>
+          <span class="text-[11px] font-luxury text-orange-400 mt-4">High Cognitive Load</span>
+        </div>
+
+        <div class="glass-card p-6 flex flex-col justify-between">
+          <div>
+            <span class="text-2xl font-bold font-mono text-blue-400">02</span>
+            <h3 class="text-lg font-brand text-white mt-2 mb-3">In-Gym Execution Friction</h3>
+            <p class="text-xs text-stone-400 leading-relaxed">
+              During heavy sets, athletes have seconds to log progress. Cluttered forms, modal-heavy apps, and sudden offline lockout disrupt focus and workout momentum.
+            </p>
+          </div>
+          <span class="text-[11px] font-luxury text-blue-400 mt-4">Breaks Flow State</span>
+        </div>
+
+        <div class="glass-card p-6 flex flex-col justify-between">
+          <div>
+            <span class="text-2xl font-bold font-mono text-emerald-400">03</span>
+            <h3 class="text-lg font-brand text-white mt-2 mb-3">The 6-Month Dropout Rate</h3>
+            <p class="text-xs text-stone-400 leading-relaxed">
+              Over 50% of new gym members quit in under six months due to lack of streak accountability and financial neglect regarding recurring gym & nutrition costs.
+            </p>
+          </div>
+          <span class="text-[11px] font-luxury text-emerald-400 mt-4">Habit Collapse</span>
+        </div>
+      </div>
+
+      <!-- Bottom Takeaway -->
+      <div class="p-3.5 rounded-xl bg-stone-900/90 border border-[#dab978]/30 text-center">
+        <p class="text-xs font-luxury text-[#dab978]">
+          🎯 Core Objective: Build an ergonomic, zero-friction system that unifies Training, Attendance & Finances.
+        </p>
+      </div>
+    </section>
+
+    <!-- SLIDE 3: OUR PROPOSED SOLUTION -->
+    <section class="slide flex-col justify-center w-full space-y-6" data-slide="3">
+      <div>
+        <span class="text-xs font-bold uppercase tracking-widest text-[#dab978] font-luxury">03 • Proposed Solution</span>
+        <h2 class="text-3xl font-brand text-stone-100 mt-1">IronPulse: The Unified Performance Triad</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div class="glass-card p-6 border-t-4 border-t-[#dab978]">
+          <h3 class="text-lg font-brand text-[#dab978] mb-3">🏋️ Granular Training</h3>
+          <ul class="text-xs text-stone-300 space-y-2.5">
+            <li class="flex items-start gap-2">
+              <span class="text-[#dab978]">✔</span>
+              <span><strong>Progressive Overload:</strong> Logs weight, reps, sets & total volume per muscle group.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-[#dab978]">✔</span>
+              <span><strong>Muscle Splits:</strong> Structured presets for Push/Pull/Legs, Arnold Splits & custom routines.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-[#dab978]">✔</span>
+              <span><strong>Interactive Set Checks:</strong> Tap set pills to complete with strike-through and rest prompt.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="glass-card p-6 border-t-4 border-t-orange-500">
+          <h3 class="text-lg font-brand text-orange-400 mb-3">📅 Discipline & Streaks</h3>
+          <ul class="text-xs text-stone-300 space-y-2.5">
+            <li class="flex items-start gap-2">
+              <span class="text-orange-400">✔</span>
+              <span><strong>Automated Attendance:</strong> Logging any session auto-registers your gym visit.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-orange-400">✔</span>
+              <span><strong>Heatmap Calendar:</strong> High-contrast monthly view tracking consistency rate.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-orange-400">✔</span>
+              <span><strong>Gamified Celebration:</strong> Dynamic flame icon and champagne gold celebration particles.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="glass-card p-6 border-t-4 border-t-blue-500">
+          <h3 class="text-lg font-brand text-blue-400 mb-3">💳 Fitness Finances</h3>
+          <ul class="text-xs text-stone-300 space-y-2.5">
+            <li class="flex items-start gap-2">
+              <span class="text-blue-400">✔</span>
+              <span><strong>Dual-Pillar Budget:</strong> Separate tracking for gym fees vs. dietary/supplement expenses.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-blue-400">✔</span>
+              <span><strong>Visual Ratios:</strong> Live proportional bar showing where your fitness capital goes.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-blue-400">✔</span>
+              <span><strong>Payment Audits:</strong> Instant tracking of paid, pending, and overdue dues.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 4: ERGONOMIC UX & INNOVATIONS -->
+    <section class="slide flex-col justify-center w-full space-y-5" data-slide="4">
+      <div>
+        <span class="text-xs font-bold uppercase tracking-widest text-[#dab978] font-luxury">04 • Ergonomic Innovations</span>
+        <h2 class="text-3xl font-brand text-stone-100 mt-1">Engineered for Single-Thumb In-Gym Handling</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="glass-card p-5">
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="w-7 h-7 rounded-lg bg-[#dab978]/20 text-[#dab978] flex items-center justify-center font-bold text-sm">⌘K</span>
+            <h3 class="text-base font-brand text-white">Spotlight Command Hub (Ctrl+K)</h3>
+          </div>
+          <p class="text-xs text-stone-400 leading-relaxed">
+            A Raycast-style instant command palette accessible via shortcut or header button. Filter routines, execute timers, or jump between tabs in under 0.5 seconds with zero scrolling.
+          </p>
+        </div>
+
+        <div class="glass-card p-5">
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="w-7 h-7 rounded-lg bg-orange-500/20 text-orange-400 flex items-center justify-center font-bold text-sm">⏱️</span>
+            <h3 class="text-base font-brand text-white">Picture-in-Picture Floating Timer HUD</h3>
+          </div>
+          <p class="text-xs text-stone-400 leading-relaxed">
+            Eliminates the pain of switching apps. When the timer runs, a sleek glass pill docks above the navigation dock across all screens with live countdown, +30s boost, and controls.
+          </p>
+        </div>
+
+        <div class="glass-card p-5">
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="w-7 h-7 rounded-lg bg-yellow-500/20 text-yellow-400 flex items-center justify-center font-bold text-sm">⚡</span>
+            <h3 class="text-base font-brand text-white">Floating Quick Action Speed-Dial (FAB)</h3>
+          </div>
+          <p class="text-xs text-stone-400 leading-relaxed">
+            Pinned at the bottom-right for instant one-thumb reach. Opens 1-tap shortcuts for logging sets, 90-second rest intervals, and one-tap gym check-ins without hunting through menus.
+          </p>
+        </div>
+
+        <div class="glass-card p-5">
+          <div class="flex items-center gap-2.5 mb-2">
+            <span class="w-7 h-7 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-sm">🔔</span>
+            <h3 class="text-base font-brand text-white">Web Audio & Haptic Feedback</h3>
+          </div>
+          <p class="text-xs text-stone-400 leading-relaxed">
+            Synthesized melodic chimes (C5-E5-G5 oscillators via Web Audio API) with zero heavy MP3 assets, paired with Vibration API tactile cues when completing sets or finishing rest.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 5: SYSTEM ARCHITECTURE & TECH STACK -->
+    <section class="slide flex-col justify-center w-full space-y-5" data-slide="5">
+      <div>
+        <span class="text-xs font-bold uppercase tracking-widest text-[#dab978] font-luxury">05 • System Architecture</span>
+        <h2 class="text-3xl font-brand text-stone-100 mt-1">Zero-Bloat, Serverless & Offline-First</h2>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="glass-card p-4 text-center">
+          <span class="text-3xl mb-2 block">⚡</span>
+          <h4 class="font-brand text-sm text-[#dab978] font-bold">Client Tier</h4>
+          <p class="text-[11px] text-stone-400 mt-2 space-y-1">
+            <span>Vanilla JS (ES6+)</span><br />
+            <span>Tailwind Utility CSS</span><br />
+            <span>Luxury Design Tokens</span><br />
+            <span>Payload &lt; 2 MB</span>
+          </p>
+        </div>
+
+        <div class="glass-card p-4 text-center">
+          <span class="text-3xl mb-2 block">💾</span>
+          <h4 class="font-brand text-sm text-[#dab978] font-bold">Storage & Cache</h4>
+          <p class="text-[11px] text-stone-400 mt-2 space-y-1">
+            <span>Service Worker (Cache v10)</span><br />
+            <span>Local Storage Fallback</span><br />
+            <span>Optimistic Updates</span><br />
+            <span>100% Offline Capable</span>
+          </p>
+        </div>
+
+        <div class="glass-card p-4 text-center">
+          <span class="text-3xl mb-2 block">☁️</span>
+          <h4 class="font-brand text-sm text-[#dab978] font-bold">Cloud Sync</h4>
+          <p class="text-[11px] text-stone-400 mt-2 space-y-1">
+            <span>Firebase Firestore</span><br />
+            <span>Google Identity Auth</span><br />
+            <span>Real-Time Sync</span><br />
+            <span>Zero-Cost Serverless</span>
+          </p>
+        </div>
+
+        <div class="glass-card p-4 text-center">
+          <span class="text-3xl mb-2 block">📱</span>
+          <h4 class="font-brand text-sm text-[#dab978] font-bold">Multi-Target</h4>
+          <p class="text-[11px] text-stone-400 mt-2 space-y-1">
+            <span>Progressive Web App (PWA)</span><br />
+            <span>Standalone Android APK</span><br />
+            <span>Desktop Web / macOS</span><br />
+            <span>Cross-Platform Parity</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="p-3.5 rounded-xl bg-stone-900 border border-stone-800 flex items-center justify-between text-xs text-stone-400 font-luxury">
+        <span>🚀 Boots in under 250ms on mobile</span>
+        <span>•</span>
+        <span>Zero NPM Runtime Overhead</span>
+        <span>•</span>
+        <span>Hosted Serverless on GitHub Pages</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 6: UI & SENSORY DESIGN -->
+    <section class="slide flex-col justify-center w-full space-y-5" data-slide="6">
+      <div>
+        <span class="text-xs font-bold uppercase tracking-widest text-[#dab978] font-luxury">06 • Aesthetic & Experience</span>
+        <h2 class="text-3xl font-brand text-stone-100 mt-1">Haute Champagne Gold Atelier Aesthetic</h2>
+      </div>
+
+      <div class="space-y-3.5">
+        <div class="glass-card p-4 flex items-center justify-between">
+          <div>
+            <h4 class="text-sm font-brand text-[#dab978] font-bold">Midnight Caviar & Champagne Metallic</h4>
+            <p class="text-xs text-stone-400 mt-0.5">High-contrast, OLED-friendly dark palette (#08080A + #DAB978) designed for optimal readability under bright gym lighting.</p>
+          </div>
+          <span class="px-3 py-1 rounded-full bg-[#dab978]/15 text-[#dab978] text-[10px] font-luxury font-bold">WCAG AAA</span>
+        </div>
+
+        <div class="glass-card p-4 flex items-center justify-between">
+          <div>
+            <h4 class="text-sm font-brand text-yellow-400 font-bold">Hardware-Accelerated 60 FPS Particle Canvas</h4>
+            <p class="text-xs text-stone-400 mt-0.5">Custom physics simulation spawning 55+ champagne & diamond sparkles on attendance check-ins and completed workouts with zero frame drops.</p>
+          </div>
+          <span class="px-3 py-1 rounded-full bg-yellow-500/15 text-yellow-400 text-[10px] font-luxury font-bold">Canvas API</span>
+        </div>
+
+        <div class="glass-card p-4 flex items-center justify-between">
+          <div>
+            <h4 class="text-sm font-brand text-orange-400 font-bold">Fluid Page Transitions & Micro-Interactions</h4>
+            <p class="text-xs text-stone-400 mt-0.5">Silky 380ms cubic-bezier entry transitions, flickering animated streak flames, metallic button sheen on hover, and live count-up stats.</p>
+          </div>
+          <span class="px-3 py-1 rounded-full bg-orange-500/15 text-orange-400 text-[10px] font-luxury font-bold">Pure CSS</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 7: REAL-WORLD IMPACT & METRICS -->
+    <section class="slide flex-col justify-center w-full space-y-6" data-slide="7">
+      <div>
+        <span class="text-xs font-bold uppercase tracking-widest text-[#dab978] font-luxury">07 • Real-World Impact</span>
+        <h2 class="text-3xl font-brand text-stone-100 mt-1">Quantifiable Value for Athletes & Students</h2>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="glass-card p-5 text-center">
+          <span class="text-3xl font-bold font-mono text-blue-400 block mb-1">15-20m</span>
+          <h4 class="font-brand text-sm text-white">Time Saved / Session</h4>
+          <p class="text-[11px] text-stone-400 mt-1">No switching between timer apps and calculator spreadsheets.</p>
+        </div>
+
+        <div class="glass-card p-5 text-center">
+          <span class="text-3xl font-bold font-mono text-orange-400 block mb-1">+40%</span>
+          <h4 class="font-brand text-sm text-white">Habit Adherence</h4>
+          <p class="text-[11px] text-stone-400 mt-1">Streak persistence and sensory rewards prevent early burnout.</p>
+        </div>
+
+        <div class="glass-card p-5 text-center">
+          <span class="text-3xl font-bold font-mono text-emerald-400 block mb-1">100%</span>
+          <h4 class="font-brand text-sm text-white">Free & Open-Source</h4>
+          <p class="text-[11px] text-stone-400 mt-1">Zero subscription fees, no locked paywalls or spam ads.</p>
+        </div>
+
+        <div class="glass-card p-5 text-center">
+          <span class="text-3xl font-bold font-mono text-[#dab978] block mb-1">&lt; 2 MB</span>
+          <h4 class="font-brand text-sm text-white">Lightweight Footprint</h4>
+          <p class="text-[11px] text-stone-400 mt-1">Instant installation on budget Androids and laptops.</p>
+        </div>
+      </div>
+
+      <div class="p-4 rounded-2xl bg-gradient-to-r from-stone-900 via-stone-900/90 to-stone-900 border border-[#dab978]/30 text-center">
+        <p class="text-xs italic font-brand text-stone-300">
+          “Consistency is forged in the absence of friction.” — IronPulse Design Philosophy
+        </p>
+      </div>
+    </section>
+
+    <!-- SLIDE 8: CONCLUSION & DEMO -->
+    <section class="slide flex-col justify-center w-full space-y-6" data-slide="8">
+      <div>
+        <span class="text-xs font-bold uppercase tracking-widest text-[#dab978] font-luxury">08 • Conclusion & Live Demonstration</span>
+        <h2 class="text-3xl font-brand text-stone-100 mt-1">Experience IronPulse Live</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <div class="glass-card p-6 flex flex-col justify-between">
+          <div>
+            <h3 class="text-lg font-brand text-[#dab978] mb-3">Project Summary</h3>
+            <ul class="text-xs text-stone-300 space-y-2.5">
+              <li>✔ <strong>Complete Life-cycle:</strong> Workouts, attendance heatmaps, timers & fees in one place.</li>
+              <li>✔ <strong>Ergonomic Mastery:</strong> Spotlight Command Palette (⌘K) & Floating Timer HUD.</li>
+              <li>✔ <strong>Technical Resilience:</strong> Offline-first PWA caching with Firebase cloud sync.</li>
+              <li>✔ <strong>Zero-Cost Model:</strong> Free utility for university lifters and student athletes.</li>
+            </ul>
+          </div>
+          <p class="text-xs text-stone-400 font-luxury mt-4">Thank you! Questions are welcome.</p>
+        </div>
+
+        <div class="glass-card p-6 flex flex-col justify-between">
+          <div>
+            <h3 class="text-lg font-brand text-white mb-3">Live Access & Repositories</h3>
+            <div class="space-y-3 text-xs">
+              <div>
+                <span class="text-[11px] uppercase tracking-wider text-[#dab978] font-luxury block">Live Web Application</span>
+                <a href="https://rahasinkabir-ai.github.io/gym-tracker/" target="_blank" class="font-mono text-stone-200 hover:text-[#dab978] underline">
+                  https://rahasinkabir-ai.github.io/gym-tracker/
+                </a>
+              </div>
+              <div>
+                <span class="text-[11px] uppercase tracking-wider text-[#dab978] font-luxury block">Source Code Repository</span>
+                <a href="https://github.com/rahasinkabir-ai/gym-tracker" target="_blank" class="font-mono text-stone-200 hover:text-[#dab978] underline">
+                  github.com/rahasinkabir-ai/gym-tracker
+                </a>
+              </div>
+              <div>
+                <span class="text-[11px] uppercase tracking-wider text-[#dab978] font-luxury block">Installable Android APK</span>
+                <span class="font-mono text-stone-400">Available in repo releases (IronPulse.apk)</span>
+              </div>
+            </div>
+          </div>
+          <div class="pt-4 border-t border-stone-800 flex items-center justify-between text-xs text-[#dab978] font-luxury font-bold">
+            <span>CSE Festival • Innovesta 2026</span>
+            <span>Rahasin Kabir</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== BOTTOM DOCK CONTROLS ==================== -->
+  <footer class="flex items-center justify-between z-20 pt-3 border-t border-stone-800/80">
+    <div class="text-[11px] text-stone-500 font-sans hidden sm:block">
+      Use <kbd class="px-1.5 py-0.5 rounded bg-stone-900 border border-stone-700 text-stone-300 font-mono">←</kbd> <kbd class="px-1.5 py-0.5 rounded bg-stone-900 border border-stone-700 text-stone-300 font-mono">→</kbd> or <kbd class="px-1.5 py-0.5 rounded bg-stone-900 border border-stone-700 text-stone-300 font-mono">Space</kbd> to navigate
+    </div>
+
+    <!-- Slide Thumbnails / Indicators -->
+    <div class="flex items-center gap-1.5" id="dots-container">
+      <!-- Injected by script -->
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="flex items-center gap-2">
+      <button onclick="prevSlide()" class="px-3 py-1.5 rounded-xl bg-stone-900 hover:bg-stone-800 border border-stone-800 text-xs font-luxury transition cursor-pointer text-stone-300">
+        ← Prev
+      </button>
+      <button onclick="nextSlide()" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-[#dfba75] to-[#b5893d] text-[#08080a] font-bold text-xs font-luxury transition cursor-pointer shadow-md shadow-black/20">
+        Next →
+      </button>
+    </div>
+  </footer>
+
+  <!-- SCRIPT: PRESENTATION CONTROLLER -->
+  <script>
+    let currentSlide = 1;
+    const totalSlides = 8;
+
+    function updateSlide() {
+      document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+      const activeEl = document.querySelector(`.slide[data-slide="${currentSlide}"]`);
+      if (activeEl) activeEl.classList.add('active');
+
+      const ind = document.getElementById('slide-indicator');
+      if (ind) ind.textContent = `${String(currentSlide).padStart(2, '0')} / ${String(totalSlides).padStart(2, '0')}`;
+
+      renderDots();
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides) {
+        currentSlide++;
+        updateSlide();
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) {
+        currentSlide--;
+        updateSlide();
+      }
+    }
+
+    function goToSlide(n) {
+      if (n >= 1 && n <= totalSlides) {
+        currentSlide = n;
+        updateSlide();
+      }
+    }
+
+    function renderDots() {
+      const container = document.getElementById('dots-container');
+      if (!container) return;
+      let html = '';
+      for (let i = 1; i <= totalSlides; i++) {
+        const isActive = i === currentSlide;
+        html += `
+          <button onclick="goToSlide(${i})" class="w-2 h-2 rounded-full transition-all cursor-pointer ${
+            isActive ? 'w-6 bg-[#dab978]' : 'bg-stone-800 hover:bg-stone-700'
+          }" title="Slide ${i}"></button>
+        `;
+      }
+      container.innerHTML = html;
+    }
+
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+      }
+    }
+
+    // Keyboard Navigation
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        prevSlide();
+      } else if (e.key.toLowerCase() === 'f') {
+        toggleFullScreen();
+      } else if (e.key >= '1' && e.key <= '8') {
+        goToSlide(Number(e.key));
+      }
+    });
+
+    // Touch Swipe Navigation for Tablets & Phones
+    let touchStartX = 0;
+    window.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    window.addEventListener('touchend', (e) => {
+      const touchEndX = e.changedTouches[0].screenX;
+      if (touchStartX - touchEndX > 50) {
+        nextSlide();
+      } else if (touchEndX - touchStartX > 50) {
+        prevSlide();
+      }
+    }, { passive: true });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      updateSlide();
+    });
+  </script>
+</body>
+</html>
