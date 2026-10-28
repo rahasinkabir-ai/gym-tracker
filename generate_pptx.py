@@ -271,14 +271,14 @@ def create_presentation():
         ("🔍 Spotlight Command Hub (Ctrl+K / ⌘K)", 
          "A global Raycast-style search palette accessible via shortcut or header.\nInstant jump to any section, filter routines, or execute quick actions in < 0.5 seconds.",
          Inches(0.8), Inches(1.7), Inches(5.7), Inches(2.4)),
-        ("⏱️ Picture-in-Picture Floating HUD", 
-         "When rest timer starts, navigating to Workouts or Calendar docks a floating mini-player.\nDisplays live countdown, +30s boost, pause/reset, and Web Audio melodic chimes on completion.",
+        ("🎙️ Hands-Free Voice Protocol (Hotkey: V)", 
+         "Zero-touch in-gym voice assistant using Web Speech API & SpeechSynthesis.\nSupports natural voice commands: timer, check-in, 1RM calculator, navigation & audio feedback.",
          Inches(6.8), Inches(1.7), Inches(5.7), Inches(2.4)),
-        ("⚡ 1-Tap Quick Action Speed-Dial (FAB)", 
-         "Floating action button pinned at bottom-right for thumb reach.\nOpens 1-tap shortcuts: Log Workout, Check In Today, Start 90s Rest, or Add Expense without scrolling.",
+        ("⏱️ Picture-in-Picture Floating HUD", 
+         "When rest timer starts, navigating to other views docks a floating mini-player.\nDisplays live countdown, +30s boost, pause/reset, and Web Audio melodic chimes on completion.",
          Inches(0.8), Inches(4.4), Inches(5.7), Inches(2.4)),
-        ("📲 Haptic & Sound Feedback Engine", 
-         "Web Audio API synthesized frequencies (523Hz - 783Hz melodic chime) with zero audio assets.\nVibration API multi-pattern tactile feedback on set completion and check-ins.",
+        ("⚡ 1-Tap Quick Action Speed-Dial (FAB)", 
+         "Floating action button pinned at bottom-right for instant one-thumb reach.\nOpens 1-tap shortcuts: Log Workout, Voice Assistant, 1RM Engine, 90s Rest, or Check-In.",
          Inches(6.8), Inches(4.4), Inches(5.7), Inches(2.4))
     ]
 
@@ -341,29 +341,35 @@ def create_presentation():
     # ==========================================
     s6 = prs.slides.add_slide(blank_slide_layout)
     set_slide_background(s6)
-    add_header(s6, "Atelier Aesthetic", "Visual Identity & Sensory Micro-Interactions", 6)
+    add_header(s6, "Biomechanical Intelligence", "Algorithmic Precision & Haute Aesthetic", 6)
 
     visual_features = [
-        ("🎨 Champagne Gold & Midnight Caviar", 
-         "A bespoke aesthetic replacing boring fitness UI with luxury tones:\n• Polished Gold (#DAB978) metallic gradients\n• Midnight Caviar (#08080A) OLED-friendly dark background\n• High legibility contrast ratios meeting WCAG AAA guidelines."),
-        ("✨ Hardware-Accelerated Particle Canvas", 
-         "Custom-coded HTML5 Canvas 60 FPS celebration engine:\n• 55+ physics-simulated champagne particles and diamond sparkles\n• Triggers dynamically on attendance check-in & completed workout sets\n• Zero third-party dependencies or animation bloat."),
-        ("🌊 Fluid Silk Page Transitions & Glow", 
-         "Every tab transition is treated as an intentional animation:\n• Cubic-bezier slide-up and fade-in (380ms)\n• Ambient breathing golden aura in dark mode background\n• Flickering streak flame and metallic diagonal light sweeps on buttons.")
+        ("🗺️ Muscular Anatomy Heatmap", 
+         "SVG anatomical front/back visualizer scanning 7-day cumulative set volume.\nDynamically maps 8 muscle groups across Cold, Active, Balanced, Optimal Gold, and CNS Fatigue.",
+         Inches(0.8), Inches(1.7), Inches(5.7), Inches(2.4)),
+        ("🧬 1RM & Progressive Overload Engine", 
+         "Multi-equation consensus (Epley, Brzycki & Lombardi models).\nCalculates true 1RM, 50%-95% working zones, and automated +2.5kg/+5kg next-session overload.",
+         Inches(6.8), Inches(1.7), Inches(5.7), Inches(2.4)),
+        ("⚡ Athletic Readiness & Circadian Protocol", 
+         "Daily composite biometric index (Sleep, Muscle Freshness, CNS Energy).\n6-phase daily timeline covering hydration, pre-workout fuel, training windows, and recovery.",
+         Inches(0.8), Inches(4.4), Inches(5.7), Inches(2.4)),
+        ("✨ 60 FPS Particle Canvas & Atelier Palette", 
+         "Midnight Caviar (#08080A) and Champagne Gold (#DAB978) dark palette.\nHardware-accelerated 55+ particle confetti physics on attendance check-in and set PRs.",
+         Inches(6.8), Inches(4.4), Inches(5.7), Inches(2.4))
     ]
 
-    for i, (title, desc) in enumerate(visual_features):
-        y = Inches(1.7 + i * 1.7)
-        create_card(s6, Inches(0.8), y, Inches(11.733), Inches(1.5), title)
-        tb = s6.shapes.add_textbox(Inches(1.05), y + Inches(0.55), Inches(11.2), Inches(0.85))
+    for title, desc, left, top, width, height in visual_features:
+        create_card(s6, left, top, width, height, title)
+        tb = s6.shapes.add_textbox(left + Inches(0.25), top + Inches(0.8), width - Inches(0.5), height - Inches(0.9))
         tf = tb.text_frame
         tf.word_wrap = True
         for idx, line in enumerate(desc.split('\n')):
             p = tf.paragraphs[0] if idx == 0 else tf.add_paragraph()
             p.text = line
             p.font.size = Pt(12)
-            p.font.color.rgb = MUTED if line.startswith('•') else WHITE
+            p.font.color.rgb = WHITE
             p.font.name = 'Trebuchet MS'
+            p.space_after = Pt(4)
 
     # ==========================================
     # SLIDE 7: REAL-WORLD IMPACT & METRICS
@@ -441,10 +447,10 @@ def create_presentation():
     tf_sum.word_wrap = True
     
     summary_pts = [
-        "Complete Fitness Lifecycle: Sets, attendance streaks, timers & budgets.",
-        "Zero Framework Overhead: Supercharged vanilla architecture running at 60 FPS.",
-        "Resilient Offline Sync: Works without network, syncs seamlessly to Cloud.",
-        "Open-Source & Scalable: Built as a free community utility for student athletes."
+        "Complete Fitness Lifecycle: Sets, attendance streaks, timers & fitness budget.",
+        "Algorithmic Intelligence: 1RM multi-equation engine, SVG anatomy heatmap & daily readiness.",
+        "Ergonomic & Hands-Free UX: Voice Assistant Protocol (V), Spotlight Hub (⌘K) & Floating HUD.",
+        "Zero Framework Overhead: Offline-first PWA caching with Firebase cloud sync & 60 FPS particles."
     ]
     for idx, pt in enumerate(summary_pts):
         p = tf_sum.paragraphs[0] if idx == 0 else tf_sum.add_paragraph()

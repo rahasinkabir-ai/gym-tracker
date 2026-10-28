@@ -590,3 +590,23 @@ body.app-is-installed .install-prompt-btn {
   color: var(--primary) !important;
 }
 
+/* ==================== VOICE ASSISTANT & ANATOMY HEATMAP STYLES ==================== */
+@keyframes audioWave {
+  0%, 100% { height: 6px; }
+  50% { height: 26px; }
+}
+
+.audio-wave-bar {
+  animation: audioWave 1.2s infinite ease-in-out;
+}
+
+/* Muscular Anatomy SVG Styling */
+svg path, svg rect {
+  transition: fill 0.25s ease, stroke 0.25s ease, filter 0.25s ease, transform 0.2s ease;
+}
+
+svg g:hover path, svg g:hover rect {
+  filter: brightness(1.2) drop-shadow(0 0 6px rgba(218, 185, 120, 0.6));
+}
+
+

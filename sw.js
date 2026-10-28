@@ -1,9 +1,14 @@
-const CACHE_NAME = 'ironpulse-cache-v10';
+const CACHE_NAME = 'ironpulse-cache-v11';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
+  './slides.html',
   './css/styles.css',
   './js/animations.js',
+  './js/voice-assistant.js',
+  './js/overload-engine.js',
+  './js/anatomy-heatmap.js',
+  './js/readiness-protocol.js',
   './js/app.js',
   './js/clock-timer.js',
   './js/quotes.js',

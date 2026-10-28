@@ -140,6 +140,12 @@ class AppController {
           const s = window.attendanceManager.calculateStreak();
           window.animateNumber(streakEl, s, 600);
         }
+        if (window.anatomyHeatmap) window.anatomyHeatmap.renderHeatmap();
+        if (window.readinessProtocol) {
+          window.readinessProtocol.renderDashboardTimeline();
+          window.readinessProtocol.renderReadinessWidget();
+        }
+        if (window.overloadEngine) window.overloadEngine.renderDashboardWidget();
       }, 50);
     }
     if (routeId === 'attendance' && window.attendanceManager) {
@@ -196,6 +202,9 @@ class AppController {
       { id: 'act-rest-120', title: 'Start 120s Rest Timer', icon: '⏱️', category: 'Rest Timer', hint: 'Heavy compound strength set rest', action: () => window.clockTimer.startRestTimer(120) },
       { id: 'act-stopwatch', title: 'Toggle Stopwatch (Start/Pause)', icon: '⏱️', category: 'Timer', hint: 'Run or pause active stopwatch', action: () => { window.clockTimer.isStopwatchRunning ? window.clockTimer.pauseStopwatch() : window.clockTimer.startStopwatch(); } },
       { id: 'act-add-fee', title: 'Record New Gym Fee / Expense', icon: '💳', category: 'Finances', hint: 'Log gym fee, meal, or supplements', action: () => window.financesManager.openCreateModal() },
+      { id: 'act-voice', title: 'Hands-Free Voice Protocol', icon: '🎙️', category: 'Voice AI', hint: 'Control app with natural speech commands', action: () => window.voiceAssistant.startListening() },
+      { id: 'act-1rm', title: '1RM & Overload Algorithmic Engine', icon: '🧬', category: 'Biometrics', hint: 'Epley/Brzycki max & zone calculations', action: () => window.overloadEngine.openModal() },
+      { id: 'act-readiness', title: 'Audit Daily Athletic Readiness', icon: '⚡', category: 'Biometrics', hint: 'Calculate CNS recovery & training advice', action: () => window.readinessProtocol.openReadinessModal() },
       { id: 'act-theme', title: 'Toggle Day / Night Mode', icon: '🌓', category: 'Appearance', hint: 'Switch between light and dark theme', action: () => this.toggleTheme() },
       { id: 'act-edit-profile', title: 'Edit Athlete Profile & Moniker', icon: '👤', category: 'Profile', hint: 'Change name, units & currency', action: () => this.openWelcomeScreen(true) },
     ];

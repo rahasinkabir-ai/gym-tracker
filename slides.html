@@ -300,31 +300,31 @@
 
         <div class="glass-card p-5">
           <div class="flex items-center gap-2.5 mb-2">
+            <span class="w-7 h-7 rounded-lg bg-yellow-500/20 text-yellow-400 flex items-center justify-center font-bold text-sm">🎙️</span>
+            <h3 class="text-base font-brand text-white">Hands-Free Voice Protocol (Hotkey: V)</h3>
+          </div>
+          <p class="text-xs text-stone-400 leading-relaxed">
+            Zero-touch in-gym voice assistant using Web Speech API & SpeechSynthesis. Supports natural voice commands: "start timer 90s", "check in today", "calculate bench 80 for 5", and "open workouts".
+          </p>
+        </div>
+
+        <div class="glass-card p-5">
+          <div class="flex items-center gap-2.5 mb-2">
             <span class="w-7 h-7 rounded-lg bg-orange-500/20 text-orange-400 flex items-center justify-center font-bold text-sm">⏱️</span>
             <h3 class="text-base font-brand text-white">Picture-in-Picture Floating Timer HUD</h3>
           </div>
           <p class="text-xs text-stone-400 leading-relaxed">
-            Eliminates the pain of switching apps. When the timer runs, a sleek glass pill docks above the navigation dock across all screens with live countdown, +30s boost, and controls.
+            Eliminates the pain of switching apps. When the timer runs, a sleek glass pill docks above the navigation dock across all screens with live countdown, +30s boost, and chime alert.
           </p>
         </div>
 
         <div class="glass-card p-5">
           <div class="flex items-center gap-2.5 mb-2">
-            <span class="w-7 h-7 rounded-lg bg-yellow-500/20 text-yellow-400 flex items-center justify-center font-bold text-sm">⚡</span>
+            <span class="w-7 h-7 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-sm">⚡</span>
             <h3 class="text-base font-brand text-white">Floating Quick Action Speed-Dial (FAB)</h3>
           </div>
           <p class="text-xs text-stone-400 leading-relaxed">
-            Pinned at the bottom-right for instant one-thumb reach. Opens 1-tap shortcuts for logging sets, 90-second rest intervals, and one-tap gym check-ins without hunting through menus.
-          </p>
-        </div>
-
-        <div class="glass-card p-5">
-          <div class="flex items-center gap-2.5 mb-2">
-            <span class="w-7 h-7 rounded-lg bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-sm">🔔</span>
-            <h3 class="text-base font-brand text-white">Web Audio & Haptic Feedback</h3>
-          </div>
-          <p class="text-xs text-stone-400 leading-relaxed">
-            Synthesized melodic chimes (C5-E5-G5 oscillators via Web Audio API) with zero heavy MP3 assets, paired with Vibration API tactile cues when completing sets or finishing rest.
+            Pinned at the bottom-right for instant one-thumb reach. Opens 1-tap shortcuts for logging sets, voice assistant, 1RM calculator, 90s rest, and gym check-in with Web Audio tactile feedback.
           </p>
         </div>
       </div>
@@ -395,33 +395,49 @@
     <!-- SLIDE 6: UI & SENSORY DESIGN -->
     <section class="slide flex-col justify-center w-full space-y-5" data-slide="6">
       <div>
-        <span class="text-xs font-bold uppercase tracking-widest text-[#dab978] font-luxury">06 • Aesthetic & Experience</span>
-        <h2 class="text-3xl font-brand text-stone-100 mt-1">Haute Champagne Gold Atelier Aesthetic</h2>
+        <span class="text-xs font-bold uppercase tracking-widest text-[#dab978] font-luxury">06 • Algorithmic Biometrics & UX</span>
+        <h2 class="text-3xl font-brand text-stone-100 mt-1">Biomechanical Intelligence & Haute Aesthetic</h2>
       </div>
 
-      <div class="space-y-3.5">
-        <div class="glass-card p-4 flex items-center justify-between">
-          <div>
-            <h4 class="text-sm font-brand text-[#dab978] font-bold">Midnight Caviar & Champagne Metallic</h4>
-            <p class="text-xs text-stone-400 mt-0.5">High-contrast, OLED-friendly dark palette (#08080A + #DAB978) designed for optimal readability under bright gym lighting.</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="glass-card p-4">
+          <div class="flex items-center gap-2.5 mb-1.5">
+            <span class="w-7 h-7 rounded-lg bg-[#dab978]/20 text-[#dab978] flex items-center justify-center font-bold text-sm">🗺️</span>
+            <h4 class="text-sm font-brand text-[#dab978] font-bold">Interactive Muscular Anatomy Heatmap</h4>
           </div>
-          <span class="px-3 py-1 rounded-full bg-[#dab978]/15 text-[#dab978] text-[10px] font-luxury font-bold">WCAG AAA</span>
+          <p class="text-xs text-stone-400 leading-relaxed">
+            SVG-rendered anatomical front/back model calculating 7-day cumulative training volume across 8 major muscle groups with dynamic heat thresholds (Cold → Optimal Gold → Fatigue Alert).
+          </p>
         </div>
 
-        <div class="glass-card p-4 flex items-center justify-between">
-          <div>
-            <h4 class="text-sm font-brand text-yellow-400 font-bold">Hardware-Accelerated 60 FPS Particle Canvas</h4>
-            <p class="text-xs text-stone-400 mt-0.5">Custom physics simulation spawning 55+ champagne & diamond sparkles on attendance check-ins and completed workouts with zero frame drops.</p>
+        <div class="glass-card p-4">
+          <div class="flex items-center gap-2.5 mb-1.5">
+            <span class="w-7 h-7 rounded-lg bg-orange-500/20 text-orange-400 flex items-center justify-center font-bold text-sm">🧬</span>
+            <h4 class="text-sm font-brand text-orange-400 font-bold">1RM & Progressive Overload Engine</h4>
           </div>
-          <span class="px-3 py-1 rounded-full bg-yellow-500/15 text-yellow-400 text-[10px] font-luxury font-bold">Canvas API</span>
+          <p class="text-xs text-stone-400 leading-relaxed">
+            Multi-equation algorithm (Epley, Brzycki, Lombardi consensus) determining true 1-Rep Max, submaximal working percentages (50%-95%), and automated +2.5kg/+5kg session overload targets.
+          </p>
         </div>
 
-        <div class="glass-card p-4 flex items-center justify-between">
-          <div>
-            <h4 class="text-sm font-brand text-orange-400 font-bold">Fluid Page Transitions & Micro-Interactions</h4>
-            <p class="text-xs text-stone-400 mt-0.5">Silky 380ms cubic-bezier entry transitions, flickering animated streak flames, metallic button sheen on hover, and live count-up stats.</p>
+        <div class="glass-card p-4">
+          <div class="flex items-center gap-2.5 mb-1.5">
+            <span class="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-sm">⚡</span>
+            <h4 class="text-sm font-brand text-emerald-400 font-bold">Athletic Readiness & Circadian Protocol</h4>
           </div>
-          <span class="px-3 py-1 rounded-full bg-orange-500/15 text-orange-400 text-[10px] font-luxury font-bold">Pure CSS</span>
+          <p class="text-xs text-stone-400 leading-relaxed">
+            Daily composite biometric index (Sleep, Muscle Freshness, CNS Energy) paired with an automated 6-step circadian timeline guiding pre-workout fuel, training windows, and recovery.
+          </p>
+        </div>
+
+        <div class="glass-card p-4">
+          <div class="flex items-center gap-2.5 mb-1.5">
+            <span class="w-7 h-7 rounded-lg bg-yellow-500/20 text-yellow-400 flex items-center justify-center font-bold text-sm">✨</span>
+            <h4 class="text-sm font-brand text-yellow-400 font-bold">60 FPS Particle Canvas & Atelier Palette</h4>
+          </div>
+          <p class="text-xs text-stone-400 leading-relaxed">
+            Midnight Caviar & Champagne Gold OLED palette (#08080A + #DAB978, WCAG AAA) with hardware-accelerated 55+ particle confetti physics on set PRs and attendance streaks.
+          </p>
         </div>
       </div>
     </section>
@@ -478,10 +494,10 @@
           <div>
             <h3 class="text-lg font-brand text-[#dab978] mb-3">Project Summary</h3>
             <ul class="text-xs text-stone-300 space-y-2.5">
-              <li>✔ <strong>Complete Life-cycle:</strong> Workouts, attendance heatmaps, timers & fees in one place.</li>
-              <li>✔ <strong>Ergonomic Mastery:</strong> Spotlight Command Palette (⌘K) & Floating Timer HUD.</li>
-              <li>✔ <strong>Technical Resilience:</strong> Offline-first PWA caching with Firebase cloud sync.</li>
-              <li>✔ <strong>Zero-Cost Model:</strong> Free utility for university lifters and student athletes.</li>
+              <li>✔ <strong>Complete Lifecycle:</strong> Workouts, attendance heatmaps, timers & fees in one place.</li>
+              <li>✔ <strong>Algorithmic Intelligence:</strong> 1RM overload engine, SVG muscular heatmap & circadian readiness.</li>
+              <li>✔ <strong>Ergonomic Mastery:</strong> Hands-free Voice Protocol, Spotlight Hub (⌘K) & Floating HUD.</li>
+              <li>✔ <strong>Zero-Cost Architecture:</strong> Offline-first PWA caching with Firebase cloud sync & zero bloat.</li>
             </ul>
           </div>
           <p class="text-xs text-stone-400 font-luxury mt-4">Thank you! Questions are welcome.</p>

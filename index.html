@@ -125,6 +125,13 @@
           <kbd class="hidden md:inline px-1 py-0.2 rounded bg-stone-200/80 dark:bg-stone-800 text-[10px] font-mono text-stone-500 dark:text-[#dab978]">⌘K</kbd>
         </button>
 
+        <!-- Futuristic Voice Assistant Button -->
+        <button id="voice-trigger-btn" onclick="voiceAssistant.toggleListening()" class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-stone-100 dark:bg-[#16161d] hover:bg-stone-200 dark:hover:bg-[#202029] text-stone-800 dark:text-[#dab978] border border-stone-200 dark:border-[#dab978]/30 text-xs font-medium transition cursor-pointer font-luxury group relative" title="Voice Command Assistant (V)">
+          <span class="text-sm group-hover:scale-110 transition-transform">🎙️</span>
+          <span class="hidden xl:inline text-[11px]">Voice</span>
+          <span id="voice-pulse-indicator" class="hidden absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-red-500 animate-ping"></span>
+        </button>
+
         <!-- Direct APK Download Link -->
         <a id="get-apk-btn" href="https://github.com/rahasinkabir-ai/gym-tracker/raw/main/packages/android/IronPulse.apk" download="IronPulse.apk" class="install-prompt-btn flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-stone-100 dark:bg-[#16161d] hover:bg-stone-200 dark:hover:bg-[#202029] text-stone-800 dark:text-[#dab978] border border-stone-200 dark:border-[#dab978]/30 text-xs font-medium transition cursor-pointer font-luxury" title="Download Android APK (Direct Install)">
           <span>🤖</span>
@@ -254,6 +261,32 @@
           <a href="#timer" class="text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline">
             Open Timer & Stopwatch →
           </a>
+        </div>
+      </div>
+
+      <!-- ==================== FUTURISTIC ATHLETIC BIOMETRICS & 1RM OVERLOAD ==================== -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Athletic Readiness Score & CNS Recovery Index -->
+        <div id="dashboard-readiness-card" class="theme-card p-5">
+          <!-- Injected by js/readiness-protocol.js -->
+        </div>
+
+        <!-- 1RM & Progressive Overload Algorithmic Engine -->
+        <div id="dashboard-overload-widget" class="theme-card p-5">
+          <!-- Injected by js/overload-engine.js -->
+        </div>
+      </div>
+
+      <!-- ==================== INTERACTIVE MUSCULAR ANATOMY & CIRCADIAN PROTOCOL ==================== -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Muscular Anatomy Heatmap -->
+        <div id="anatomy-heatmap-container" class="theme-card p-5">
+          <!-- Injected by js/anatomy-heatmap.js -->
+        </div>
+
+        <!-- Daily Circadian Protocol Timeline -->
+        <div id="dashboard-circadian-timeline" class="theme-card p-5">
+          <!-- Injected by js/readiness-protocol.js -->
         </div>
       </div>
 
@@ -1116,6 +1149,15 @@
   <div id="quick-action-container" class="fixed bottom-22 sm:bottom-6 right-4 sm:right-6 z-40 flex flex-col items-end">
     <!-- Speed Dial Menu -->
     <div id="quick-action-menu" class="hidden flex flex-col items-end gap-2 mb-3 transition-all duration-200">
+      <button onclick="voiceAssistant.toggleListening(); app.toggleQuickActions(false);" class="speed-dial-item flex items-center gap-2 px-3.5 py-2 rounded-xl bg-stone-900/90 dark:bg-[#16161d]/95 text-stone-200 border border-[#dab978]/30 shadow-xl backdrop-blur-md hover:border-[#dab978] transition cursor-pointer text-xs font-luxury">
+        <span>Voice Assistant</span>
+        <span class="px-1.5 py-0.5 rounded bg-stone-800 text-[10px] font-mono text-[#dab978]">V</span>
+        <span class="text-sm">🎙️</span>
+      </button>
+      <button onclick="overloadEngine.openModal(); app.toggleQuickActions(false);" class="speed-dial-item flex items-center gap-2 px-3.5 py-2 rounded-xl bg-stone-900/90 dark:bg-[#16161d]/95 text-stone-200 border border-[#dab978]/30 shadow-xl backdrop-blur-md hover:border-[#dab978] transition cursor-pointer text-xs font-luxury">
+        <span>1RM Calculator</span>
+        <span class="text-sm">🧬</span>
+      </button>
       <button onclick="app.openCommandPalette(); app.toggleQuickActions(false);" class="speed-dial-item flex items-center gap-2 px-3.5 py-2 rounded-xl bg-stone-900/90 dark:bg-[#16161d]/95 text-stone-200 border border-[#dab978]/30 shadow-xl backdrop-blur-md hover:border-[#dab978] transition cursor-pointer text-xs font-luxury">
         <span>Command Hub</span>
         <span class="px-1.5 py-0.5 rounded bg-stone-800 text-[10px] font-mono text-[#dab978]">⌘K</span>
@@ -1189,6 +1231,187 @@
     </div>
   </div>
 
+  <!-- ==================== VOICE ASSISTANT MODAL OVERLAY ==================== -->
+  <div id="voice-assistant-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden transition-opacity duration-300" onclick="if(event.target === this) voiceAssistant.stopListening()">
+    <div class="theme-card max-w-md w-full p-6 sm:p-8 rounded-3xl border border-[#dab978]/40 shadow-2xl animate-spring-in text-center relative overflow-hidden">
+      <!-- Glow -->
+      <div class="absolute -top-20 left-1/2 -translate-x-1/2 w-48 h-48 bg-[#dab978]/20 rounded-full blur-3xl pointer-events-none"></div>
+
+      <!-- Pulsing Orb -->
+      <div id="voice-mic-orb" onclick="voiceAssistant.toggleListening()" class="w-20 h-20 mx-auto mb-4 rounded-3xl bg-gradient-to-tr from-[#dab978] via-[#f7e8c5] to-[#b5893d] p-1 flex items-center justify-center shadow-2xl shadow-black/50 cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95 group">
+        <div class="w-full h-full bg-[#111116] rounded-[22px] flex items-center justify-center">
+          <span class="text-3xl group-hover:scale-110 transition-transform">🎙️</span>
+        </div>
+      </div>
+
+      <h3 class="text-xl font-brand font-bold gold-gradient-text tracking-widest">VOICE PROTOCOL</h3>
+      <p class="text-[10px] uppercase tracking-[0.25em] text-[#a88337] dark:text-[#dab978] font-luxury mt-0.5">Hands-Free In-Gym Assistant</p>
+
+      <!-- Animated Waveform -->
+      <div id="voice-wave-container" class="flex items-center justify-center gap-1.5 h-8 my-4 transition-opacity">
+        <span class="w-1 bg-[#dab978] rounded-full audio-wave-bar" style="animation-delay: 0.1s"></span>
+        <span class="w-1 bg-[#dab978] rounded-full audio-wave-bar" style="animation-delay: 0.3s"></span>
+        <span class="w-1 bg-[#dab978] rounded-full audio-wave-bar" style="animation-delay: 0.5s"></span>
+        <span class="w-1 bg-[#dab978] rounded-full audio-wave-bar" style="animation-delay: 0.2s"></span>
+        <span class="w-1 bg-[#dab978] rounded-full audio-wave-bar" style="animation-delay: 0.4s"></span>
+        <span class="w-1 bg-[#dab978] rounded-full audio-wave-bar" style="animation-delay: 0.6s"></span>
+      </div>
+
+      <!-- Transcript Box -->
+      <div class="p-3.5 rounded-2xl bg-stone-50/70 dark:bg-[#16161f] border border-stone-200 dark:border-stone-800 min-h-[64px] flex items-center justify-center mb-3">
+        <p id="voice-transcript-text" class="text-sm font-sans text-stone-800 dark:text-[#f8f7f4] font-medium italic">
+          “Listening for command...”
+        </p>
+      </div>
+
+      <p id="voice-status-hint" class="text-xs text-stone-400 font-sans mb-4">
+        Speak clearly: "Start 90s rest", "Check in today", or "Log workout"
+      </p>
+
+      <!-- Quick Command Prompt Pills -->
+      <div class="flex items-center gap-1.5 flex-wrap justify-center text-[11px] font-luxury">
+        <button type="button" onclick="voiceAssistant.processVoiceCommand('start 90s rest')" class="px-2.5 py-1 rounded-lg bg-stone-100 dark:bg-[#1c1c27] hover:border-[#dab978] border border-stone-200 dark:border-stone-800 text-stone-600 dark:text-stone-300 transition cursor-pointer">
+          ⏱️ 90s Rest
+        </button>
+        <button type="button" onclick="voiceAssistant.processVoiceCommand('check in today')" class="px-2.5 py-1 rounded-lg bg-stone-100 dark:bg-[#1c1c27] hover:border-[#dab978] border border-stone-200 dark:border-stone-800 text-stone-600 dark:text-stone-300 transition cursor-pointer">
+          💪 Check In
+        </button>
+        <button type="button" onclick="voiceAssistant.processVoiceCommand('log workout')" class="px-2.5 py-1 rounded-lg bg-stone-100 dark:bg-[#1c1c27] hover:border-[#dab978] border border-stone-200 dark:border-stone-800 text-stone-600 dark:text-stone-300 transition cursor-pointer">
+          🏋️ Log Workout
+        </button>
+        <button type="button" onclick="voiceAssistant.processVoiceCommand('open 1rm')" class="px-2.5 py-1 rounded-lg bg-stone-100 dark:bg-[#1c1c27] hover:border-[#dab978] border border-stone-200 dark:border-stone-800 text-stone-600 dark:text-stone-300 transition cursor-pointer">
+          🧬 1RM Engine
+        </button>
+      </div>
+
+      <button type="button" onclick="voiceAssistant.stopListening()" class="mt-5 text-xs text-stone-400 hover:text-stone-200 font-sans transition cursor-pointer">
+        Dismiss Voice Assistant
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== 1-REP MAX & OVERLOAD ENGINE MODAL ==================== -->
+  <div id="overload-engine-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden transition-opacity duration-300" onclick="if(event.target === this) overloadEngine.closeModal()">
+    <div class="theme-card max-w-xl w-full p-6 sm:p-7 rounded-3xl border border-[#dab978]/40 shadow-2xl animate-spring-in relative overflow-hidden max-h-[90vh] flex flex-col">
+      <div class="flex items-center justify-between pb-3 border-b border-stone-200 dark:border-stone-800">
+        <div class="flex items-center gap-2.5">
+          <span class="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#dab978] to-[#b5893d] text-black font-bold flex items-center justify-center text-sm shadow-sm">🧬</span>
+          <div>
+            <h3 class="font-brand font-bold text-base text-stone-900 dark:text-[#f8f7f4]">1RM & Overload Algorithmic Engine</h3>
+            <p class="text-[10px] text-stone-400 font-luxury uppercase tracking-wider">Epley • Brzycki • Biomechanical Zones</p>
+          </div>
+        </div>
+        <button onclick="overloadEngine.closeModal()" class="text-stone-400 hover:text-white p-1 cursor-pointer">✕</button>
+      </div>
+
+      <div class="overflow-y-auto space-y-4 py-3 pr-1">
+        <!-- Quick Preset Buttons -->
+        <div>
+          <label class="block text-[10px] font-luxury uppercase text-stone-400 mb-1.5">Exercise Quick Presets</label>
+          <div class="flex items-center gap-1.5 flex-wrap text-xs">
+            <button type="button" onclick="overloadEngine.setPreset('Barbell Bench Press', 80, 8, 'upper')" class="px-2.5 py-1 rounded-lg bg-stone-100 dark:bg-[#16161f] border border-stone-200 dark:border-stone-800 hover:border-[#dab978] transition font-sans cursor-pointer text-stone-300">Bench Press</button>
+            <button type="button" onclick="overloadEngine.setPreset('Barbell Back Squat', 100, 6, 'lower')" class="px-2.5 py-1 rounded-lg bg-stone-100 dark:bg-[#16161f] border border-stone-200 dark:border-stone-800 hover:border-[#dab978] transition font-sans cursor-pointer text-stone-300">Back Squat</button>
+            <button type="button" onclick="overloadEngine.setPreset('Conventional Deadlift', 120, 5, 'lower')" class="px-2.5 py-1 rounded-lg bg-stone-100 dark:bg-[#16161f] border border-stone-200 dark:border-stone-800 hover:border-[#dab978] transition font-sans cursor-pointer text-stone-300">Deadlift</button>
+            <button type="button" onclick="overloadEngine.setPreset('Overhead Barbell Press', 50, 8, 'upper')" class="px-2.5 py-1 rounded-lg bg-stone-100 dark:bg-[#16161f] border border-stone-200 dark:border-stone-800 hover:border-[#dab978] transition font-sans cursor-pointer text-stone-300">Overhead Press</button>
+          </div>
+        </div>
+
+        <!-- Exercise Name Input -->
+        <div>
+          <label class="block text-[10px] font-luxury uppercase text-stone-400 mb-1">Exercise Name</label>
+          <input type="text" id="overload-exercise-name" class="w-full px-3.5 py-2.5 rounded-xl bg-stone-50 dark:bg-[#16161f] border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-white text-xs outline-none focus:border-[#dab978]" value="Barbell Bench Press" />
+        </div>
+
+        <!-- Interactive Weight & Reps Grid -->
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-[10px] font-luxury uppercase text-stone-400 mb-1">Load / Weight Lifted</label>
+            <input type="number" id="overload-weight-input" oninput="overloadEngine.recalculateUI()" step="0.5" class="w-full px-3.5 py-2.5 rounded-xl bg-stone-50 dark:bg-[#16161f] border border-stone-200 dark:border-stone-800 font-mono text-base font-bold text-[#dab978] outline-none" value="80" />
+          </div>
+          <div>
+            <label class="block text-[10px] font-luxury uppercase text-stone-400 mb-1">Reps Completed</label>
+            <input type="number" id="overload-reps-input" oninput="overloadEngine.recalculateUI()" min="1" max="36" class="w-full px-3.5 py-2.5 rounded-xl bg-stone-50 dark:bg-[#16161f] border border-stone-200 dark:border-stone-800 font-mono text-base font-bold text-white outline-none" value="8" />
+          </div>
+        </div>
+
+        <!-- Calculated Consensus 1RM Hero Card -->
+        <div class="p-4 rounded-2xl bg-gradient-to-r from-amber-50/70 via-stone-50/40 to-amber-50/50 dark:from-[#181822] dark:via-[#14141c] dark:to-[#1a1a26] border border-[#dab978]/40 flex items-center justify-between">
+          <div>
+            <span class="text-[10px] uppercase font-luxury tracking-widest text-[#a88337] dark:text-[#dab978] block">Consensus Estimated 1RM</span>
+            <p id="overload-main-1rm" class="text-3xl font-bold font-mono gold-gradient-text mt-0.5">101.3 kg</p>
+            <div class="flex items-center gap-3 text-[11px] text-stone-400 font-mono mt-1">
+              <span>Epley: <strong id="overload-epley-stat" class="text-stone-300">101.3 kg</strong></span>
+              <span>•</span>
+              <span>Brzycki: <strong id="overload-brzycki-stat" class="text-stone-300">99.3 kg</strong></span>
+            </div>
+          </div>
+          <div class="text-right">
+            <span class="text-[10px] uppercase font-luxury text-stone-400 block">Next Overload Target</span>
+            <span id="overload-next-target" class="text-sm font-mono font-bold text-emerald-500 block">+2.5 kg (82.5 kg)</span>
+            <span id="overload-stimulus-pct" class="text-[10px] text-stone-400">+3.1% Intensity</span>
+          </div>
+        </div>
+
+        <!-- Working Zones Table -->
+        <div>
+          <span class="block text-[10px] font-luxury uppercase text-stone-400 mb-1.5 tracking-wider">Sub-Maximal Training Percentages & Working Zones</span>
+          <div id="overload-zones-list" class="space-y-1.5">
+            <!-- Injected by js/overload-engine.js -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== ATHLETIC READINESS AUDIT MODAL ==================== -->
+  <div id="readiness-check-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md hidden transition-opacity duration-300" onclick="if(event.target === this) readinessProtocol.closeReadinessModal()">
+    <div class="theme-card max-w-md w-full p-6 sm:p-7 rounded-3xl border border-[#dab978]/40 shadow-2xl animate-spring-in relative overflow-hidden">
+      <div class="flex items-center justify-between pb-3 border-b border-stone-200 dark:border-stone-800 mb-4">
+        <div class="flex items-center gap-2.5">
+          <span class="text-xl">⚡</span>
+          <div>
+            <h3 class="font-brand font-bold text-base text-stone-900 dark:text-[#f8f7f4]">Daily Readiness Audit</h3>
+            <p class="text-[10px] text-stone-400 font-luxury uppercase tracking-wider">Neuromuscular Fatigue Assessment</p>
+          </div>
+        </div>
+        <button onclick="readinessProtocol.closeReadinessModal()" class="text-stone-400 hover:text-white p-1 cursor-pointer">✕</button>
+      </div>
+
+      <div class="space-y-4 text-xs font-sans">
+        <!-- Sleep Slider -->
+        <div>
+          <div class="flex justify-between items-center mb-1">
+            <label class="font-medium text-stone-700 dark:text-stone-300">😴 Sleep & Rest Restoration</label>
+            <span id="readiness-sleep-val" class="font-mono font-bold text-[#dab978]">8 / 10</span>
+          </div>
+          <input type="range" id="readiness-sleep-slider" min="1" max="10" value="8" oninput="document.getElementById('readiness-sleep-val').textContent = this.value + ' / 10'" class="w-full accent-[#dab978] cursor-pointer" />
+        </div>
+
+        <!-- Muscle Freshness Slider -->
+        <div>
+          <div class="flex justify-between items-center mb-1">
+            <label class="font-medium text-stone-700 dark:text-stone-300">🩹 Muscle Freshness (Low Soreness)</label>
+            <span id="readiness-freshness-val" class="font-mono font-bold text-[#dab978]">8 / 10</span>
+          </div>
+          <input type="range" id="readiness-freshness-slider" min="1" max="10" value="8" oninput="document.getElementById('readiness-freshness-val').textContent = this.value + ' / 10'" class="w-full accent-[#dab978] cursor-pointer" />
+        </div>
+
+        <!-- Energy / Motivation Slider -->
+        <div>
+          <div class="flex justify-between items-center mb-1">
+            <label class="font-medium text-stone-700 dark:text-stone-300">⚡ Energy & CNS Drive</label>
+            <span id="readiness-energy-val" class="font-mono font-bold text-[#dab978]">8 / 10</span>
+          </div>
+          <input type="range" id="readiness-energy-slider" min="1" max="10" value="8" oninput="document.getElementById('readiness-energy-val').textContent = this.value + ' / 10'" class="w-full accent-[#dab978] cursor-pointer" />
+        </div>
+
+        <button onclick="readinessProtocol.saveReadiness()" class="w-full mt-2 py-3 px-4 rounded-xl bg-gradient-to-r from-[#dfba75] to-[#b5893d] hover:from-[#f7e8c5] hover:to-[#c49d52] text-[#08080a] font-bold text-xs uppercase tracking-wider font-luxury transition cursor-pointer shadow-lg shadow-black/20">
+          Compute Today's Readiness →
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- ==================== PREMIUM iOS FLOATING DOCK BOTTOM NAVIGATION ==================== -->
   <div class="fixed bottom-4 inset-x-0 z-40 flex justify-center px-3 pointer-events-none">
     <nav class="ios-dock pointer-events-auto px-3 py-2 flex items-center justify-between gap-1 sm:gap-2 max-w-lg w-full animate-spring-in shadow-2xl">
@@ -1252,6 +1475,10 @@
   <script src="js/attendance.js"></script>
   <script src="js/finances.js"></script>
   <script src="js/plans.js"></script>
+  <script src="js/voice-assistant.js"></script>
+  <script src="js/overload-engine.js"></script>
+  <script src="js/anatomy-heatmap.js"></script>
+  <script src="js/readiness-protocol.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
